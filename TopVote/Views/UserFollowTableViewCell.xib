@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="gyd-7Y-U4s" customClass="UserFollowTableViewCell" customModule="Topvote" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gyd-7Y-U4s" id="mLC-Op-cGK">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ru-y9-nG5" customClass="TVLabel" customModule="Topvote" customModuleProvider="target">
+                        <rect key="frame" x="59" y="12" width="137" height="20.5"/>
+                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="15"/>
+                        <color key="textColor" red="0.1960784314" green="0.031372549020000001" blue="0.2470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GJi-Fh-0UJ" customClass="CircleImageView" customModule="Topvote" customModuleProvider="target">
+                        <rect key="frame" x="16" y="4" width="35" height="35"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="35" id="BGY-6G-RiD"/>
+                            <constraint firstAttribute="width" secondItem="GJi-Fh-0UJ" secondAttribute="height" multiplier="1:1" id="uoC-6h-NRI"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ks-5i-OlF">
+                        <rect key="frame" x="204" y="6.5" width="100" height="30"/>
+                        <color key="backgroundColor" red="0.45098039220000002" green="0.2666666667" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="100" id="JxR-QJ-NPt"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <state key="normal" title="Follow">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <state key="selected" title="Following"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <real key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="followTapped:" destination="gyd-7Y-U4s" eventType="touchUpInside" id="a4f-06-NI1"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="3Ks-5i-OlF" firstAttribute="leading" secondItem="7Ru-y9-nG5" secondAttribute="trailing" constant="8" symbolic="YES" id="2N1-gX-TdP"/>
+                    <constraint firstItem="7Ru-y9-nG5" firstAttribute="centerY" secondItem="GJi-Fh-0UJ" secondAttribute="centerY" id="3sW-yP-zSG"/>
+                    <constraint firstItem="7Ru-y9-nG5" firstAttribute="baseline" secondItem="3Ks-5i-OlF" secondAttribute="baseline" id="Dsj-FA-Hs1"/>
+                    <constraint firstItem="7Ru-y9-nG5" firstAttribute="leading" secondItem="GJi-Fh-0UJ" secondAttribute="trailing" constant="8" symbolic="YES" id="Ghn-Mz-PhH"/>
+                    <constraint firstItem="3Ks-5i-OlF" firstAttribute="trailing" secondItem="mLC-Op-cGK" secondAttribute="trailingMargin" id="MCQ-2i-yvZ"/>
+                    <constraint firstAttribute="leadingMargin" secondItem="GJi-Fh-0UJ" secondAttribute="leading" id="Tih-qp-ULe"/>
+                    <constraint firstItem="GJi-Fh-0UJ" firstAttribute="centerY" secondItem="mLC-Op-cGK" secondAttribute="centerY" id="WCp-06-sVk"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="followButton" destination="3Ks-5i-OlF" id="bV5-Tf-KZu"/>
+                <outlet property="nameLabel" destination="7Ru-y9-nG5" id="9op-L0-aa9"/>
+                <outlet property="userImageView" destination="GJi-Fh-0UJ" id="XZY-1f-HLn"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

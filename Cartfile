@@ -1,0 +1,9 @@
+github "Alamofire/Alamofire"
+github "Alamofire/AlamofireImage"
+github "Ekhoo/Device" ~> 3.0.1
+github "kishikawakatsumi/KeychainAccess"
+github "Moya/Moya"
+github "dzenbot/DZNEmptyDataSet"
+github "pronebird/UIScrollView-InfiniteScroll"
+github "facebook/Facebook-SDK-Swift"
+github "OAuthSwift/OAuthSwift" ~> 1.2.0
