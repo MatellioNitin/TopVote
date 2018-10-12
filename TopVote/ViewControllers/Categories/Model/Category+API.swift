@@ -18,6 +18,8 @@ extension Category {
 
         case index(queryParams: [String: Any]?)
         
+        case p2pCheck()
+
         case show(competitionId: String)
     }
 }
@@ -29,9 +31,12 @@ extension Category.API: TargetType {
     public var path: String {
         switch self {
         case let .deepLink(deepLinkIds):
-            return "/pvt-competitions/\(deepLinkIds)"
+            return "/pvt-competitions/add-user/\(deepLinkIds)"
         case .index(_):
             return "/categories"
+        case .p2pCheck:
+            return "/apps/settings"
+
         case let .show(competitionId):
             return "/accounts/\(competitionId)"
         }
@@ -78,7 +83,7 @@ extension Category.API: TargetType {
                 return .requestParameters(parameters: queryParams, encoding: URLEncoding.default)
             }
             return .requestPlain
-        case .deepLink:
+        case .deepLink, .p2pCheck:
             return .requestPlain
         case .show:
             return .requestPlain

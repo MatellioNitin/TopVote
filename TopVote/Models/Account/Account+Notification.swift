@@ -1,7 +1,6 @@
 //
 //  Account+Notification.swift
 //  iOS Foundation
-//
 //  Created by Luke McDonald on 8/1/17.
 //  Copyright © 2017 Luke McDonald. All rights reserved.
 //

@@ -57,7 +57,7 @@ extension AppKeychain {
         /// Should clear data from keychain based on pattern. Patterns: appVersion, appBuildNumber, keychainVersion, none
         
         func shouldClearData(_ store: AppKeychain.Store) -> Bool {
-            return true
+            //return true
             let appVersion = store.appVersion
             let appBuildNumber = store.appBuildNumber
             let storeKeychainVersion = store.keychainVersion

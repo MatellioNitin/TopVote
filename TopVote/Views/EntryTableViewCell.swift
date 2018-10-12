@@ -40,6 +40,8 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var totalVotesLabel: UILabel?
     @IBOutlet weak var competitionLabel: UILabel?
     
+    @IBOutlet weak var textTypeLabel: UILabel?
+
     private var dateFormatter: DateFormatter?
     
     var delegate: EntryTableViewCellDelegate?
@@ -105,7 +107,10 @@ class EntryTableViewCell: UITableViewCell {
         self.layoutSubviews()
         
         self.entry = entry
-        if let mediaType = entry.mediaType {
+        if(self.entry?.mediaType == "TEXT"){
+            textTypeLabel?.text = self.entry?.competition?.text
+        }
+        else if let mediaType = entry.mediaType {
             if let mediaUri = entry.mediaUri, let uri = URL(string: mediaUri) {
                 if mediaType == "IMAGE" {
                     entryImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
@@ -214,8 +219,11 @@ class EntryTableViewCell: UITableViewCell {
         guard let entry = entry else {
             return
         }
-        self.voteButton?.isEnabled = false
-        self.delegate?.voteEntry(self, entry:entry)
+        
+        if(entry.hasVoted != true){
+            self.voteButton?.isEnabled = false
+            self.delegate?.voteEntry(self, entry:entry)
+        }
     }
     
     @IBAction func shareButtonPressed(_ sender: AnyObject) {

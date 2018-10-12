@@ -22,6 +22,8 @@ extension Entry {
         
         case destroy(entryId: String)
         
+        case getCompStatus(compId: String)
+
         case vote(params: [String: Any], entryId: String)
         
         case flag(params: [String: Any], entryId: String)
@@ -38,6 +40,8 @@ extension Entry.API: TargetType {
             return "/entries"
         case .index(_):
             return "/entries"
+        case let .getCompStatus(compId):
+            return "/entries/participated/\(compId)"
         case .update(_):
             return "/entries"
         case let .destroy(entryId):
@@ -101,7 +105,7 @@ extension Entry.API: TargetType {
                 return .requestParameters(parameters: queryParams, encoding: URLEncoding.queryString)
             }
             return .requestPlain
-        case .show, .destroy:
+        case .show, .destroy, .getCompStatus:
             return .requestPlain
         case let .update(entry):  // Always sends parameters in URL, regardless of which HTTP method is used
             return .requestParameters(parameters: Entry.dictionary(model: entry), encoding: JSONEncoding.default)

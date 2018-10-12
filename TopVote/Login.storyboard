@@ -59,7 +59,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qLH-JV-09J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1623" y="2120"/>
+            <point key="canvasLocation" x="-1615" y="2007"/>
         </scene>
         <!--Main-->
         <scene sceneID="U5N-Ii-gm8">
@@ -298,6 +298,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="aaH-VE-Aiy"/>
                     <connections>
+                        <outlet property="btnForgotPassword" destination="q7y-Ni-9Zq" id="NuO-Uh-l8m"/>
                         <outlet property="passwordTextField" destination="r7v-QH-SKe" id="gl1-Lg-URi"/>
                         <outlet property="scrollView" destination="1hD-4t-jPy" id="Jhg-9t-6vX"/>
                         <outlet property="usernameTextField" destination="fTk-bI-9Uh" id="m6b-t5-Mvu"/>
@@ -433,10 +434,10 @@
                                                 </connections>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dWg-TJ-Saj">
-                                                <rect key="frame" x="15" y="5" width="12" height="23"/>
+                                                <rect key="frame" x="15" y="5" width="30" height="30"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="23" id="ZZY-fV-ec6"/>
-                                                    <constraint firstAttribute="width" constant="12" id="zKI-hd-W7W"/>
+                                                    <constraint firstAttribute="height" constant="30" id="ZZY-fV-ec6"/>
+                                                    <constraint firstAttribute="width" constant="30" id="zKI-hd-W7W"/>
                                                 </constraints>
                                                 <state key="normal" image="icon_back"/>
                                                 <connections>

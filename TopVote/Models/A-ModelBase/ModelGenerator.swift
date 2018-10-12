@@ -113,8 +113,8 @@ extension ModelGenerator {
             return model
         } catch {
             //            print("error trying to convert data to Model")
-            //            print(error)
-            assert(1 == 2, "error trying to convert data to Model => \(error)")
+                 print(error)
+            // assert(1 == 2, "error trying to convert data to Model => \(error)"); nikhil
             return nil
         }
     }

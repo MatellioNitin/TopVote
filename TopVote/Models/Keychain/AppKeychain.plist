@@ -5,10 +5,10 @@
 	<key>version</key>
 	<string>1.0.0</string>
 	<key>clearDataOnNewVersion</key>
-	<false/>
+	<true/>
 	<key>clearDataOnNewBuildNumber</key>
 	<true/>
 	<key>clearDataOnNewKeychainVersion</key>
-	<false/>
+	<true/>
 </dict>
 </plist>

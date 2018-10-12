@@ -41,14 +41,24 @@ class CommentsViewController: UIViewController, UITableViewDataSource, UITableVi
         return addCommentCell(indexPath)
     }
     
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+            return UITableViewAutomaticDimension
+    }
+    
     func commentCell(_ indexPath: IndexPath, comment: Comment) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath)
-        cell.textLabel?.text = comment.text
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentTableViewCell
+        cell.lblCommentTitle?.text = comment.text
+        cell.lblCommentName?.text = comment.account?.displayUserName
+
         if let date = comment.createdAt {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .short
             dateFormatter.timeStyle = .short
-            cell.detailTextLabel?.text = dateFormatter.string(from: date)
+            cell.lblCommentDetail?.text = dateFormatter.string(from: date)
         }
         return cell
     }
@@ -77,15 +87,31 @@ extension CommentsViewController: AddCommentTableViewCellDelegate {
     func submitComment(_ cell: AddCommentTableViewCell, text: String, entry: Entry) {
         cell.textField.text = nil
         cell.textField.resignFirstResponder()
-//        let comment = PFComment(entry: entry, text: text)
-//        comment.saveInBackground(block: { (success, error) -> Void in
-//            if (success) {
-//                self.comments.insert(comment, at: 0)
-//                self.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-//
-//                let activity = PFActivity(competition: nil, entry: entry, type: ActivityType.entryCommentedOn)
-//                activity.saveInBackground()
-//            }
-//        })
+
+        
+        if let entryId = entry._id {
+            let params = [
+                "text": text
+            ]
+            Account.createComment(entryId: entryId, params: params, error: { (errorMessage) in
+                
+            }, completion: { [weak self] (comment) in
+                DispatchQueue.main.async {
+                    
+                    
+                    DispatchQueue.main.async {
+                        self?.comments.append(comment)
+                        self?.tableView.reloadData()
+                        self?.tableView.layoutIfNeeded()
+                        let addCommentCellIndexPath = IndexPath(row: (self?.comments.count)! - 1, section: 0)
+                        self?.tableView.scrollToRow(at: addCommentCellIndexPath,  at: UITableViewScrollPosition.top, animated: true)
+                    }
+                    
+                }
+                
+            })
+        }
+
+        
     }
 }

@@ -84,6 +84,9 @@ class MyProfileViewController: ProfileViewController {
         user = AccountManager.session?.account
         super.viewDidLoad()
         
+        tableView.estimatedRowHeight = 50.0;
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
         let editButton = UIBarButtonItem(image: UIImage(named: "Settings-100"), style: .plain, target: self, action: #selector(MyProfileViewController.editProfile))
         navigationItem.rightBarButtonItem = editButton
         
@@ -175,6 +178,7 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
         tableView.register(UINib(nibName: "CompactEntryTableViewCell", bundle: nil), forCellReuseIdentifier: "CompactEntryCell")
         tableView.register(UINib(nibName: "AwardedEntryTableViewCell", bundle: nil), forCellReuseIdentifier: "AwardedEntryCell")
         tableView.register(UINib(nibName: "StatTableViewCell", bundle: nil), forCellReuseIdentifier: "StatCell")
@@ -189,6 +193,9 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
         profileHeaderView = Bundle.main.loadNibNamed("ProfileHeaderView", owner: 0, options: nil)?[0] as! ProfileHeaderView
         profileHeaderView.delegate = self
         tableView.setParallaxHeader(profileHeaderView, mode: .fill, height: 306)
+        
+        tableView.estimatedRowHeight = 50.0
+        tableView.rowHeight = UITableViewAutomaticDimension
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -207,7 +214,8 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
         //stats.removeAll()
         
         if let user = user {
-            //navigationItem.title = user.username?.uppercased()
+
+ //navigationItem.title = user.username?.uppercased()
 
 //            stats.append(Stat(name: "Followers", value: "\(user.followers ?? 0)"))
 //            stats.append(Stat(name: "Competitions Entered", value: "\(user.competitionsEntered ?? 0)"))
@@ -261,14 +269,14 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
         return 1
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if (section == 0) {
             return headerView
         }
         return nil
     }
     
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if (section == 0) {
             return headerView?.frame.height ?? 0
         }
@@ -320,15 +328,23 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
         }
     }
     
+ 
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
         if (profileType == .stats) {
             return 244
         }
         if (profileType == .awards) {
             return 80
         }
-        return 50
+        return UITableViewAutomaticDimension
     }
+
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

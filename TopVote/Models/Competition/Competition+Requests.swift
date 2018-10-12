@@ -22,9 +22,9 @@ extension Competition {
         }
     }
     
-   
-    static func findPrivate(accountId: String, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ competitions: Competitions) -> Void) {
-        Competition.provider.request(Competition.API.privateCompetition(acId: accountId)) { result in
+    
+    static func findPrivate(queryParams: [String: Any]?, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ competitions: Competitions) -> Void) {
+        Competition.provider.request(Competition.API.privateCompetition(queryParams: queryParams)) { result in
             result.handleResponseData(completion: { (errorMessage, data, token) in
                 if let value = data {
                     let competitions: Competitions = Competition.models(data: value)

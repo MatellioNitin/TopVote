@@ -63,7 +63,20 @@ extension Entry {
             })
         }
     }
-    
+  static func getCompStatus(compId: String!, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ flag: Flag) -> Void) {
+       
+        Entry.provider.request(Entry.API.getCompStatus(compId: compId)) { result in
+            result.handleResponseData(completion: { (errorMessage, data, token) in
+                if let errorMessage = errorMessage {
+                    error(errorMessage)
+                } else {
+                    if let value = data, let flag: Flag = Flag.create(data: value) {
+                        completion(flag)
+                    }
+                }
+            })
+        }
+    }
     func flag(status: Int?, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ flag: Flag) -> Void) {
         let params = [
             "status": status ?? 0

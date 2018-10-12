@@ -14,7 +14,7 @@ extension Competition {
     enum API {
         case indexHall(queryParams: [String: Any]?)
         case index(queryParams: [String: Any]?)
-        case privateCompetition(acId: String)
+        case privateCompetition(queryParams: [String: Any]?)
         case show(competitionId: String)
     }
 }
@@ -25,12 +25,15 @@ extension Competition.API: TargetType {
     
     public var path: String {
         switch self {
+            
+      //  case .indexHall(_):
+          //  return "/competitions"
         case .indexHall(_):
-            return "/competitions"
+                return "/competitions/completed"
         case .index(_):
             return "/competitions/all"
         case .privateCompetition(_):
-            return "/pvt-competitions"
+            return "/pvt-competitions/my-competitions"
         case let .show(competitionId):
             return "/accounts/\(competitionId)"
         
@@ -53,6 +56,8 @@ extension Competition.API: TargetType {
             return queryParams ?? [String: Any]()
         case let .index(queryParams):
             return queryParams ?? [String: Any]()
+        case let .privateCompetition(queryParams):
+            return queryParams ?? [String: Any]()
         default:
             return [String: Any]()
         }
@@ -74,7 +79,14 @@ extension Competition.API: TargetType {
             } else {
                 return JSONEncoding.default
             }
-
+        case let .privateCompetition(queryParams):
+            if queryParams != nil {
+                return URLEncoding.default
+            } else {
+                return JSONEncoding.default
+            }
+            
+            
         default:
             return JSONEncoding.default
         }
@@ -92,9 +104,14 @@ extension Competition.API: TargetType {
                 return .requestParameters(parameters: queryParams, encoding: URLEncoding.default)
             }
             return .requestPlain
-            
-        case  .privateCompetition:
+        case let .privateCompetition(queryParams):
+            if let queryParams = queryParams {
+                return .requestParameters(parameters: queryParams, encoding: URLEncoding.default)
+            }
             return .requestPlain
+            
+//        case  .privateCompetition:
+//            return .requestPlain
         case .show:
             return .requestPlain
         }

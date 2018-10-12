@@ -29,7 +29,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb525427717806195</string>
+				<string>fb702401980127748</string>
 				<string>topvotedev</string>
 			</array>
 		</dict>
@@ -59,9 +59,23 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>2018101101</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>6d7552df88e6cfb5f0b6b420fadae49a3b0ae82f</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
 	<key>FacebookAppID</key>
-	<string>525427717806195</string>
+	<string>702401980127748</string>
 	<key>FacebookDisplayName</key>
 	<string>Topvote</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -70,8 +84,19 @@
 	<array>
 		<string>fbapi</string>
 		<string>fb-messenger-api</string>
+		<string>fbapi20130214</string>
+		<string>fbapi20130410</string>
+		<string>fbapi20130702</string>
+		<string>fbapi20131010</string>
+		<string>fbapi20131219</string>
+		<string>fbapi20140410</string>
+		<string>fbapi20140116</string>
+		<string>fbapi20150313</string>
+		<string>fbapi20150629</string>
+		<string>fbauth</string>
 		<string>fbauth2</string>
 		<string>fbshareextension</string>
+		<string>fb-messenger-api20140430</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -122,9 +147,9 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>branch_app_domain</key>
-    <string>topvotedev.app.link</string>
+	<string>topvotedev.app.link</string>
 	<key>branch_key</key>
-    <string>key_live_cpzZ6whOAbqu7VY4IWakvmfpsve29Y6Q</string>
+	<string>key_live_cpzZ6whOAbqu7VY4IWakvmfpsve29Y6Q</string>
 	<key>method</key>
 	<string>app-store</string>
 </dict>

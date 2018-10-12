@@ -44,13 +44,17 @@ class CategoryVC: UIViewController {
             if UIApplication.shared.applicationState == .background {
                 return
             }
+            UtilityManager.ShowHUD(text: "Please wait...")
 
             Category.find(queryParams: [:], error: { [weak self] (errorMessage) in
                 DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+
                     self?.showErrorAlert(errorMessage: errorMessage)
                 }
             }) { [weak self] (competitions) in
                 DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
                     self?.categoryArray = competitions
                     if(self?.savedCategory.count == self?.categoryArray.count){
                         self?.btnSelectAll .setTitle("UnSelect All", for: .normal)
@@ -72,16 +76,26 @@ class CategoryVC: UIViewController {
     
     @IBAction func saveAction(_ sender: Any) {
         
+        if(savedCategory.count == 0){
+            
+            self.showErrorAlert(errorMessage: "Please select atleast one category.")
+            return
+        }
+        
         if let user = AccountManager.session?.account {
-          
+            UtilityManager.ShowHUD(text: "Please wait...")
+
             user.categories = savedCategory as? [String]
             
             user.save(error: { [weak self ](errorMessage) in
                 DispatchQueue.main.async {
                     self?.showErrorAlert(errorMessage: errorMessage)
+                    UtilityManager.RemoveHUD()
+
                 }
                 }, completion: {
                     DispatchQueue.main.async {
+                        UtilityManager.RemoveHUD()
                         AccountManager.session?.account = user
                        
                         if self.navigationController?.viewControllers == nil {

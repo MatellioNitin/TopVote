@@ -25,6 +25,13 @@ class CommonCell: UITableViewCell {
     
     @IBOutlet weak var lblTitle: UILabel!
     
+    @IBOutlet weak var txtDate: CustomUITextField!
+    
+    @IBOutlet weak var txtTime: CustomUITextField!
+
+    
+    
+    
     
     // SUBMIT POLL
     
@@ -38,6 +45,7 @@ class CommonCell: UITableViewCell {
     @IBOutlet weak var lblSurveyTitle1: UILabel!
     @IBOutlet weak var lblSurveyTitle2: UILabel!
 
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()

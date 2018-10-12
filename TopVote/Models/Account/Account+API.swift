@@ -36,6 +36,12 @@ extension Account {
         
         case follow(accountId: String)
         
+        case forgotPassword([String: Any?])
+
+        case passwordChange([String: Any?])
+        
+        case confirmPassword([String: Any?])
+
         case unfollow(accountId: String)
         
         case follows
@@ -91,6 +97,12 @@ extension Account.API: TargetType {
             return "/entries"
         case let .follow(accountId):
             return "/accounts/me/follow/\(accountId)"
+        case let .forgotPassword:
+            return "/accounts/password/forgot"
+        case let .passwordChange:
+            return "/accounts/password/change"
+        case let .confirmPassword:
+            return "/accounts/password/confirm"
         case let .unfollow(accountId):
             return "/accounts/me/follow/\(accountId)"
         case .follows:
@@ -135,7 +147,7 @@ extension Account.API: TargetType {
     
     public var method: Moya.Method {
         switch self {
-        case .create, .login, .logout, .follow(_), .commentsCreate(_), .registerForNotifications:
+        case .create, .login, .logout, .follow(_), .forgotPassword, .passwordChange, .confirmPassword,.commentsCreate(_), .registerForNotifications:
             return .post
         case .unfollow(_):
             return .delete
@@ -157,6 +169,12 @@ extension Account.API: TargetType {
             let params = account.dictionary
             return params
         case let .login(params):
+            return params
+        case let .forgotPassword(params):
+            return params
+        case let .passwordChange(params):
+            return params
+        case let .confirmPassword(params):
             return params
         case let .registerForNotifications(params):
             return params
@@ -222,6 +240,13 @@ extension Account.API: TargetType {
             return .requestParameters(parameters: params, encoding: JSONEncoding.default)
         case let .login(params):
             return .requestParameters(parameters: params, encoding: JSONEncoding.default)
+        case let .forgotPassword(params):
+            return .requestParameters(parameters: params, encoding: JSONEncoding.default)
+        case let .passwordChange(params):
+            return .requestParameters(parameters: params, encoding: JSONEncoding.default)
+        case let .confirmPassword(params):
+            return .requestParameters(parameters: params, encoding: JSONEncoding.default)
+
         case let .registerForNotifications(params):
             return .requestParameters(parameters: params, encoding: JSONEncoding.default)
         case .subscribeForNotifications:

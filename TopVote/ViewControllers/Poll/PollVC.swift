@@ -23,7 +23,8 @@ class PollVC: UIViewController {
         super.viewDidLoad()
         
         navigationItem.title = "SUBMIT POLL"
-        
+        self.navigationController?.navigationBar.topItem?.title = ""
+
         self.tblPoll.estimatedRowHeight = 40;
         self.tblPoll.rowHeight = UITableViewAutomaticDimension
         
@@ -49,10 +50,9 @@ class PollVC: UIViewController {
             }
                 Poll.getPoll(pollID: pollId, error: { [weak self] (errorMessage) in
                     DispatchQueue.main.async {
+                        
                         UtilityManager.RemoveHUD()
                     self?.navigationController?.popViewController(animated: true)
-
-
                         self?.showErrorAlert(errorMessage: errorMessage)
 
                     }
@@ -235,11 +235,9 @@ extension PollVC:UITableViewDelegate{
         return UITableViewAutomaticDimension
     }
     
-    
-
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if(self.objPoll.selected == "" && indexPath.row != 0){
+        if(self.objPoll.selected == "" && indexPath.row != 0 && indexPath.row != self.objPoll.options!.count + 1){
             
         unSelectId = selectId
         selectId = objPoll.options![indexPath.row-1]._id!

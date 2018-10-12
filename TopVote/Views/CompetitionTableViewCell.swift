@@ -31,9 +31,16 @@ class CompetitionTableViewCell: UITableViewCell {
     @IBOutlet weak var byImageView: UIImageView!
     
     @IBOutlet weak var hofBadgeImage: UIImageView!
+    
     @IBOutlet weak var winnerProfileImage: UIImageView!
     
     @IBOutlet weak var badgeView: UIView!
+    
+    @IBOutlet weak var txtLabel: UILabel!
+    
+    @IBOutlet weak var txtImageHeight: NSLayoutConstraint!
+
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -68,10 +75,9 @@ class CompetitionTableViewCell: UITableViewCell {
         byTextLabel.text = competition.byText
         //byTextLabel.sizeToFit()
         
-        if let winnerProfileURL = competition.winner?.account?.profileImageUri, let url = URL(string: winnerProfileURL) {
+        if let winnerProfileURL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      = competition.winner?.account?.profileImageUri, let url = URL(string: winnerProfileURL) {
             winnerProfileImage.af_setImage(withURL: url, placeholderImage: UIImage(named: "profile-default-avatar"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
         }
-        
         
         var byImage:String = ""
         if(competition.byImageUri != nil){
@@ -82,35 +88,36 @@ class CompetitionTableViewCell: UITableViewCell {
         }
         else{
             byImage = competition.byImageUri!
-
         }
         }
+        
         if let url = URL(string: byImage) {
-            
             byImageView.af_setImage(withURL: url, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
         }
 
-       
-        
         var imageName = ""
         
         switch competition.sType {
         case "poll"? : imageName = "poll"
         case "survey"? : imageName = "survey"
         default : print("Default")
-            
         }
         
         if let type = competition.type {
-            let photoimage = (MediaType(rawValue: type) == .image) ? UIImage(named: "icon-camera") : UIImage(named: "icon-video")
-            typeImageView.image = photoimage
+            switch type {
+            case 0 : imageName = "icon-camera"
+            case 1 : imageName = "icon-video"
+            default : imageName = "text"
+            }
+            
+//            let photoimage = (MediaType(rawValue: type) == .image) ? UIImage(named: "icon-camera") : UIImage(named: "icon-video")
+            typeImageView.image = UIImage(named: imageName)
         }
         else{
             let photoimage =  UIImage(named: imageName)
             typeImageView.image = photoimage
         }
      
-        
         var hasEnded = competition.hasEnded()
         let entryMediaType = competition.winner?.mediaType ?? ""
         if hasEnded {
@@ -119,8 +126,48 @@ class CompetitionTableViewCell: UITableViewCell {
                     bgImageView.af_setImage(withURL: url, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
                 }
             } else {
-                if let entryMediaUrl = competition.mediaUri, let url = URL(string: entryMediaUrl) {
-                    bgImageView.af_setImage(withURL: url, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                
+                txtLabel.isHidden = true
+                bgImageView.isHidden = false
+
+                txtImageHeight.constant = 200
+                self.layoutSubviews()
+
+                if(tabbarIndex == 2 && competition.winner?.mediaType == "IMAGE"){
+                    // Winner
+                    if let entryMediaUrl = competition.winner?.mediaUri, let url = URL(string: entryMediaUrl) {
+                        bgImageView.af_setImage(withURL: url, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                    }
+                }
+                else if(tabbarIndex == 2 && competition.winner?.mediaType == "TEXT"){
+                    // Winner
+                    bgImageView.isHidden = true
+                    txtLabel.isHidden = false
+                    txtLabel.text = competition.winner?.text
+                    //competition.text
+                    
+                    
+                    let height = self.txtLabel?.heightForView(text: (self.txtLabel?.text)!, font: (self.txtLabel?.font)!, width: (self.txtLabel?.frame.width)!)
+                    if(Int(height!) < 30){
+                        txtImageHeight.constant = 80
+
+                    }
+                    else
+                    {
+                        txtImageHeight.constant = height!
+
+                    }
+                    self.layoutSubviews()
+
+                    
+                 //   competition.winner?.text //competition.text
+                 //   txtImageHeight.constant = 80.0
+                    
+                }
+                else{
+                    if let entryMediaUrl = competition.mediaUri, let url = URL(string: entryMediaUrl) {
+                        bgImageView.af_setImage(withURL: url, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                    }
                 }
             }
         } else {

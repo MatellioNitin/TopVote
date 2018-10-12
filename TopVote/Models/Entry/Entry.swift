@@ -48,6 +48,8 @@ final class Entry: Model, Hashable {
     var numberOfShares: Int?
 
     var numberOfVotes: Int?
+    
+    var text: String?
 
     var valueVotes: Int?
 

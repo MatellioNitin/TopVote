@@ -18,7 +18,8 @@ class SurveyVC: UIViewController {
         super.viewDidLoad()
         
         navigationItem.title = "FILL SURVEY"
-        
+        self.navigationController?.navigationBar.topItem?.title = ""
+
         self.tblSurvey.estimatedRowHeight = 88.0
         self.tblSurvey.estimatedSectionHeaderHeight = 25;
 
@@ -180,7 +181,6 @@ extension SurveyVC : UITableViewDataSource
         }
         else if(((objSurvey.questions?.count)!+1) == section){
             return 0
-
         }
         else{
         
@@ -217,11 +217,6 @@ extension SurveyVC : UITableViewDataSource
 }
 
 extension SurveyVC:UITableViewDelegate{
-
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return  50
-//
-//    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         return UITableViewAutomaticDimension
@@ -236,13 +231,21 @@ extension SurveyVC:UITableViewDelegate{
         
         if(!isAlreadySubmit){
         self.objSurvey.questions![indexPath.section-1].selected =  objSurvey.questions![indexPath.section-1].questionOptions[indexPath.row]._id
-            tableView.reloadData()
-//            tableView.s
-            tableView.selectRow(at: IndexPath(row: indexPath.row, section: indexPath.section), animated: false, scrollPosition: .none)
-
-          //  tableView.reloadSections([indexPath.section], with: .none)
         }
-
+        
+        
+        
+        
+//        DispatchQueue.main.async { [unowned self] in
+//            UIView.setAnimationsEnabled(false)
+       //     tableView.beginUpdates()
+            tableView.reloadData()
+        
+//            tableView.endUpdates()
+//        }
+        
+        
+        
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
@@ -251,39 +254,38 @@ extension SurveyVC:UITableViewDelegate{
 
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
         if((objSurvey.questions!.count + 1) == section){
             let cell = tableView.dequeueReusableCell(withIdentifier: "SubmitCell") as! CommonCell
             cell.btnSubmit.addTarget(self, action:#selector(self.submitAction(_:)), for: .touchUpInside)
             return cell
         }
-       else if(section == 0){
+        else if(section == 0){
             let cell = tableView.dequeueReusableCell(withIdentifier: "SurveyHeaderCell") as! CommonCell
             cell.lblSurveyTitle1.text = self.objSurvey.title?.capitalized
             cell.lblSurveyTitle2.text = self.objSurvey.description
             return cell
         }
-     //  else if((objSurvey.questions!.count) != section){
-            let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionHeaderCell") as! CommonCell
+       else if((objSurvey.questions!.count + 1) != section){
+        let cell = tableView.dequeueReusableCell(withIdentifier: "QuestionHeaderCell") as! CommonCell
             let questionObj = self.objSurvey.questions![section-1]
-            cell.lblQuestion.text = questionObj.question
+            //DispatchQueue.main.async { [unowned self] in
+                cell.lblQuestion.text = questionObj.question
+            // }
             return cell
-       // }
+   
+         }
 
-//        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-//        return headerView
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 100))
+        return headerView
         
     }
     
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableViewAutomaticDimension
-//    }
-    
-  
+    func tableView(_ tableView: UITableView, estimatedHeightForHeaderInSection indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        
-       return UITableViewAutomaticDimension
+         return UITableViewAutomaticDimension
         
     }
     

@@ -32,29 +32,38 @@ class EmailSignUpViewController: KeyboardScrollViewController {
         let _ = navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func signUpTapped(_ sender: AnyObject?) {
-        if let username = usernameTextField.text?.lowercased(), username.characters.count > 0 {
-            if let email = emailTextField.text?.lowercased(), email.characters.count > 0 {
-                if let password = passwordTextField.text, password.characters.count > 0 {
-                    if let passwordC = passwordConfirmTextField.text, password.characters.count > 0 {
-                        if (password != passwordC) {
-                            self.showErrorAlert(errorMessage: "The passwords don't match!")
-                        } else {
-                            signUp(username, password: password, email: email)
-                        }
-                    } else {
-                        self.showErrorAlert(errorMessage: "Please confirm your password!")
-                    }
-                } else {
-                    self.showErrorAlert(errorMessage: "Please enter a password!")
-                }
-            } else {
-                self.showErrorAlert(errorMessage: "Please enter an email!")
-            }
-        } else {
-            self.showErrorAlert(errorMessage: "Please enter a username!")
+  func checkValidForm(){
+    if let username = usernameTextField.text?.lowercased(), username.trimmingCharacters(in: .whitespacesAndNewlines).count == 0 {
+            self.showErrorAlert(errorMessage: "Please enter user name!")
         }
+    else if let password = passwordTextField.text?.lowercased(), password.trimmingCharacters(in: .whitespacesAndNewlines).count == 0 {
+        self.showErrorAlert(errorMessage: "Please enter password!")
+
+        }
+    else if let cPassword = passwordConfirmTextField.text?.lowercased(), cPassword.trimmingCharacters(in: .whitespacesAndNewlines).count == 0 {
+        self.showErrorAlert(errorMessage: "Please enter confirm password!")
+        
+        }
+    else if (passwordTextField.text! != passwordConfirmTextField.text!) {
+        self.showErrorAlert(errorMessage: "The passwords don't match!")
+        }
+    else if let email = emailTextField.text?.lowercased(), email.trimmingCharacters(in: .whitespacesAndNewlines).count == 0 {
+        self.showErrorAlert(errorMessage: "Please enter an email!")
+        
+        }
+    else if !(UtilityManager.isValidEmail(enteredEmail: emailTextField.text!))  {
+        self.showErrorAlert(errorMessage: "Please enter valid email!")
+        }
+    else{
+        signUp(usernameTextField.text!, password: passwordTextField.text!, email: emailTextField.text!)
+        }
+    
     }
+    
+    @IBAction func signUpTapped(_ sender: AnyObject?) {
+        checkValidForm()
+    }
+    
     
     func signUp(_ username: String, password: String, email: String) {
         let params = [

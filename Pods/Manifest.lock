@@ -11,8 +11,11 @@ PODS:
   - Branch (0.22.5):
     - Branch/Core (= 0.22.5)
   - Branch/Core (0.22.5)
+  - Crashlytics (3.10.0):
+    - Fabric (~> 1.7.3)
   - Device (3.0.3)
   - DZNEmptyDataSet (1.8.1)
+  - Fabric (1.7.3)
   - FacebookCore (0.3.0):
     - Bolts (~> 1.8)
     - FBSDKCoreKit (~> 4.27)
@@ -44,8 +47,10 @@ DEPENDENCIES:
   - AlamofireImage (~> 3.3)
   - Bolts
   - Branch
+  - Crashlytics
   - Device
   - DZNEmptyDataSet
+  - Fabric
   - FacebookCore
   - FacebookLogin
   - FBSDKShareKit
@@ -61,8 +66,10 @@ SPEC CHECKSUMS:
   AlamofireImage: 2e784dc5d00f04903a52c1d169181469c805c3df
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Branch: 4f0482418d99e77d15b0e6065ef216c10e24797b
+  Crashlytics: a989ef242b66605577a425733797f810bd2725eb
   Device: 9a5264ee4e0f392e7153d2c46b10c8df46b7aad2
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
+  Fabric: bb495bb9a7a7677c6d03a1f8b83d95bc49b47e41
   FacebookCore: 3ffa190a3f1f96cec0e44d3fc221bc322c595ffa
   FacebookLogin: 0af839ea858faef99550d16596b87b4a8e8906e6
   FBSDKCoreKit: 7c4bba2877781a131ab5d54c0a78c405d4307b62
@@ -76,6 +83,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 59b2d3dabacbd051576d21d32293ca7228dc18b0
   UIScrollView-InfiniteScroll: c132d6d5851daff229ab4a1060ccf70a05a051c9
 
-PODFILE CHECKSUM: a80102b0fe2abbe5a3b4a419b02fa6d80ad3e3ee
+PODFILE CHECKSUM: 27bfd777a7435797056b7b25e9a4e76f9fc47b04
 
 COCOAPODS: 1.3.1

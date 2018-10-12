@@ -100,8 +100,12 @@
 		AD9E6405213FBBCD00ED99E3 /* PCompitionCreate+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E6402213FBBCD00ED99E3 /* PCompitionCreate+API.swift */; };
 		AD9E6406213FBBCD00ED99E3 /* PCompitionCreate+Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E6403213FBBCD00ED99E3 /* PCompitionCreate+Requests.swift */; };
 		AD9E6407213FBBCD00ED99E3 /* PCompitionCreate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD9E6404213FBBCD00ED99E3 /* PCompitionCreate.swift */; };
+		ADA01FE3214A560D00703D88 /* CustomeTPTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA01FE2214A560D00703D88 /* CustomeTPTextView.swift */; };
+		ADA01FE6214A742300703D88 /* EntryTextTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA01FE4214A742200703D88 /* EntryTextTableViewCell.swift */; };
+		ADA01FE7214A742300703D88 /* EntryTextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADA01FE5214A742300703D88 /* EntryTextTableViewCell.xib */; };
 		ADA1FAF421303F6F004D2657 /* CategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1FAF321303F6F004D2657 /* CategoryVC.swift */; };
 		ADA1FAF6213044AE004D2657 /* CommonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1FAF5213044AE004D2657 /* CommonCell.swift */; };
+		ADA9F75221526C5F00DD8B24 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA9F75121526C5F00DD8B24 /* CommentTableViewCell.swift */; };
 		ADAA816C2136BE92002DC747 /* CreateCompititionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAA816B2136BE92002DC747 /* CreateCompititionVC.swift */; };
 		ADAA816E2136DB30002DC747 /* CreateCompitition.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAA816D2136DB30002DC747 /* CreateCompitition.swift */; };
 		ADAF5BA9213EA5A2005EDB09 /* TImagePickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAF5BA7213EA5A1005EDB09 /* TImagePickerManager.swift */; };
@@ -334,8 +338,12 @@
 		AD9E6402213FBBCD00ED99E3 /* PCompitionCreate+API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PCompitionCreate+API.swift"; sourceTree = "<group>"; };
 		AD9E6403213FBBCD00ED99E3 /* PCompitionCreate+Requests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PCompitionCreate+Requests.swift"; sourceTree = "<group>"; };
 		AD9E6404213FBBCD00ED99E3 /* PCompitionCreate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PCompitionCreate.swift; sourceTree = "<group>"; };
+		ADA01FE2214A560D00703D88 /* CustomeTPTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomeTPTextView.swift; sourceTree = "<group>"; };
+		ADA01FE4214A742200703D88 /* EntryTextTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryTextTableViewCell.swift; sourceTree = "<group>"; };
+		ADA01FE5214A742300703D88 /* EntryTextTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EntryTextTableViewCell.xib; sourceTree = "<group>"; };
 		ADA1FAF321303F6F004D2657 /* CategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryVC.swift; sourceTree = "<group>"; };
 		ADA1FAF5213044AE004D2657 /* CommonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonCell.swift; sourceTree = "<group>"; };
+		ADA9F75121526C5F00DD8B24 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		ADAA816B2136BE92002DC747 /* CreateCompititionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCompititionVC.swift; sourceTree = "<group>"; };
 		ADAA816D2136DB30002DC747 /* CreateCompitition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateCompitition.swift; sourceTree = "<group>"; };
 		ADAF5BA7213EA5A1005EDB09 /* TImagePickerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TImagePickerManager.swift; sourceTree = "<group>"; };
@@ -557,6 +565,8 @@
 				904425DB1D43F81D0089F9EE /* UserFollowTableViewCell.xib */,
 				900896461C85EC96008CD964 /* CompetitionTableViewCell.swift */,
 				900896471C85EC96008CD964 /* CompetitionTableViewCell.xib */,
+				ADA01FE4214A742200703D88 /* EntryTextTableViewCell.swift */,
+				ADA01FE5214A742300703D88 /* EntryTextTableViewCell.xib */,
 				900896481C85EC96008CD964 /* EntryTableViewCell.swift */,
 				900896491C85EC96008CD964 /* EntryTableViewCell.xib */,
 				9004B60F1CE3873B00E90887 /* CompactEntryTableViewCell.xib */,
@@ -567,6 +577,7 @@
 				90AFD4091CC16D0E00B47745 /* MoreCommentsTableViewCell.xib */,
 				90AFD40B1CC16D3A00B47745 /* AddCommentTableViewCell.xib */,
 				90AFD40D1CC16D6100B47745 /* CommentTableViewCell.xib */,
+				ADA9F75121526C5F00DD8B24 /* CommentTableViewCell.swift */,
 				90DE99B11D15A24700AA04D0 /* StatTableViewCell.swift */,
 				90DE99B31D15A25B00AA04D0 /* StatTableViewCell.xib */,
 				900789D81D42942200EA8668 /* AwardedEntryTableViewCell.swift */,
@@ -971,6 +982,7 @@
 				B679B4B41F82C74D00250A5C /* AVPlayer+Additions.swift */,
 				B679B4B51F82C74D00250A5C /* UIView */,
 				B679B4B81F82C74D00250A5C /* UITextView+Placeholder.swift */,
+				ADA01FE2214A560D00703D88 /* CustomeTPTextView.swift */,
 				B679B4B91F82C74D00250A5C /* UITextField+IndexPath.swift */,
 				B679B4BA1F82C74D00250A5C /* UITableView+SectionIndex.swift */,
 				B679B4BB1F82C74D00250A5C /* NSObject+Additions.swift */,
@@ -1162,6 +1174,7 @@
 				33A06515077C23155FEACF0A /* [CP] Copy Pods Resources */,
 				ADCE75182126E08E0084D119 /* ShellScript */,
 				AD4130C621402D2500C61D43 /* Embed Frameworks */,
+				ADA9F75321529AE600DD8B24 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1246,6 +1259,7 @@
 				9008965C1C85EC96008CD964 /* CompetitionTableViewCell.xib in Resources */,
 				90D9B7F11CBBE99F000E2420 /* Roboto-Regular.ttf in Resources */,
 				90D9B7EE1CBBE99F000E2420 /* Roboto-LightItalic.ttf in Resources */,
+				ADA01FE7214A742300703D88 /* EntryTextTableViewCell.xib in Resources */,
 				90AFD40A1CC16D0E00B47745 /* MoreCommentsTableViewCell.xib in Resources */,
 				900789CA1D42826D00EA8668 /* HeaderView.xib in Resources */,
 				9004B6101CE3873B00E90887 /* CompactEntryTableViewCell.xib in Resources */,
@@ -1351,6 +1365,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Topvote/Pods-Topvote-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		ADA9F75321529AE600DD8B24 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 6d7552df88e6cfb5f0b6b420fadae49a3b0ae82f 75b5f0e3b35947d86f74a9007fa9bca1ff7c86c6e6d2b0923056ee49693f33c4";
+		};
 		ADCE75182126E08E0084D119 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 8;
@@ -1413,6 +1440,7 @@
 				B679B4D81F82C79A00250A5C /* UIView+LayerInspectable.swift in Sources */,
 				90B7217C1CE1016300EE13AA /* LoggedOutViewController.swift in Sources */,
 				900789C81D42825E00EA8668 /* HeaderView.swift in Sources */,
+				ADA01FE3214A560D00703D88 /* CustomeTPTextView.swift in Sources */,
 				90DB44DB1C91D43300988135 /* AddCommentTableViewCell.swift in Sources */,
 				902674221C876B81006EDE16 /* EntryViewController.swift in Sources */,
 				B6B239311F8E992500B03F48 /* Competition+Requests.swift in Sources */,
@@ -1504,6 +1532,7 @@
 				B6B2392F1F8E94ED00B03F48 /* Competition+API.swift in Sources */,
 				9008965D1C85EC96008CD964 /* EntryTableViewCell.swift in Sources */,
 				B679B5161F82CAB700250A5C /* Image.swift in Sources */,
+				ADA01FE6214A742300703D88 /* EntryTextTableViewCell.swift in Sources */,
 				90D9B8011CBBF3EE000E2420 /* UserTableViewCell.swift in Sources */,
 				B6E840CE209E1F1200253327 /* Device+Provider.swift in Sources */,
 				B679B5011F82C9CD00250A5C /* StyleGuide.swift in Sources */,
@@ -1530,6 +1559,7 @@
 				B679B50C1F82CA7E00250A5C /* Account+API.swift in Sources */,
 				90D9B7FF1CBBEE37000E2420 /* FollowViewController.swift in Sources */,
 				AD0B831F2146467D0041DCD1 /* Poll+Options.swift in Sources */,
+				ADA9F75221526C5F00DD8B24 /* CommentTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1645,7 +1675,7 @@
 			baseConfigurationReference = 0849C084CCEAB84F8BCB3822 /* Pods-Topvote.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BRANCH_IO_KEY = key_test_ogwW3smUygty1M49K4jQ5likuCl8Y85Z;
+				BRANCH_IO_KEY = key_live_cpzZ6whOAbqu7VY4IWakvmfpsve29Y6Q;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1662,10 +1692,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/TopVote/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.topvoteapp.TopVoteBeta;
+				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "2dfcd834-f176-47cc-b19b-5fc7ca275c23";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_Beta_Client;
+				PROVISIONING_PROFILE = "369ac1be-c72e-453a-8600-773188378802";
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1698,10 +1728,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/TopVote/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.topvoteapp.TopVoteBeta;
+				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "11e6f35a-815a-4538-97c3-cc767b12a82b";
-				PROVISIONING_PROFILE_SPECIFIER = Topvoye_Appstore_Client;
+				PROVISIONING_PROFILE = "369ac1be-c72e-453a-8600-773188378802";
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -1771,7 +1801,7 @@
 			baseConfigurationReference = DAC661C364E875C5A168A91C /* Pods-Topvote.dev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BRANCH_IO_KEY = key_test_ogwW3smUygty1M49K4jQ5likuCl8Y85Z;
+				BRANCH_IO_KEY = key_live_cpzZ6whOAbqu7VY4IWakvmfpsve29Y6Q;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1788,10 +1818,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/TopVote/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.topvoteapp.TopVoteBeta;
+				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "2dfcd834-f176-47cc-b19b-5fc7ca275c23";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_Beta_Client;
+				PROVISIONING_PROFILE = "369ac1be-c72e-453a-8600-773188378802";
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1862,7 +1892,7 @@
 			baseConfigurationReference = E204C888E4B62C0E02A16AB6 /* Pods-Topvote.local.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BRANCH_IO_KEY = key_test_ogwW3smUygty1M49K4jQ5likuCl8Y85Z;
+				BRANCH_IO_KEY = key_live_cpzZ6whOAbqu7VY4IWakvmfpsve29Y6Q;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -1879,10 +1909,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/TopVote/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.topvoteapp.TopVoteBeta;
+				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "2dfcd834-f176-47cc-b19b-5fc7ca275c23";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_Beta_Client;
+				PROVISIONING_PROFILE = "369ac1be-c72e-453a-8600-773188378802";
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1964,10 +1994,10 @@
 				INFOPLIST_FILE = "$(SRCROOT)/TopVote/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.topvoteapp.TopVoteBeta;
+				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "11e6f35a-815a-4538-97c3-cc767b12a82b";
-				PROVISIONING_PROFILE_SPECIFIER = Topvoye_Appstore_Client;
+				PROVISIONING_PROFILE = "369ac1be-c72e-453a-8600-773188378802";
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;

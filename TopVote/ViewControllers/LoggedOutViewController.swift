@@ -11,6 +11,8 @@ import FacebookLogin
 import FacebookCore
 import FBSDKCoreKit
 import FBSDKLoginKit
+import Crashlytics
+
 //import ParseFacebookUtilsV4
 //import ParseTwitterUtils
 //import SwiftyJSON
@@ -21,6 +23,9 @@ class LoggedOutViewController: KeyboardScrollViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextField: UITextField!
 
+    @IBOutlet weak var btnForgotPassword: UIButton!
+
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -40,8 +45,8 @@ class LoggedOutViewController: KeyboardScrollViewController {
             consumerSecret: Constants.Instagram.clientSecret,
             authorizeUrl:   "https://api.instagram.com/oauth/authorize",
             accessTokenUrl: "https://api.instagram.com/oauth/access_token",
-            responseType:   "code"
-        )
+            responseType: "code" )
+        
         oauthswift.authorizeURLHandler = SafariURLHandler(viewController: self, oauthSwift: oauthswift)
         oauthswift.authorize(
             //withCallbackURL: "http://localhost:8080/auth/instagram/callback",
@@ -54,6 +59,7 @@ class LoggedOutViewController: KeyboardScrollViewController {
                     guard let username = instagramUser["username"] as? String else {
                         return
                     }
+                    
                     params["instagram"] = [
                         "id": instagramUser["id"],
                         "username": username,
@@ -65,17 +71,43 @@ class LoggedOutViewController: KeyboardScrollViewController {
                     params["username"] = "ig:" + username
                     params["user"] = "ig:" + username
                     params["password"] = instagramUser["id"]
-                }
-                
-                Account.login(params: params, error: { (errorMessage) in
-                    DispatchQueue.main.async {
-                        self.showErrorAlert(errorMessage: errorMessage)
+
+                    if((instagramUser["email"]) == nil){
+                        params["email"] = ""
+
                     }
-                }) { (account) in
+                    else
+                    {
+                        params["email"] = instagramUser["email"]
+                    }
+                    
+                        Account.login(params: params, error: { (errorMessage) in
+                            
+                            DispatchQueue.main.async {
+                            if(errorMessage.contains("enter your email")){
+                                self.emailRequiredPopUp(param:params)
+                                }
+                                else
+                                {
+                                    self.showErrorAlert(errorMessage: errorMessage)
+
+                                }
+                                
+                                
+                            }
+                        }) { (account) in
+                            
                     DispatchQueue.main.async {
                         self.dismiss(animated: true, completion: nil)
+                        }
+                        }
+                        
+
                     }
-                }
+      
+               // }
+                
+        
         }) { (error) in
             DispatchQueue.main.async {
                 self.showErrorAlert(errorMessage: error.localizedDescription)
@@ -83,10 +115,43 @@ class LoggedOutViewController: KeyboardScrollViewController {
         }
     }
 
+    func emailRequiredPopUp(param:[String: Any]){
+        var params = param
+        let alertController = TVAlertController(title: "TOPVOTE", message: "Please enter your email.", preferredStyle: .alert)
+        
+        alertController.addTextField { (textField) -> Void in
+            
+        }
+        let okAction = UIAlertAction(title: "Proceed", style: .default) { (action) -> Void in
+            if let email = alertController.textFields?.first?.text, email.characters.count > 0 {
+                
+                params["email"] = email
+                Account.login(params: params, error: { (errorMessage) in
+                    DispatchQueue.main.async {
+                        self.showErrorAlert(errorMessage: errorMessage)
+                    }
+                }) { (account) in
+                    
+                    DispatchQueue.main.async {
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+                
+             
+                
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(okAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
     @IBAction func facebookTapped(_ sender: UIButton) {
         let permissions: [ReadPermission] = [ReadPermission.publicProfile, ReadPermission.email]
         sender.isEnabled = false
         let fbLoginManager = LoginManager()
+        fbLoginManager.logOut()
         fbLoginManager.logIn(readPermissions: permissions, viewController: self) { (loginResult) in
             switch loginResult {
             case .success(_, _, _):
@@ -129,8 +194,8 @@ class LoggedOutViewController: KeyboardScrollViewController {
             case .success(let response):
                 print("Graph Request Succeeded: \(response)")
                 if let fbResponse: [String: Any] = response.dictionaryValue {
-                    var params = [
-                        "user": fbResponse["email"],
+                    var params = ["username": fbResponse["email"],
+                        "user": fbResponse["id"],
                         "facebook": [
                             "id": fbResponse["id"],
                             "accessToken": AccessToken.current?.authenticationToken
@@ -139,7 +204,14 @@ class LoggedOutViewController: KeyboardScrollViewController {
                         "ageRage": fbResponse["age_range"],
                         "gender": fbResponse["gender"],
                         "password": fbResponse["id"]
+                    
                     ]
+                    
+                    if((fbResponse["email"]) == nil){
+                        params["email"] = ""   }
+                    else
+                    {   params["email"] = fbResponse["email"] }
+                    
                     
                     if let picture = fbResponse["picture"] as? [String: Any] {
                         if let data = picture["data"] as? [String: Any] {
@@ -151,7 +223,15 @@ class LoggedOutViewController: KeyboardScrollViewController {
 
                     Account.login(params: params, error: { (errorMessage) in
                         DispatchQueue.main.async {
-                            self.showErrorAlert(errorMessage: errorMessage)
+                            if(errorMessage.contains("enter your email")){
+                                self.emailRequiredPopUp(param:params)
+                            }
+                            else
+                            {
+                                self.showErrorAlert(errorMessage: errorMessage)
+                                
+                            }
+                            
                         }
                     }) { (account) in
                         DispatchQueue.main.async {
@@ -198,6 +278,7 @@ class LoggedOutViewController: KeyboardScrollViewController {
     }
  
     @IBAction func logInTapped(_ sender: AnyObject?) {
+          //   Crashlytics.sharedInstance().crash()
         if let username = usernameTextField.text?.lowercased(), username.characters.count > 0 {
             if let password = passwordTextField.text, password.characters.count > 0 {
                 logIn(username, password: password)
@@ -220,13 +301,38 @@ class LoggedOutViewController: KeyboardScrollViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
-    
+  
     @IBAction func forgotPassword(_ sender: AnyObject) {
-        let alertController = TVAlertController(title: "Reset Password", message: "Enter your email to reset your password", preferredStyle: .alert)
+        let alertController = TVAlertController(title: "Reset Password", message: "Enter your correct email to reset your password", preferredStyle: .alert)
         alertController.addTextField { (textField) -> Void in
         }
+        
+  
+        
         let okAction = UIAlertAction(title: "Reset", style: .default) { (action) -> Void in
-            if let email = alertController.textFields?.first?.text, email.characters.count > 0 {
+            if let email = alertController.textFields?.first?.text, email.characters.count > 0  {
+                if(!(UtilityManager.isValidEmail(enteredEmail: email))){
+                    self.showAlert(title: "", confirmTitle: "Ok", errorMessage: "Please enter correct email.", actions: nil, confirmCompletion: nil, completion: nil)
+                    self.forgotPassword(self.btnForgotPassword)
+                }
+                
+                else {
+                let params = ["user_email": email]
+                
+                UtilityManager.ShowHUD(text: "Please wait..")
+                Account.forgotPassword(params: params, error: { (errorMessage) in
+                    UtilityManager.RemoveHUD()
+                    self.showErrorAlert(errorMessage: errorMessage)
+                }, completion: { () in
+                    DispatchQueue.main.async {
+                        UtilityManager.RemoveHUD()
+                        self.showAlert(title: "", confirmTitle: "Ok", errorMessage: "We have sent you a reset password. Please check your email.", actions: nil, confirmCompletion: nil, completion: nil)
+   
+                    }
+                })
+                    
+                
+                
 //                PFVoter.requestPasswordResetForEmail(inBackground: email, block: { (success, error) in
 //                    if let error = error {
 //                        self.showErrorPopup(error.localizedDescription, completion: nil)
@@ -235,6 +341,7 @@ class LoggedOutViewController: KeyboardScrollViewController {
 //                    }
 //                })
             }
+        }
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alertController.addAction(okAction)

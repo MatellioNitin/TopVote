@@ -202,19 +202,19 @@ extension Account {
     ///   - email: account email address
     ///   - error: error message if one exists in response object.
     ///   - completion: successful response on account forgot password.
-    
-    static func forgotPassword(email: String, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping () -> Void) {
-//        Account.provider.request(Account.API.forgot(email: email)) { result in
-//            result.handleResponse(completion: { (errorMessage, _, _) in
-//                if let errorMessage = errorMessage {
-//                    error(errorMessage)
-//                } else {
-//                    completion()
-//                }
-//            })
-//        }
-    }
-    
+//
+//    static func forgotPassword(email: String, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping () -> Void) {
+////        Account.provider.request(Account.API.forgot(email: email)) { result in
+////            result.handleResponse(completion: { (errorMessage, _, _) in
+////                if let errorMessage = errorMessage {
+////                    error(errorMessage)
+////                } else {
+////                    completion()
+////                }
+////            })
+////        }
+//    }
+//
     /// Not Implemented.
     ///
     /// - Parameters:
@@ -271,6 +271,41 @@ extension Account {
             })
         }
     }
+    static func forgotPassword(params: [String: Any], error: @escaping (_ errorMessage: String) -> Void, completion:@escaping () -> Void) {
+        Account.provider.request(Account.API.forgotPassword(params)) { result in
+            result.handleResponseData(completion: { (errorMessage, _, _) in
+                if let errorMessage = errorMessage {
+                    error(errorMessage)
+                } else {
+                    completion()
+                }
+            })
+        }
+    }
+    static func passwordChange(params: [String: Any], error: @escaping (_ errorMessage: String) -> Void, completion:@escaping () -> Void) {
+        Account.provider.request(Account.API.passwordChange(params)) { result in
+            result.handleResponseData(completion: { (errorMessage, _, _) in
+                if let errorMessage = errorMessage {
+                    error(errorMessage)
+                } else {
+                    completion()
+                }
+            })
+        }
+    }
+    
+    static func confirmPassword(params: [String: Any], error: @escaping (_ errorMessage: String) -> Void, completion: @escaping () -> Void) {
+        Account.provider.request(Account.API.confirmPassword(params)) { result in
+                result.handleResponseData(completion: { (errorMessage, _, _) in
+                        if let errorMessage = errorMessage {
+                        error(errorMessage)
+                        } else {
+                            completion()
+                            }
+            })
+        }
+    }
+    
     
     static func unfollow(accountId: String, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ unfollowedAccount: Account) -> Void) {
         Account.provider.request(Account.API.unfollow(accountId: accountId)) { result in

@@ -9,13 +9,15 @@ import UIKit
 class HomePrivateViewController: CompetitionsViewController {
     
     override func loadCompetitions() {
+        navigationItem.title = "P2P"
+
         super.loadCompetitions()
         
         if UIApplication.shared.applicationState == .background {
             return
         }
     
-        Competition.findPrivate(accountId:(AccountManager.session?.account?._id)!, error: { [weak self] (errorMessage) in
+        Competition.findPrivate(queryParams: ["status":"0"], error: { [weak self] (errorMessage) in
             DispatchQueue.main.async {
                 self?.showErrorAlert(errorMessage: errorMessage)
             }
@@ -23,6 +25,8 @@ class HomePrivateViewController: CompetitionsViewController {
             DispatchQueue.main.async {
                 self?.competitions = competitions
                 self?.tableView.reloadData()
+                self?.refreshControl.endRefreshing()
+
             }
         }
         
@@ -55,23 +59,34 @@ class PrivateCompetitionsViewController: UIViewController, UITableViewDataSource
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+      //  navigationItem.title = "P2P"
         self.tableView.register(UINib(nibName: "CompetitionTableViewCell", bundle: nil), forCellReuseIdentifier: "competitionCell")
         self.tableView.register(UINib(nibName: "NoCompetitionILikeCell", bundle: nil), forCellReuseIdentifier: "finalCell")
 
         refreshControl.addTarget(self, action: #selector(PrivateCompetitionsViewController.loadCompetitions), for: UIControlEvents.valueChanged)
+        
 
+        
         loadCompetitions()
         
         self.navigationItem.hidesBackButton = true
+        self.navigationController?.navigationBar.topItem?.title = ""
 
+       // self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
+        
         //  TODO: This is not good. This is mostly being used to refresh timer labels.
         //  this should be done on the label side in the future.
-        Timer.scheduledTimer(timeInterval: Constants.COMPETITIONS_REFRESH_TIME, target: self, selector: #selector(PrivateCompetitionsViewController.loadCompetitions), userInfo: nil, repeats: true)
+        ///Timer.scheduledTimer(timeInterval: Constants.COMPETITIONS_REFRESH_TIME, target: self, selector: #selector(PrivateCompetitionsViewController.loadCompetitions), userInfo: nil, repeats: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadCompetitions()
+    }
+    
+    deinit {
+       // Timer.invalidate()
     }
     
     @objc func loadCompetitions() {

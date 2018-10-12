@@ -16,6 +16,9 @@ import OAuthSwift
 import UserNotifications
 import IQKeyboardManagerSwift
 import Branch
+import Fabric
+import Crashlytics
+
 
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let screenBounds = UIScreen.main.bounds
@@ -52,7 +55,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //FPConfig.sharedInstance().apiKey = Constants.FilePicker.apiKey
 
         // FB
-        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+
+      //  AccountManager.clearSession()
+    FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         //
         
@@ -134,6 +139,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        if let recentIdeaVoteData = UserDefaults.standard.object(forKey: "KEY_RECENT_IDEA_VOTE_DATA") as? Data {
 //            PFIdeaVote.recentIdeaVotes = (NSKeyedUnarchiver.unarchiveObject(with: recentIdeaVoteData) as? [NSVote]) ?? []
 //        }
+        Fabric.with([Crashlytics.self])
         
         return true
     }
@@ -147,6 +153,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (url.host == "oauth-callback") {
             OAuthSwift.handle(url: url)
             return true
+        }
+        
+        let handled: Bool = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+        if(handled){
+        // Add any custom logic here.
+        return handled
         }
         
         let branchHandled = Branch.getInstance().application(app, open: url, options: options)
@@ -164,6 +176,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if (url.host == "oauth-callback") {
             OAuthSwift.handle(url: url)
             return true
+        }
+        
+
+        
+        let handled: Bool = FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
+        if(handled){
+        // Add any custom logic here.
+        return handled
         }
         
         let branchHandled = Branch.getInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation
@@ -231,6 +251,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
+    
+        print("applicationWillEnterForeground")
+        
+        if let wd = UIApplication.shared.delegate?.window {
+            var vc = wd!.rootViewController
+            if(vc is UINavigationController){
+                vc = (vc as! UINavigationController).visibleViewController
+                print(vc)
+
+            }
+            
+            if(vc is SplashViewController){
+                (vc as! SplashViewController).locationOn()
+            }
+        }
+        
+//        print(self.window?.currentViewController)
+//        if (self.window?.currentViewController is SplashViewController){
+//        (self.window?.currentViewController as! SplashViewController).locationOn()
+//
+//        }
+      
+        checkP2P_isOn()
+      
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
     
@@ -316,20 +360,59 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
     }
     
+    func checkP2P_isOn(){
+        if((AccountManager.session) != nil){
+            
+            let controller = (window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
+            
+            Category.p2pCheck(error: { (errorMessage) in
+                
+                
+            }) { (flag) in
+                
+                if(flag.privateCompetition == 0){
+                    if((self.window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController!.tabBarController != nil){
+                        let tbController = (self.window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController!.tabBarController as! UITabBarController
+                        
+                        tbController.tabBar.items![3].isEnabled = false
+                        
+                        if(tbController.selectedIndex == 3){
+                            tbController.selectedIndex = 0
+                        }
+                        
+                    }
+                }
+                else {
+                if((self.window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController!.tabBarController != nil){
+                        let tbController = (self.window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController!.tabBarController as! UITabBarController
+                            tbController.tabBar.items![3].isEnabled = true
+                            
+                    }
+                    
+                }
+            
+            }
+
+        }
+    }
+    
     func deppLinkAPI(key:String){
         if((AccountManager.session) != nil){
-            let urlLink = key + "/user/" + (AccountManager.session!.account?._id)! + "/add"
             
+            let controller = (window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
             
-            Category.deepLink(deepLink: urlLink, error: { [weak self] (errorMessage) in
+            Category.deepLink(deepLink: key, error: { [weak self] (errorMessage) in
                 DispatchQueue.main.async {
-                    print("deep link error")
-                 //   self?.showErrorAlert(errorMessage: errorMessage)
+                    
+                    controller?.showErrorAlert(errorMessage: errorMessage)
                 }
-            }) { [weak self] (competitions) in
+            }) { [weak self] (deeplinkObj) in
                 DispatchQueue.main.async {
-                    print("deep link success")
+                    print("deep link success \(deeplinkObj)")
+                    controller?.showErrorAlert(title:"", errorMessage: deeplinkObj[0].message!)
 
+                    
+                    
 //                    self?.categoryArray = competitions
 //                    self?.tblCategory.reloadData()
                 }
@@ -337,7 +420,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }
         
-       // /pvt-competitions/by-deep-link
     }
     
     func applicationWillTerminate(_ application: UIApplication) {

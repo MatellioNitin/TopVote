@@ -17,7 +17,12 @@ enum ActivityType : String, Codable {
     case entryCommentedOn = "ENTRYCOMMENTEDON"
     case entryShared = "ENTRYSHARED"
     case ideaVotedOn = "IDEAVOTEDON"
+    case entryFlagOn = "ENTRYFLAGGEDON"
+
 }
+
+
+
 
 final class  Activity: Model {
     // MARK: * Properties
@@ -86,6 +91,17 @@ final class  Activity: Model {
                     }
                     string.append(NSMutableAttributedString(string: " voted for your idea", attributes: detailAttributes))
                     break
+                    
+                case .entryFlagOn:
+                    if let userName = account?.username ?? account?.name {
+                        string = NSMutableAttributedString(string: userName, attributes: userNameAttributes)
+                    }
+                    string.append(NSMutableAttributedString(string: " entryFlagOn", attributes: detailAttributes))
+                    break
+                    
+                    
+                    
+                    
                 }
             } else {
                 switch (type) {
@@ -168,6 +184,29 @@ final class  Activity: Model {
                         string.append(NSMutableAttributedString(string: "'s idea", attributes: detailAttributes))
                     }
                     break
+                case .entryFlagOn:
+                    if let userName = account?.username ?? account?.name {
+                        string = NSMutableAttributedString(string: userName, attributes: userNameAttributes)
+                    }
+                    string.append(NSMutableAttributedString(string: " entryFlagOn ", attributes: detailAttributes))
+                    if let entryUserName = entry?.account?.username ?? entry?.account?.name {
+                        let aString = NSMutableAttributedString(string: entryUserName, attributes: userNameAttributes)
+                        string.append(aString)
+                        string.append(NSMutableAttributedString(string: "'s entry in the ", attributes: detailAttributes))
+                    }
+                    if let competitionName = entry?.competition?.title {
+                        let aString = NSMutableAttributedString(string: competitionName, attributes: userNameAttributes)
+                        string.append(aString)
+                    }
+                    if let ideaUserName = idea?.account?.username ?? idea?.account?.name {
+                        let aString = NSMutableAttributedString(string: ideaUserName, attributes: userNameAttributes)
+                        string.append(aString)
+                        string.append(NSMutableAttributedString(string: "'s idea", attributes: detailAttributes))
+                    }
+                    break
+                    
+                    
+                    
                 }
             }
         }

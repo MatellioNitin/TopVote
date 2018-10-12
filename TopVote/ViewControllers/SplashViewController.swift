@@ -8,8 +8,8 @@
 
 import UIKit
 //import FBSDKCoreKit
-
-class SplashViewController: UIViewController {
+import CoreLocation
+class SplashViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var logoImageView: UIImageView!
     @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
@@ -33,7 +33,58 @@ class SplashViewController: UIViewController {
         self.logoImageView.isHidden = false
         logoImageView.center = view.center
     }
-    
+     func locationOn() {
+        print("viewDidLayoutSubviews")
+        
+        if AccountManager.fetchLastSession(), let currentAccount = AccountManager.session?.account {
+            
+            //            if (user.needsProfileFix()) {
+            //                user.setup({ (success, error) -> Void in
+            //                    if (success) {
+            //                        self.editProfile()
+            //                    } else {
+            //                        self.showErrorPopup(error?.localizedDescription, completion: nil)
+            //                    }
+            //                })
+            //            } else {
+            //                //
+            (UIApplication.shared.delegate as? AppDelegate)?.registerForRemoteNotification()
+            //                //
+            setupProfileTabBarImage()
+            //                //
+            LocationManager.instance.getLocationAndName { (success, location, locationName) -> Void in
+                if (success) {
+                    //                        user.location = PFGeoPoint(location: location)
+                    currentAccount.locationName = locationName
+                    currentAccount.save(error: { (errorMessage) in
+                        
+                    }, completion: {
+                        DispatchQueue.main.async {
+                            self.animateToApp()
+                        }
+                    })
+                } else {
+                    
+                    
+                    // self.presentSettings()
+                    
+                    //self.showAlert(title: "Oops!", confirmTitle: "Settings", errorMessage: "Use of your location is required to use the app. Please allow access in the settings app", actions: nil, confirmCompletion: nil, completion: {
+                    //})
+                    
+                    self.activityIndicatorView.stopAnimating()
+                    self.activityIndicatorView.isHidden = true
+                    self.locationPopUp()
+                    // self.showErrorAlert(errorMessage: "Use of your location is required to use the app. Please allow access in the settings app")
+                }
+            }
+            //            }
+        } else {
+            if let loginVC = storyboard?.instantiateViewController(withIdentifier: "LogInNC") {
+                self.present(loginVC, animated: true, completion: nil)
+            }
+        }
+        
+    }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 //        if let loginVC = storyboard?.instantiateViewController(withIdentifier: "LogInNC") {
@@ -68,7 +119,17 @@ class SplashViewController: UIViewController {
                             }
                         })
                     } else {
-                        self.showErrorAlert(errorMessage: "Use of your location is required to use the app. Please allow access in the settings app")
+                        
+                        
+                       // self.presentSettings()
+                        
+                        //self.showAlert(title: "Oops!", confirmTitle: "Settings", errorMessage: "Use of your location is required to use the app. Please allow access in the settings app", actions: nil, confirmCompletion: nil, completion: {
+                            
+                        //})
+                        self.activityIndicatorView.stopAnimating()
+                            self.activityIndicatorView.isHidden = true
+                            self.locationPopUp()
+                        // self.showErrorAlert(errorMessage: "Use of your location is required to use the app. Please allow access in the settings app")
                     }
                 }
 //            }
@@ -78,6 +139,60 @@ class SplashViewController: UIViewController {
             }
         }
     }
+     func locationPopUp() {
+        
+        let uiAlert = UIAlertController(title: "Location", message: "Use of your location is required to use the app. Please allow access in the settings app", preferredStyle: UIAlertControllerStyle.alert)
+        self.present(uiAlert, animated: true, completion: nil)
+   
+        uiAlert.addAction(UIAlertAction(title: "Go to Setting", style: .cancel, handler: { action in
+            
+            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                // If general location settings are enabled then open location settings for the app
+                UIApplication.shared.openURL(url)
+            }     }))
+        
+//
+//        uiAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { action in
+//            exit(0)
+//        }))
+//
+    }
+    
+    func presentSettings() {
+        let alertController = UIAlertController(title: "Oops!", message: "Use of your location is required to use the app. Please allow access in the settings app", preferredStyle: .alert)
+        //        alertController.addAction(UIAlertAction(title: "Cancel", style: .default))
+        alertController.addAction(UIAlertAction(title: "Settings", style: .cancel) { _ in
+            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                UIApplication.shared.open(url, options: [:]
+                    , completionHandler: { _ in
+                        // Handle
+                        print("Handle")
+                })
+            }
+        })
+        
+        present(alertController, animated: true)
+    }
+    
+    func checkLocationAccess() {
+        switch CLLocationManager.authorizationStatus() {
+        case .denied:
+            print("Denied, request permission from settings")
+            presentSettings()
+        case .restricted:
+            print("Restricted, device owner must approve")
+        case .authorized:
+            print("Authorized, proceed")
+            break
+        case .notDetermined:
+           break
+        case .authorizedAlways:
+            break
+        case .authorizedWhenInUse:
+            break
+        }
+    }
+
     
     func editProfile() {
         self.performSegue(withIdentifier: "toEditProfile", sender: nil)

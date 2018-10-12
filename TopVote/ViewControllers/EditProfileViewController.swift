@@ -21,7 +21,8 @@ class EditProfileViewController: KeyboardScrollViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var bioTextView: UITextView!
     @IBOutlet weak var logoutButton: UIButton!
-    
+    @IBOutlet weak var btnProfileImage: UIButton!
+
     var mediaInfo: Media?
     var canLogout = true
     
@@ -31,8 +32,13 @@ class EditProfileViewController: KeyboardScrollViewController {
         if let user = AccountManager.session?.account {
             if let profileImageUri = user.profileImageUri, let uri = URL(string: profileImageUri) {
                 profileImageView?.af_setImage(withURL: uri, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
-            }
+                btnProfileImage.setImage(nil, for: .normal)
 
+            }
+            
+            usernameTextField.isUserInteractionEnabled = false
+            emailTextField.isUserInteractionEnabled = false
+            
             nameTextField.text = user.name
             usernameTextField.text = user.username
             emailTextField.text = user.email
@@ -52,6 +58,8 @@ class EditProfileViewController: KeyboardScrollViewController {
                 let imagePickerController = UIImagePickerController()
                 imagePickerController.sourceType = .camera
                 imagePickerController.mediaTypes = ["public.image"]
+                imagePickerController.navigationBar.tintColor = Constants.appYellowColor
+
                 imagePickerController.delegate = self
                 self?.present(imagePickerController, animated: true, completion: nil)
             } else {
@@ -64,6 +72,8 @@ class EditProfileViewController: KeyboardScrollViewController {
                 imagePickerController.sourceType = .photoLibrary
                 imagePickerController.mediaTypes = ["public.image"]
                 imagePickerController.delegate = self
+                imagePickerController.navigationBar.tintColor = Constants.appYellowColor
+
                 self?.present(imagePickerController, animated: true, completion: nil)
             } else {
                 self?.showAlert(title: "Oops!", confirmTitle: "Ok", errorMessage: "Please allow access to your photo library.", actions: nil, confirmCompletion: nil, completion: nil)
@@ -77,6 +87,7 @@ class EditProfileViewController: KeyboardScrollViewController {
     }
     
     @IBAction func logOutTapped(_ sender: AnyObject?) {
+
         AccountManager.session?.account?.logout(error: { (errorMessage) in
             DispatchQueue.main.async {
                 self.showErrorAlert(errorMessage: errorMessage)
@@ -97,6 +108,11 @@ class EditProfileViewController: KeyboardScrollViewController {
         }
         let okAction = UIAlertAction(title: "Confirm", style: .default) { (action) -> Void in
             if let newPassword = alertController.textFields?.first?.text, newPassword.characters.count > 0 {
+                
+            let params = ["password": newPassword]
+            self.confirmPassword(confirmPassword:params)
+                
+                
 //                PFCloud.callFunction(inBackground: "confirmCurrentPassword", withParameters: ["password": newPassword, "username": PFVoter.current()!.username!], block: { (result, error) -> Void in
 //                    if let error = error {
 //                        self.showErrorPopup("Incorrect password", completion: nil)
@@ -119,6 +135,11 @@ class EditProfileViewController: KeyboardScrollViewController {
         }
         let okAction = UIAlertAction(title: "Save", style: .default) { (action) -> Void in
             if let newPassword = alertController.textFields?.first?.text, newPassword.characters.count > 0 {
+                
+                let params = ["password": newPassword]
+                self.changePassword(newPassword:params)
+                
+                
 //                PFVoter.current()?.password = newPassword
 //                PFVoter.current()?.saveInBackground(block: { (success, error) -> Void in
 //                    if let error = error {
@@ -135,7 +156,43 @@ class EditProfileViewController: KeyboardScrollViewController {
         present(alertController, animated: true, completion: nil)
     }
     
+    
+    func changePassword(newPassword: [String: Any]){
+        UtilityManager.ShowHUD(text: "Please wait..")
+        Account.passwordChange(params: newPassword, error: { (errorMessage) in
+            UtilityManager.RemoveHUD()
+            self.showErrorAlert(errorMessage: errorMessage)
+        }, completion: { () in
+            DispatchQueue.main.async {
+                UtilityManager.RemoveHUD()
+                self.showAlert(title: "", confirmTitle: "Ok", errorMessage: "Your password updated successfully.", actions: nil, confirmCompletion: nil, completion: nil)
+                
+
+                //  self.user = followedAccount
+                //self.refreshFollowButton()
+                //   self.refreshProfile()
+            }
+        })
+    }
+    
+    func confirmPassword(confirmPassword: [String: Any]){
+        UtilityManager.ShowHUD(text: "Please wait..")
+        
+        Account.confirmPassword(params: confirmPassword, error: { (errorMessage) in
+            UtilityManager.RemoveHUD()
+            self.showErrorAlert(errorMessage: errorMessage)
+        }, completion: { () in
+            DispatchQueue.main.async {
+                UtilityManager.RemoveHUD()
+                self.changePassword()
+                //  self.user = followedAccount
+                //self.refreshFollowButton()
+                //   self.refreshProfile()
+            }
+        })
+    }
     func dismissToSplash() {
+       
         let presentingViewController = self.presentingViewController
         self.dismiss(animated: true, completion: { () -> Void in
             if !(presentingViewController is SplashViewController) {
@@ -153,6 +210,10 @@ class EditProfileViewController: KeyboardScrollViewController {
     }
     @IBAction func save(_ sender: AnyObject) {
 
+        
+//        UtilityManager.dismissToSplash()
+//        return
+        
         if let user = AccountManager.session?.account {
             if let mediaInfo = mediaInfo, let url = mediaInfo.secure_url?.absoluteString {
                 user.profileImageUri = url
@@ -195,9 +256,9 @@ class EditProfileViewController: KeyboardScrollViewController {
 extension EditProfileViewController: UITextFieldDelegate, UITextViewDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField){
-        if let frame = scrollView?.convert(textField.frame, from: textField.superview) {
-            self.scrollView?.scrollRectToVisible(frame, animated: true)
-        }
+//        if let frame = scrollView?.convert(textField.frame, from: textField.superview) {
+//            self.scrollView?.scrollRectToVisible(frame, animated: true)
+//        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -206,15 +267,15 @@ extension EditProfileViewController: UITextFieldDelegate, UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if let frame = scrollView?.convert(textView.frame, from: textView.superview) {
+         if let frame = scrollView?.convert(textView.frame, from: textView.superview) {
             self.scrollView?.scrollRectToVisible(frame, animated: true)
         }
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if (text == "\n") {
-            textView.resignFirstResponder()
-            return false
+           // textView.resignFirstResponder()
+           // return false
         }
         return true
     }

@@ -26,4 +26,14 @@ final class Flag: Model {
     var entry: Entry?
     
     var status: Int?
+    
+    var privateCompetition: Int?
+
+    
+
+    
+    var participated: Bool?
+
+    
+    
 }

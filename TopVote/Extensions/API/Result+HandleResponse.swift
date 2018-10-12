@@ -36,6 +36,8 @@ extension Result {
                 if response.statusCode == 401 || response.statusCode == 403 {
                     didNotifySessionExpire = true
                     DispatchQueue.main.async {
+                      UtilityManager.dismissToSplash()
+                        
                         NotificationCenter.default.post(name: Notification.Name.AccountSessionExpired, object: nil)
                     }
                 }
@@ -46,8 +48,10 @@ extension Result {
                     message = value["message"] as? String
                     
                     if let mess = message, didNotifySessionExpire == false {
-                        if mess.lowercased().contains("session has expired") {
+                        if mess.lowercased().contains("your session has expired.") || mess.lowercased().contains("session token") {
                             DispatchQueue.main.async {
+                                
+                                UtilityManager.dismissToSplash()
                                 NotificationCenter.default.post(name: Notification.Name.AccountSessionExpired, object: nil)
                             }
                         } else if mess.contains(ValidationError.validationMessage), let errorInfo = value["error"] as? [String: Any] {
@@ -90,8 +94,10 @@ extension Result {
                     
                     message = value["message"] as? String
                     if let mess = message {
-                        if mess.lowercased().contains("session has expired") {
+                        if mess.lowercased().contains("your session has expired.")  || mess.lowercased().contains("session token") {
                             DispatchQueue.main.async {
+                            UtilityManager.dismissToSplash()
+
                                 NotificationCenter.default.post(name: Notification.Name.AccountSessionExpired, object: nil)
                             }
                         } else if mess.contains(ValidationError.validationMessage), let errorInfo = value["error"] as? [String: Any] {
@@ -119,6 +125,8 @@ extension Result {
                 if response.statusCode == 401 || response.statusCode == 403 {
                     didNotifySessionExpire = true
                     DispatchQueue.main.async {
+                        UtilityManager.dismissToSplash()
+
                         NotificationCenter.default.post(name: Notification.Name.AccountSessionExpired, object: nil)
                     }
                 }
@@ -129,8 +137,10 @@ extension Result {
                     
                     message = value["message"] as? String
                     if let mess = message, didNotifySessionExpire == false {
-                        if mess.lowercased().contains("session has expired") {
+                        if mess.lowercased().contains("your session has expired.")  || mess.lowercased().contains("session token") {
                             DispatchQueue.main.async {
+                                UtilityManager.dismissToSplash()
+
                                 NotificationCenter.default.post(name: Notification.Name.AccountSessionExpired, object: nil)
                             }
                         } else if mess.contains(ValidationError.validationMessage), let errorInfo = value["error"] as? [String: Any] {
@@ -191,6 +201,8 @@ extension Result {
                 if response.statusCode == 401 || response.statusCode == 403 {
                     didNotifySessionExpire = true
                     DispatchQueue.main.async {
+                        UtilityManager.dismissToSplash()
+
                         NotificationCenter.default.post(name: Notification.Name.AccountSessionExpired, object: nil)
                     }
                 }
@@ -201,8 +213,9 @@ extension Result {
                     
                     message = value["message"] as? String
                     if let mess = message, didNotifySessionExpire == false {
-                        if mess.lowercased().contains("session has expired") {
+                        if mess.lowercased().contains("your session has expired.")  || mess.lowercased().contains("session token") {
                             DispatchQueue.main.async {
+                                UtilityManager.dismissToSplash()
                                 NotificationCenter.default.post(name: Notification.Name.AccountSessionExpired, object: nil)
                             }
                         } else if mess.contains(ValidationError.validationMessage), let errorInfo = value["error"] as? [String: Any] {

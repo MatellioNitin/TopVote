@@ -45,6 +45,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
 
     func getLocationAndName(_ completion: @escaping (_ success: Bool, _ location: CLLocation?, _ locationName: String?) -> Void) {
+        
         let location = locationManager.location
         if let location = location {
             let geocoder = CLGeocoder()

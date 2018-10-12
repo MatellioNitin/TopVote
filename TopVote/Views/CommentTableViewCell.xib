@@ -1,38 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommonCell" customModule="Topvote" customModuleProvider="target"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentCell" textLabel="a6f-yf-z4F" detailTextLabel="t7S-Re-LeO" rowHeight="36" style="IBUITableViewCellStyleValue1" id="z7g-p3-KmO">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="36"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="z7g-p3-KmO" id="Ejd-sO-K7d">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="35.666666666666664"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="CommentCell" rowHeight="94" id="o3p-nU-0el" customClass="CommentTableViewCell" customModule="Topvote" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="323" height="94"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="o3p-nU-0el" id="1Xh-QN-Oag">
+                <rect key="frame" x="0.0" y="0.0" width="323" height="93.666666666666671"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="a6f-yf-z4F">
-                        <rect key="frame" x="16" y="11" width="25" height="14.333333333333334"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nM3-qW-q7z">
+                        <rect key="frame" x="14.999999999999996" y="16" width="38.666666666666657" height="17"/>
+                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                        <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t7S-Re-LeO">
-                        <rect key="frame" x="271.33333333333337" y="11" width="32.666666666666664" height="14.333333333333334"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oCy-iL-lre">
+                        <rect key="frame" x="194" y="16" width="113" height="14.333333333333336"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comment" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DYC-rF-72c">
+                        <rect key="frame" x="16" y="38" width="291" height="14.333333333333336"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="oCy-iL-lre" firstAttribute="width" secondItem="1Xh-QN-Oag" secondAttribute="width" multiplier="35:100" id="CwA-Wa-qOa"/>
+                    <constraint firstAttribute="trailing" secondItem="DYC-rF-72c" secondAttribute="trailing" constant="16" id="HWN-PC-nH6"/>
+                    <constraint firstAttribute="trailing" secondItem="oCy-iL-lre" secondAttribute="trailing" constant="16" id="OEt-lU-06F"/>
+                    <constraint firstItem="nM3-qW-q7z" firstAttribute="top" secondItem="1Xh-QN-Oag" secondAttribute="top" constant="16" id="Ogf-zK-1v2"/>
+                    <constraint firstItem="nM3-qW-q7z" firstAttribute="leading" secondItem="1Xh-QN-Oag" secondAttribute="leading" constant="15" id="SkW-Sa-VRE"/>
+                    <constraint firstItem="DYC-rF-72c" firstAttribute="top" secondItem="nM3-qW-q7z" secondAttribute="bottom" constant="5" id="bEI-xm-9Rs"/>
+                    <constraint firstItem="DYC-rF-72c" firstAttribute="leading" secondItem="1Xh-QN-Oag" secondAttribute="leading" constant="16" id="kkQ-TH-JjG"/>
+                    <constraint firstItem="oCy-iL-lre" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="nM3-qW-q7z" secondAttribute="trailing" constant="5" id="nSr-6j-MCs"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="DYC-rF-72c" secondAttribute="bottom" constant="16" id="uvl-v4-sLW"/>
+                    <constraint firstItem="oCy-iL-lre" firstAttribute="top" secondItem="1Xh-QN-Oag" secondAttribute="top" constant="16" id="x6l-tq-n4q"/>
+                </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="lblCommentDetail" destination="oCy-iL-lre" id="toh-r1-Iwd"/>
+                <outlet property="lblCommentName" destination="nM3-qW-q7z" id="n5e-pf-AHW"/>
+                <outlet property="lblCommentTitle" destination="DYC-rF-72c" id="4Lx-dO-0cW"/>
+            </connections>
+            <point key="canvasLocation" x="214.5" y="226"/>
         </tableViewCell>
     </objects>
 </document>

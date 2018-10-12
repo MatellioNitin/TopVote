@@ -88,10 +88,5 @@ extension AccountManager {
         return nil
     }
     
-    static var currentUserLocationInfo: UserLocationInfo = UserLocationInfo(locationInfo: nil,
-                                                                            newLocation: nil,
-                                                                            addressInfo: nil,
-                                                                            stateCode: nil,
-                                                                            countryCode: nil,
-                                                                            isValidLocation: false)
+    static var currentUserLocationInfo: UserLocationInfo = UserLocationInfo(locationInfo: nil, newLocation: nil, addressInfo: nil, stateCode: nil, countryCode: nil, isValidLocation: false)
 }

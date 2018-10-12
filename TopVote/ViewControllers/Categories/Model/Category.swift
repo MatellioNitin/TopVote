@@ -18,7 +18,6 @@ final class Category: Model {
     var _id: String?
 
     var name: String?
-    
     /// The provider closure used by `moya` for default authorization headers used in requests against the api.
     
     static let providerClosure = { (target: Category.API) -> Endpoint in

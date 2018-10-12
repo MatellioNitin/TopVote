@@ -13,6 +13,7 @@ class VideoPlayerViewController: KeyboardScrollViewController {
     @IBOutlet weak var mediaView: MediaView!
 
     override func viewDidLoad() {
+      
         NotificationCenter.default.addObserver(self,
             selector: #selector(VideoPlayerViewController.playerItemDidReachEnd(_:)),
             name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
@@ -46,6 +47,9 @@ class EntryViewController: VideoPlayerViewController {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var votesLabel: UILabel!
+    @IBOutlet weak var lblTextDescription: UILabel!
+    @IBOutlet weak var imgViewHeightConstraint: NSLayoutConstraint?
+
     
     @IBOutlet weak var tableView: UITableView!
     var showComments = false
@@ -68,7 +72,8 @@ class EntryViewController: VideoPlayerViewController {
         super.viewDidLoad()
 
         loadEntry()
-        
+        // self.navigationController?.navigationBar.topItem?.title = ""
+
         tableView.register(UINib(nibName: "CommentTableViewCell", bundle: nil), forCellReuseIdentifier: "CommentCell")
         tableView.register(UINib(nibName: "AddCommentTableViewCell", bundle: nil), forCellReuseIdentifier: "AddCommentCell")
     }
@@ -92,17 +97,30 @@ class EntryViewController: VideoPlayerViewController {
     func refreshView() {
         if let entry = entry {
             if let mediaUri = entry.mediaUri, let uri = URL(string: mediaUri) {
-                if entry.mediaType == "IMAGE" {
+                imgViewHeightConstraint?.constant = 250
+                mediaView.layoutIfNeeded()
+                 if entry.mediaType == "IMAGE" {
                     entryImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
                 } else if entry.mediaType == "VIDEO" {
                     mediaView.addPlayer(uri)
                     mediaView.startPlaying()
                 }
+           
             }
+            else if(entry.mediaType == "TEXT"){
+                    mediaView.isHidden = true
+                    lblTextDescription.text = self.entry?.text
+                  let height = self.lblTextDescription?.heightForView(text: (self.lblTextDescription?.text)!, font: (self.lblTextDescription?.font)!, width: (self.lblTextDescription?.frame.width)!)
+                
+                imgViewHeightConstraint?.constant = height! - 10
+                    mediaView.layoutIfNeeded()
+                }
+            
             
             if let profileImageUri = entry.account?.profileImageUri, let uri = URL(string: profileImageUri) {
                 userImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
             }
+            
             
 //            if let imageURL = entry.imageURL {
 //                entryImageView.sd_setImage(with: URL(string: imageURL), placeholderImage: UIImage(named: "loading"))
@@ -245,13 +263,15 @@ extension EntryViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func commentCell(_ indexPath: IndexPath, comment: Comment) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath)
-        cell.textLabel?.text = comment.text
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentTableViewCell
+        cell.lblCommentTitle?.text = comment.text
+        cell.lblCommentName?.text = comment.account?.displayUserName
+
         if let date = comment.createdAt {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .short
             dateFormatter.timeStyle = .short
-            cell.detailTextLabel?.text = dateFormatter.string(from: date)
+            cell.lblCommentDetail?.text = dateFormatter.string(from: date)
         }
         return cell
     }
@@ -266,6 +286,11 @@ extension EntryViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+
     }
 }
 

@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 import SVProgressHUD
+let appDelegate1 = UIApplication.shared.delegate as! AppDelegate
 
 class UtilityManager: NSObject {
 
@@ -52,4 +53,38 @@ class UtilityManager: NSObject {
         SVProgressHUD.setStatus(text)
         SVProgressHUD.show(withStatus: text)
     }
+    
+   class func dismissToSplash() {
+    AccountManager.clearSession()
+
+    let presentingViewController = appDelegate1.window?.currentViewController
+    appDelegate1.window?.currentViewController()?.dismiss(animated: true, completion : { () -> Void in
+//            if !(presentingViewController is SplashViewController) {
+//              //  self.dismissToSplash()
+//            }
+        })
+    }
+    
+    class func isValidEmail(enteredEmail:String) -> Bool
+    {
+        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailFormat = emailRegex
+        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
+        return emailPredicate.evaluate(with: enteredEmail)
+    }
+}
+
+extension UIView {
+    func heightForView(text:String, font:UIFont, width:CGFloat) -> CGFloat{
+        let label:UILabel = UILabel(frame: CGRect(x: 0,y: 0,width: width,height: CGFloat.greatestFiniteMagnitude))
+        label.numberOfLines = 0
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.font = font
+        label.text = text
+        
+        label.sizeToFit()
+        return label.frame.height
+    }
+    
+    
 }

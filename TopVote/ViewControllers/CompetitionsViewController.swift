@@ -11,12 +11,11 @@ class HomeViewController: CompetitionsViewController {
     
     override func loadCompetitions() {
         super.loadCompetitions()
-        
-        
+        navigationItem.title = "TOPVOTE"
         if UIApplication.shared.applicationState == .background {
               return
         }
-
+      //  appDelegate.checkP2P_isOn()
         Competition.find(queryParams: [:], error: { [weak self] (errorMessage) in
             DispatchQueue.main.async {
                 self?.showErrorAlert(errorMessage: errorMessage)
@@ -25,6 +24,8 @@ class HomeViewController: CompetitionsViewController {
             DispatchQueue.main.async {
                 self?.competitions = competitions
                 self?.tableView.reloadData()
+                self?.refreshControl.endRefreshing()
+
             }
         }
         
@@ -37,7 +38,7 @@ class HomeViewController: CompetitionsViewController {
 //                self?.localCompetitions = competitions
 //                self?.tableView.reloadData()
 //            }
-//            self?.refreshControl.endRefreshing()
+        self.refreshControl.endRefreshing()
 //        }
     }
     
@@ -53,20 +54,21 @@ class HomeViewController: CompetitionsViewController {
         else{
         self.performSegue(withIdentifier: "toEntries", sender: competition)
         }
-            
     }
+    
 }
 
 class HallOfFameViewController: CompetitionsViewController {
     
     override func loadCompetitions() {
+
         super.loadCompetitions()
 
         if UIApplication.shared.applicationState == .background {
             return
         }
-
-        Competition.findHall(queryParams: ["status": 1], error: { [weak self] (errorMessage) in
+            //["status": 1]
+        Competition.findHall(queryParams: [:], error: { [weak self] (errorMessage) in
             DispatchQueue.main.async {
                 self?.showErrorAlert(errorMessage: errorMessage)
             }
@@ -74,6 +76,8 @@ class HallOfFameViewController: CompetitionsViewController {
             DispatchQueue.main.async {
                 self?.competitions = competitions
                 self?.tableView.reloadData()
+                self?.refreshControl.endRefreshing()
+
             }
         }
         
@@ -90,6 +94,15 @@ class HallOfFameViewController: CompetitionsViewController {
     override func openCompetition(_ competition: Competition) {
         self.performSegue(withIdentifier: "toEntry", sender: competition)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = "HALL OF FAME"
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.title = ""
+    }
+
 }
 
 class CompetitionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -103,26 +116,42 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.tableView.register(UINib(nibName: "CompetitionTableViewCell", bundle: nil), forCellReuseIdentifier: "competitionCell")
         self.tableView.register(UINib(nibName: "NoCompetitionILikeCell", bundle: nil), forCellReuseIdentifier: "finalCell")
 
         refreshControl.addTarget(self, action: #selector(CompetitionsViewController.loadCompetitions), for: UIControlEvents.valueChanged)
+        
+        self.refreshControl.tintColor = UIColor(red:80.0/255.0, green:54.0/255.0, blue:89.0/255.0, alpha:1.0)
+        
+        
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
 
         loadCompetitions()
-//        let param = "KuRFxZpb1P" + "/user/" + AccountManager.session!.account!._id! + "/add"
-//        appDelegate.deppLinkAPI(key:param)
+        
+//        tableView.estimatedRowHeight = 100;
+//        tableView.rowHeight = UITableViewAutomaticDimension
         
         self.navigationItem.hidesBackButton = true
+        self.navigationController?.navigationBar.topItem?.title = ""
 
         //  TODO: This is not good. This is mostly being used to refresh timer labels.
         //  this should be done on the label side in the future.
-        Timer.scheduledTimer(timeInterval: Constants.COMPETITIONS_REFRESH_TIME, target: self, selector: #selector(CompetitionsViewController.loadCompetitions), userInfo: nil, repeats: true)
+        //Timer.scheduledTimer(timeInterval: Constants.COMPETITIONS_REFRESH_TIME, target: self, selector: #selector(CompetitionsViewController.loadCompetitions), userInfo: nil, repeats: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         super.viewWillAppear(animated)
         loadCompetitions()
+    }
+    
+    deinit {
+        // Timer.invalidate()
     }
     
     @objc func loadCompetitions() {
@@ -175,8 +204,55 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        if(self.tabBarController?.selectedIndex == 2 && competitions[indexPath.row].winner?.mediaType == "TEXT"){
+            let str = competitions[indexPath.row].winner?.text
+            
+            let font = UIFont.systemFont(ofSize: 15.0)
+            
+            let height = self.view.heightForView(text: str!, font: font, width: self.view.frame.width - 30)
+           
+            if(height < 30){
+                return  180
+            }
+            else
+            {
+                return  height + 70
+            }
+
+        }
         return 280
     }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if(self.tabBarController?.selectedIndex == 2 && competitions[indexPath.row].winner?.mediaType == "TEXT"){
+            let str = competitions[indexPath.row].winner?.text
+            
+            let font = UIFont.systemFont(ofSize: 15.0)
+
+            let height = self.view.heightForView(text: str!, font: font, width: self.view.frame.width - 30)
+            
+            if(height < 30){
+                return  180
+            }
+            else
+            {
+                return  height + 70
+            }
+
+         
+           // return UITableViewAutomaticDimension
+        }
+        return 280
+    }
+    
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        if(self.tabBarController?.selectedIndex == 2 && competitions[indexPath.row].winner?.mediaType == "IMAGE"){
+//
+//
+//        }
+//        return 280
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "competitionCell", for: indexPath) as! CompetitionTableViewCell
@@ -190,6 +266,10 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
             cell.btnShare.isHidden = false
             cell.btnShare.tag = indexPath.row
             cell.btnShare.addTarget(self, action:#selector(self.shareAction(_:)), for: .touchUpInside)
+            }
+            else
+            {
+                cell.btnShare.isHidden = true
             }
         }
         
@@ -215,6 +295,8 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "toEntries"), let vc = segue.destination as? CompetitionEntriesViewController {
             vc.competition = sender as? Competition
+            vc.textHeader = (sender as? Competition)?.text
+
         } else if (segue.identifier == "toEntry"), let vc = segue.destination as? EntryViewController {
             vc.entryId = (sender as! Competition).winner?._id
         }

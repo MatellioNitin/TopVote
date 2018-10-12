@@ -40,6 +40,8 @@ final class Account: Model {
     
     var name: String?
     
+    var displayUserName: String?
+    
     var bio: String?
     
     var locationName: String?
