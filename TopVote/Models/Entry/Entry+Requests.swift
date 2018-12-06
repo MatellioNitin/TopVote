@@ -37,7 +37,29 @@ extension Entry {
         }
     }
     
+   static func getSingleEntry(entryId: String, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ entry: Entry) -> Void) {
+       
+        Entry.provider.request(Entry.API.getEntry(entryId: entryId)) { result in
+            result.handleResponseData(completion: { (errorMessage, _, _) in
+                if let errorMessage = errorMessage {
+                    error(errorMessage)
+                } else {
+                    result.handleResponseData(completion: { (errorMessage, data, token) in
+                        if let value = data, let entry: Entry = Entry.create(data: value) {
+                            completion(entry)
+                        } else if let errorMessage = errorMessage {
+                            error(errorMessage)
+                        }
+                    })
+                    
+                }
+            })
+        }
+    }
+    
+    
     func vote(numberOfVotes: Int, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping () -> Void) {
+        
         let params = [
             "votes": numberOfVotes
         ]
@@ -45,25 +67,54 @@ extension Entry {
             return
         }
         Entry.provider.request(Entry.API.vote(params: params, entryId: entryId)) { result in
-            result.handleResponseData(completion: { (errorMessage, _, _) in
-                if let errorMessage = errorMessage {
+            print(result)
+            result.handleResponseData(completion: { (errorMessage, data, token) in
+               
+            if let errorMessage = errorMessage {
                     error(errorMessage)
-                } else {
+                }
+                else
+            {
+                if let value = data, let flag: Flag = Flag.create(data: value) {
+                    // For Unvote
+                    if((flag.value) != nil)
+                    {
+                        if var valueVotes = self.valueVotes {
+                            valueVotes += flag.value!
+                            self.valueVotes = valueVotes
+                        }
+                        
+                        if var numberOfVotes = self.numberOfVotes {
+                            numberOfVotes -= 1
+                            self.numberOfVotes = numberOfVotes
+                        }
+                        
+                        self.hasVoted = false
+                        
+                    }
+                    completion()
+                }
+                else  {
+                    // For vote
                     if var valueVotes = self.valueVotes {
                         valueVotes += numberOfVotes
                         self.valueVotes = valueVotes
                     }
                     if var numberOfVotes = self.numberOfVotes {
-                        numberOfVotes += 1
-                        self.numberOfVotes = numberOfVotes
+                            numberOfVotes += 1
+                            self.numberOfVotes = numberOfVotes
                     }
+                        
                     self.hasVoted = true
                     completion()
                 }
-            })
+            }
+          })
         }
+  
     }
-  static func getCompStatus(compId: String!, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ flag: Flag) -> Void) {
+  
+    static func getCompStatus(compId: String!, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ flag: Flag) -> Void) {
        
         Entry.provider.request(Entry.API.getCompStatus(compId: compId)) { result in
             result.handleResponseData(completion: { (errorMessage, data, token) in
@@ -77,6 +128,9 @@ extension Entry {
             })
         }
     }
+   
+    
+    
     func flag(status: Int?, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ flag: Flag) -> Void) {
         let params = [
             "status": status ?? 0

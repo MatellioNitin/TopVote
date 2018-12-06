@@ -1,13 +1,12 @@
 //
 //  String+Crypto.swift
 //  iOS Foundation
-//
 //  Created by Luke McDonald on 7/31/17.
 //  Copyright © 2017 Luke McDonald. All rights reserved.
 //
 
 import Foundation
-import CommonCrypto 
+import CommonCryptoModule
 
 extension String {
     

@@ -64,11 +64,16 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
     func loadParseData(_ forceLoad: Bool) {
         if (searchType == .following) {
             if (forceLoad || followingActivities.count == 0) {
+                UtilityManager.ShowHUD(text: "Please wait...")
+
                 AccountManager.session?.account?.followingActivities(error: { (errorMessage) in
+                    UtilityManager.RemoveHUD()
+
                     
                 }, completion: { [weak self] (activities) in
                     self?.followingActivities = activities
                     DispatchQueue.main.async {
+                        UtilityManager.RemoveHUD()
                         self?.filter()
                     }
                 })
@@ -85,11 +90,17 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
 
         } else if (searchType == .mine) {
             if (forceLoad || myActivities.count == 0) {
+                UtilityManager.ShowHUD(text: "Please wait...")
+
                 AccountManager.session?.account?.activities(error: { (errorMessage) in
+                    UtilityManager.RemoveHUD()
+
                     
                 }, completion: { [weak self] (activities) in
                     self?.myActivities = activities
                     DispatchQueue.main.async {
+                        UtilityManager.RemoveHUD()
+
                         self?.filter()
                     }
                 })

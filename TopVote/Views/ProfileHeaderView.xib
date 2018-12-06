@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Avenir.ttc">
+            <string>Avenir-Medium</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -111,7 +117,7 @@
                             <color key="textColor" red="0.62745098039215685" green="0.37254901960784315" blue="0.67843137254901964" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ymq-uk-WDa">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ymq-uk-WDa">
                             <rect key="frame" x="47" y="0.0" width="46.5" height="16.5"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="16.5" id="Ghx-Z2-JFm"/>
@@ -154,10 +160,10 @@
                         <constraint firstItem="ymq-uk-WDa" firstAttribute="top" secondItem="khd-J9-fHU" secondAttribute="top" id="J7E-yD-FQA"/>
                         <constraint firstAttribute="height" constant="72" id="KQC-Lz-TOn"/>
                         <constraint firstItem="pXL-cs-Hpj" firstAttribute="top" secondItem="khd-J9-fHU" secondAttribute="top" constant="17" id="Qud-Lq-Ono"/>
+                        <constraint firstItem="Bfb-Mc-MYm" firstAttribute="centerX" secondItem="ymq-uk-WDa" secondAttribute="centerX" id="UNX-a7-X0N"/>
                         <constraint firstAttribute="trailing" secondItem="pXL-cs-Hpj" secondAttribute="trailing" constant="20" id="VQj-Hc-YeC"/>
                         <constraint firstItem="6si-Yd-Ieq" firstAttribute="top" secondItem="khd-J9-fHU" secondAttribute="top" id="b7v-mQ-m5q"/>
                         <constraint firstItem="ymq-uk-WDa" firstAttribute="leading" secondItem="khd-J9-fHU" secondAttribute="leading" constant="47" id="dxV-PJ-v7l"/>
-                        <constraint firstItem="Bfb-Mc-MYm" firstAttribute="leading" secondItem="khd-J9-fHU" secondAttribute="leading" constant="20" id="h86-8b-S04"/>
                         <constraint firstItem="DQi-Vb-2hD" firstAttribute="top" secondItem="khd-J9-fHU" secondAttribute="top" constant="17" id="kO4-2S-NqW"/>
                         <constraint firstItem="ymq-uk-WDa" firstAttribute="top" secondItem="khd-J9-fHU" secondAttribute="top" id="lpo-nO-uWJ"/>
                         <constraint firstItem="Bfb-Mc-MYm" firstAttribute="top" secondItem="ymq-uk-WDa" secondAttribute="bottom" constant="0.5" id="sk4-v0-IFW"/>
@@ -167,7 +173,7 @@
                 </view>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ECK-JU-yRQ">
                     <rect key="frame" x="220" y="175" width="85" height="30"/>
-                    <color key="backgroundColor" red="0.44705882352941173" green="0.27058823529411763" blue="0.47843137254901957" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.37254901960784315" green="0.16862745098039217" blue="0.45490196078431372" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="ehN-k5-HJx"/>
                         <constraint firstAttribute="width" constant="85" id="xXk-v0-CIR"/>

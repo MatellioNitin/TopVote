@@ -16,7 +16,8 @@ class YourProfileViewController: ProfileViewController {
         super.viewDidLoad()
         
         //incrementProfileVisits()
-        let followButton = UIBarButtonItem(title: "Back", style:UIBarButtonItemStyle.plain, target: self, action: #selector(YourProfileViewController.close))
+
+        let followButton = UIBarButtonItem(image: UIImage(named:"icon_back"), style:UIBarButtonItemStyle.plain, target: self, action: #selector(YourProfileViewController.close))
         navigationItem.leftBarButtonItem = followButton
     }
     
@@ -252,6 +253,7 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
     func followTappped() {
         
     }
+    
     @IBAction func categoryAction(_ sender: Any) {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "CategoryVC") as? CategoryVC {
             
@@ -297,7 +299,9 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
         if (profileType == .entries) {
             let cell = tableView.dequeueReusableCell(withIdentifier: "CompactEntryCell", for: indexPath) as! EntryTableViewCell
             let entry = entries[indexPath.row]
-            cell.configureWithEntry(entry, compact: true)
+            print(entry)
+
+            cell.configureWithEntry(entry, compact: true, isComeFromProfile:true,selectedTab:4)
             cell.delegate = self
             
             return cell

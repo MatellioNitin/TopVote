@@ -126,10 +126,15 @@ extension Account.API: TargetType {
         case .registerForNotifications:
             return "/accounts/me/devices"
         case .subscribeForNotifications:
-            let id = UIDevice.current.identifierForVendor?.uuidString ?? ""
+           // let id = UIDevice.current.identifierForVendor?.uuidString ?? ""
+            let id = appDelegate.deviceTokenData ?? ""
+
             return "/accounts/me/devices/\(id)/subscribe"
         case .unsubscribeForNotifications:
-            let id = UIDevice.current.identifierForVendor?.uuidString ?? ""
+          //  let id = UIDevice.current.identifierForVendor?.uuidString ?? ""
+             let id = appDelegate.deviceTokenData ?? ""
+            
+            
             return "/accounts/me/devices/\(id)/unsubscribe"
         case .categoryList:
           

@@ -15,7 +15,7 @@ class HomeViewController: CompetitionsViewController {
         if UIApplication.shared.applicationState == .background {
               return
         }
-      //  appDelegate.checkP2P_isOn()
+        appDelegate.checkP2P_isOn()
         Competition.find(queryParams: [:], error: { [weak self] (errorMessage) in
             DispatchQueue.main.async {
                 self?.showErrorAlert(errorMessage: errorMessage)
@@ -92,7 +92,11 @@ class HallOfFameViewController: CompetitionsViewController {
     }
     
     override func openCompetition(_ competition: Competition) {
-        self.performSegue(withIdentifier: "toEntry", sender: competition)
+     //   self.performSegue(withIdentifier: "toEntry", sender: competition)
+        self.performSegue(withIdentifier: "toEntries", sender: competition)
+        
+        
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -105,8 +109,8 @@ class HallOfFameViewController: CompetitionsViewController {
 
 }
 
-class CompetitionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
+class CompetitionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PollSurveyDelegate {
+        
     var competitions = Competitions()
     var localCompetitions = Competitions()
     
@@ -160,8 +164,11 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
     @IBAction func shareAction(_ sender: UIButton) {
         let competition = competitions[sender.tag]
         
+      // let shareText = competition.shareText!
+        let shareText = ""
         let text = competition.deepUrl!
-        let textShare = [ text ]
+
+        let textShare = [ shareText, text ]
         let activityViewController = UIActivityViewController(activityItems: textShare , applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)
@@ -183,11 +190,60 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
 //        }
     }
     
+    
+    
     @IBAction func competitionSuggestionTapped(_ sender: AnyObject) {
+        if(self.tabBarController?.selectedIndex == 3 ){
+            if let vc = self.storyboard?.instantiateViewController(withIdentifier: "CreateCompititionVC") as? CreateCompititionVC {
+            self.navigationController?.pushViewController(vc, animated: true)
+                
+            }
+        }
+        else{
         if let nc = storyboard?.instantiateViewController(withIdentifier: "SubmitIdeaNC") {
             self.present(nc, animated: true, completion: nil)
         }
+        }
     }
+   
+    func didSavePollSurvey(text: String, link: String, pollOrSurvey:String) {
+        
+        //self.navigationItem.rightBarButtonItem = nil
+        let alertController = TVAlertController(title: "\(pollOrSurvey) submitted!", message: "Good Luck! Would you like to share \(pollOrSurvey)?", preferredStyle: .alert)
+        let shareAction = UIAlertAction(title: "Share", style: .default) { (action) -> Void in
+            // Share my entry
+            self.sharePollSurvey(text: text, url: link)
+        }
+        let cancelAction = UIAlertAction(title: "Not Now", style: .cancel, handler: nil)
+        alertController.addAction(shareAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+        // loadEntries()
+    }
+    
+    
+    
+    func sharePollSurvey(text:String, url:String) {
+        let textToShare = "\(text)"
+        let objectsToShare = [textToShare, url] as [Any]
+        let activityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        activityViewController.completionWithItemsHandler = {
+            (activity, success, items, error) in
+            //print("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")
+            if (success) {
+                //                entry.incrementKey("numberShares", byAmount: 1)
+                //                entry.saveInBackground()
+                //                let activity = PFActivity(competition: nil, entry: entry, type: ActivityType.entryShared)
+                //                activity.saveInBackground()
+                //                PFCloud.callFunction(inBackground: "incrementEntryShare", withParameters: ["entryId": entry.objectId ?? "", "userId": PFVoter.current()?.objectId ?? ""], block: { (result, error) in
+                //                    //
+                //                })
+            }
+        }
+        present(activityViewController, animated: true, completion: nil)
+    }
+    
     
     // MARK: - Table view data source
     
@@ -291,7 +347,6 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     // MARK: - Navigation
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "toEntries"), let vc = segue.destination as? CompetitionEntriesViewController {
             vc.competition = sender as? Competition
@@ -302,9 +357,12 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
         }
         else if (segue.identifier == "toPoll"), let vc = segue.destination as? PollVC {
             vc.pollId = (sender as! Competition)._id!
+            vc.delegate = self
         }
         else if (segue.identifier == "toSurvey"), let vc = segue.destination as? SurveyVC {
             vc.surveyId = (sender as! Competition)._id!
+            vc.delegate = self
+
         }
         
         

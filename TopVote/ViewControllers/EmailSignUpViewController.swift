@@ -14,6 +14,7 @@ class EmailSignUpViewController: KeyboardScrollViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var passwordConfirmTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
+  //  @IBOutlet weak var btnTermsChck: UIButton!
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -54,9 +55,14 @@ class EmailSignUpViewController: KeyboardScrollViewController {
     else if !(UtilityManager.isValidEmail(enteredEmail: emailTextField.text!))  {
         self.showErrorAlert(errorMessage: "Please enter valid email!")
         }
+//    else if(btnTermsChck.currentImage == UIImage(named:"uncheckTerms")){
+//
+//        self.showErrorAlert(errorMessage: "Please accept terms & conditions")
+//    }
     else{
         signUp(usernameTextField.text!, password: passwordTextField.text!, email: emailTextField.text!)
         }
+    
     
     }
     
@@ -64,6 +70,27 @@ class EmailSignUpViewController: KeyboardScrollViewController {
         checkValidForm()
     }
     
+    @IBAction func btnTermsActons(_ sender: Any) {
+        
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "WebViewVC") as? WebViewVC {
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+   
+    }
+    
+//    
+//    @IBAction func btnCheckUnCheckAction(_ sender: Any) {
+//        if(btnTermsChck.currentImage == UIImage(named:"uncheckTerms")){
+//            btnTermsChck.setImage(UIImage(named:"checkTerms"), for: .normal)
+//            
+//        }
+//        else{
+//            btnTermsChck.setImage(UIImage(named:"uncheckTerms"), for: .normal)
+//            
+//        }
+//        
+//    }
+//    
     
     func signUp(_ username: String, password: String, email: String) {
         let params = [

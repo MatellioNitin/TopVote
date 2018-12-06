@@ -1,7 +1,6 @@
 //
 //  ConfigDEV.swift
 //  iOS Foundation
-//
 //  Created by Luke McDonald on 7/31/17.
 //  Copyright © 2017 Luke McDonald. All rights reserved.
 
@@ -14,6 +13,7 @@ private let _enviromentKey = "DEV"
 /// The Configuration used throughout application for API specific tasks.
 
 struct Config
+    
 {
     /// returns api enviroment. { DEV, STAGE, PRODUCTION, LOCAL }
     

@@ -68,7 +68,7 @@ class ProfileHeaderView: UIView {
             nameLabel.text = user.name ?? user.username ?? "Amazing Voter"
             bioLabel.text = user.bio
             locationLabel.text = user.locationName
-            locationLabel.sizeToFit()
+           // locationLabel.sizeToFit()
     
             followersButton.setTitle("\(user.followers ?? 0)", for: UIControlState())
             followingButton.setTitle("\(user.following ?? 0)", for: UIControlState())

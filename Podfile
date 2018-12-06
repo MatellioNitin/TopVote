@@ -6,6 +6,7 @@ target 'Topvote' do
 	pod 'Moya', '~> 11.0'
 	pod 'FacebookCore'
     	pod 'FBSDKLoginKit'
+    	pod 'FacebookLogin'
 	pod 'FBSDKShareKit'
  	pod "Device"
     	pod 'AlamofireImage', '~> 3.3'
@@ -21,6 +22,10 @@ target 'Topvote' do
  	pod 'Branch'
 	pod 'Fabric'
 	pod 'Crashlytics'
+  	pod 'OneSignal'
+	pod 'CommonCryptoModule'
+
+
 
   use_frameworks!
 

@@ -42,6 +42,13 @@ final class Survey: Model {
     var byText: String?
 
     var description: String?
+    
+    var shareText: String?
+    
+    var deepUrl: String?
+    
+    var isFilled:Bool? = false
+
 
 
     /// The provider closure used by `moya` for default authorization headers used in requests against the api.

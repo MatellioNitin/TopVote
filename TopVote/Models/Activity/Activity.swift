@@ -96,7 +96,7 @@ final class  Activity: Model {
                     if let userName = account?.username ?? account?.name {
                         string = NSMutableAttributedString(string: userName, attributes: userNameAttributes)
                     }
-                    string.append(NSMutableAttributedString(string: " entryFlagOn", attributes: detailAttributes))
+                    string.append(NSMutableAttributedString(string: " flaged for your entry", attributes: detailAttributes))
                     break
                     
                     
@@ -188,7 +188,7 @@ final class  Activity: Model {
                     if let userName = account?.username ?? account?.name {
                         string = NSMutableAttributedString(string: userName, attributes: userNameAttributes)
                     }
-                    string.append(NSMutableAttributedString(string: " entryFlagOn ", attributes: detailAttributes))
+                    string.append(NSMutableAttributedString(string: " flaged for ", attributes: detailAttributes))
                     if let entryUserName = entry?.account?.username ?? entry?.account?.name {
                         let aString = NSMutableAttributedString(string: entryUserName, attributes: userNameAttributes)
                         string.append(aString)

@@ -16,7 +16,7 @@ protocol EntryTableViewCellDelegate {
     func showUser(_ user: Account)
     func playMedia(_ cell: EntryTableViewCell)
     func shareEntry(_ entry: Entry)
-    func voteEntry(_ cell: EntryTableViewCell, entry: Entry)
+    func voteEntry(_ cell: EntryTableViewCell, entry: Entry, isUnVote:Bool)
     func commentEntry(_ entry: Entry)
     func moreEntry(_ entry: Entry)
 }
@@ -28,6 +28,8 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var commentButton: RoundedButton?
     @IBOutlet weak var voteButton: RoundedButton?
     
+    @IBOutlet weak var commentLeading: NSLayoutConstraint!
+    @IBOutlet weak var commentWidth: NSLayoutConstraint!
     @IBOutlet weak var innerContentView: UIView?
     @IBOutlet weak var timeLabel: UILabel?
     @IBOutlet weak var captionButton: UIButton?
@@ -43,6 +45,10 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var textTypeLabel: UILabel?
 
     private var dateFormatter: DateFormatter?
+    
+    @IBOutlet weak var voteButtonWidth: NSLayoutConstraint?
+    @IBOutlet weak var voteButtonLeading: NSLayoutConstraint?
+    
     
     var delegate: EntryTableViewCellDelegate?
     
@@ -103,7 +109,7 @@ class EntryTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureWithEntry(_ entry: Entry, compact: Bool) {
+    func configureWithEntry(_ entry: Entry, compact: Bool, isComeFromProfile:Bool = false, selectedTab:Int) {
         self.layoutSubviews()
         
         self.entry = entry
@@ -140,9 +146,33 @@ class EntryTableViewCell: UITableViewCell {
                 }
             }
         }
+      //  if(AccountManager.session?.account?._id == entry.account?._id){
+//        }
+//        else
+//        {
+//            shareButton?.isHidden = true
+//        }
+        if(selectedTab == 2){
+            shareButton?.isHidden = true
+
+        }
+        else
+        {
+            shareButton?.isHidden = false
+
+        }
+        
         
         captionButton?.setTitle(entry.title, for: .normal)
-        competitionLabel?.text = entry.competition?.title
+     
+        if(isComeFromProfile && entry.competition == nil){
+            competitionLabel?.text = entry.privateCompetition?.title
+        }
+        else
+        {
+            competitionLabel?.text = entry.competition?.title
+
+        }
         refreshVotes()
     }
     
@@ -176,7 +206,7 @@ class EntryTableViewCell: UITableViewCell {
                 subButton.setImage(starImageForSlot(subButton.tag, averageVote: averageVote), forState: .Normal)
             }
         }*/
-        voteButton?.isEnabled = true
+        //voteButton?.isEnabled = true
         voteButton?.isSelected = entry.hasVoted ?? false
         if let valueVotes = entry.valueVotes {
             totalVotesLabel?.text = "\(valueVotes) vote\(valueVotes == 0 || valueVotes > 1 ? "s" : "")"
@@ -211,7 +241,15 @@ class EntryTableViewCell: UITableViewCell {
             return
         }
         if (sender.state == UIGestureRecognizerState.began) {
-            self.delegate?.voteEntry(self, entry:entry)
+            
+            if(entry.hasVoted != true){
+                // self.voteButton?.isEnabled = false
+                self.delegate?.voteEntry(self, entry:entry, isUnVote:false)
+            }
+            else
+            {
+                self.delegate?.voteEntry(self, entry:entry, isUnVote:true)
+            }
         }
     }
     
@@ -221,9 +259,18 @@ class EntryTableViewCell: UITableViewCell {
         }
         
         if(entry.hasVoted != true){
-            self.voteButton?.isEnabled = false
-            self.delegate?.voteEntry(self, entry:entry)
+           // self.voteButton?.isEnabled = false
+            self.delegate?.voteEntry(self, entry:entry, isUnVote:false)
+            
         }
+        else
+        {
+           self.delegate?.voteEntry(self, entry:entry, isUnVote:true)
+            
+        }
+        
+        
+        
     }
     
     @IBAction func shareButtonPressed(_ sender: AnyObject) {

@@ -54,6 +54,11 @@ final class Competition: Model {
     var ownerId: String?
     
     var sType: String?
+    
+    var shareText: String?
+    
+    var autoApprove: Int? = 0
+
 
     
 

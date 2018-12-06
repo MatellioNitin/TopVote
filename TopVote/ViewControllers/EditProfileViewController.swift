@@ -88,13 +88,20 @@ class EditProfileViewController: KeyboardScrollViewController {
     
     @IBAction func logOutTapped(_ sender: AnyObject?) {
 
+    UtilityManager.subscriptionUnsubscriptionNotification(isSubscribe: false)
+
+        
+        
         AccountManager.session?.account?.logout(error: { (errorMessage) in
             DispatchQueue.main.async {
                 self.showErrorAlert(errorMessage: errorMessage)
             }
         }, completion: {
             DispatchQueue.main.async {
-                AccountManager.clearSession()
+           
+            AccountManager.clearSession()
+
+
                 self.dismissToSplash()
             }
         })
@@ -201,11 +208,13 @@ class EditProfileViewController: KeyboardScrollViewController {
         })
     }
     
-    @IBAction func categoryAction(_ sender: Any) {
-        if let vc = storyboard?.instantiateViewController(withIdentifier: "CategoryVC") as? CategoryVC {
-            
-            navigationController?.pushViewController(vc, animated: true)
-        }
+    @IBAction func backAction(_ sender: Any) {
+        
+        self.navigationController?.popViewController(animated: true)
+//        if let vc = storyboard?.instantiateViewController(withIdentifier: "CategoryVC") as? CategoryVC {
+//
+//            navigationController?.pushViewController(vc, animated: true)
+//        }
         
     }
     @IBAction func save(_ sender: AnyObject) {
@@ -241,6 +250,7 @@ class EditProfileViewController: KeyboardScrollViewController {
             })
         }
     }
+    
     /*
     // MARK: - Navigation
 

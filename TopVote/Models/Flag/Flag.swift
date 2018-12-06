@@ -29,11 +29,9 @@ final class Flag: Model {
     
     var privateCompetition: Int?
 
-    
-
-    
     var participated: Bool?
 
-    
+    var value: Int?
+
     
 }

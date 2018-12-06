@@ -149,7 +149,7 @@ class LoggedOutViewController: KeyboardScrollViewController {
     
     @IBAction func facebookTapped(_ sender: UIButton) {
         let permissions: [ReadPermission] = [ReadPermission.publicProfile, ReadPermission.email]
-        sender.isEnabled = false
+        //sender.isEnabled = false
         let fbLoginManager = LoginManager()
         fbLoginManager.logOut()
         fbLoginManager.logIn(readPermissions: permissions, viewController: self) { (loginResult) in
@@ -162,7 +162,7 @@ class LoggedOutViewController: KeyboardScrollViewController {
             case .cancelled:
                 break
             case .failed(_):
-                sender.isEnabled = true
+                //sender.isEnabled = true
                 self.showErrorAlert(errorMessage: "There was a problem signing in with Facebook.")
                 break
             }
@@ -170,7 +170,7 @@ class LoggedOutViewController: KeyboardScrollViewController {
     }
     
     @IBAction func twitterTapped(_ sender: UIButton) {
-        sender.isEnabled = false
+      //  sender.isEnabled = false
 //        PFTwitterUtils.logIn { (user, error) in
 //            if let error = error {
 //                sender.isEnabled = true
@@ -211,7 +211,6 @@ class LoggedOutViewController: KeyboardScrollViewController {
                         params["email"] = ""   }
                     else
                     {   params["email"] = fbResponse["email"] }
-                    
                     
                     if let picture = fbResponse["picture"] as? [String: Any] {
                         if let data = picture["data"] as? [String: Any] {
@@ -298,6 +297,7 @@ class LoggedOutViewController: KeyboardScrollViewController {
         Account.login(params: params, error: { (errorMessage) in
             self.showErrorAlert(errorMessage: errorMessage)
         }) { (account) in
+            appDelegate.registerNotification()
             self.dismiss(animated: true, completion: nil)
         }
     }

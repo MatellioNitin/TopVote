@@ -56,8 +56,13 @@ class AwardedEntryTableViewCell: UITableViewCell {
             }
         }
         
-        if let giftCardURL = entry.competition?.giftCardURL {
+        if entry.rank == 1 && (entry.competition?.giftCardURL != nil && entry.competition?.giftCardURL != "")
+        {
             giftLabel.isHidden = false
+        }
+        else
+        {
+            giftLabel.isHidden = true
         }
 
         if let date = entry.createdAt {

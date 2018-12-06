@@ -54,7 +54,7 @@
                                             <constraint firstAttribute="height" constant="21" id="mmM-sB-8qH"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="11"/>
-                                        <color key="textColor" red="0.45098039220000002" green="0.2666666667" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" red="0.37254901960784315" green="0.16862745098039217" blue="0.45490196078431372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="Time" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TDT-Yz-7cU" customClass="TVLabel" customModule="Topvote" customModuleProvider="target">
@@ -110,10 +110,10 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yod-Mk-jal">
-                                        <rect key="frame" x="8" y="364" width="24" height="23"/>
+                                        <rect key="frame" x="8" y="364" width="26" height="26"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="24" id="L9Y-c3-oA1"/>
-                                            <constraint firstAttribute="height" constant="23" id="YhT-KA-vHQ"/>
+                                            <constraint firstAttribute="width" constant="26" id="L9Y-c3-oA1"/>
+                                            <constraint firstAttribute="height" constant="26" id="YhT-KA-vHQ"/>
                                         </constraints>
                                         <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
                                         <state key="normal" image="button-icon-star"/>
@@ -122,11 +122,11 @@
                                             <action selector="voteButtonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="JFk-Aw-pnP"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ett-ea-6r4">
-                                        <rect key="frame" x="42" y="365" width="24" height="23"/>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ett-ea-6r4">
+                                        <rect key="frame" x="34" y="365" width="0.0" height="26"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="24" id="9Ya-oe-pId"/>
-                                            <constraint firstAttribute="height" constant="23" id="Gvg-09-v7T"/>
+                                            <constraint firstAttribute="width" id="9Ya-oe-pId"/>
+                                            <constraint firstAttribute="height" constant="26" id="Gvg-09-v7T"/>
                                         </constraints>
                                         <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
                                         <state key="normal" image="button-icon-comment">
@@ -137,10 +137,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KxA-uY-kMZ">
-                                        <rect key="frame" x="79" y="364" width="23" height="24"/>
+                                        <rect key="frame" x="44" y="364" width="26" height="26"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="23" id="EgL-9Z-V83"/>
-                                            <constraint firstAttribute="height" constant="24" id="PID-ML-B7i"/>
+                                            <constraint firstAttribute="width" constant="26" id="EgL-9Z-V83"/>
+                                            <constraint firstAttribute="height" constant="26" id="PID-ML-B7i"/>
                                         </constraints>
                                         <inset key="contentEdgeInsets" minX="2" minY="0.0" maxX="2" maxY="4"/>
                                         <state key="normal" image="button-icon-share">
@@ -184,13 +184,13 @@
                                     <constraint firstAttribute="trailing" secondItem="9h8-yf-Vru" secondAttribute="trailing" id="MGJ-QU-6uE"/>
                                     <constraint firstItem="9T6-6E-crt" firstAttribute="leading" secondItem="ZL2-t7-efw" secondAttribute="trailing" constant="10" id="NlN-XE-YOA"/>
                                     <constraint firstItem="9h8-yf-Vru" firstAttribute="top" secondItem="ZL2-t7-efw" secondAttribute="bottom" constant="8" id="Np1-kN-64F"/>
-                                    <constraint firstItem="KxA-uY-kMZ" firstAttribute="leading" secondItem="ett-ea-6r4" secondAttribute="trailing" constant="13" id="RtP-V7-Yga"/>
+                                    <constraint firstItem="ett-ea-6r4" firstAttribute="leading" secondItem="Yod-Mk-jal" secondAttribute="trailing" id="ROP-Gk-fph"/>
+                                    <constraint firstItem="KxA-uY-kMZ" firstAttribute="leading" secondItem="ett-ea-6r4" secondAttribute="trailing" constant="10" id="RtP-V7-Yga"/>
                                     <constraint firstItem="TDT-Yz-7cU" firstAttribute="top" secondItem="XqI-iK-0CC" secondAttribute="top" constant="17" id="Rtl-Ut-D0T"/>
                                     <constraint firstAttribute="trailing" secondItem="iHy-qL-dTb" secondAttribute="trailing" constant="8" id="S8L-Lv-SqS"/>
                                     <constraint firstItem="9h8-yf-Vru" firstAttribute="leading" secondItem="XqI-iK-0CC" secondAttribute="leading" id="Sfr-N9-okr"/>
                                     <constraint firstItem="KxA-uY-kMZ" firstAttribute="top" secondItem="9h8-yf-Vru" secondAttribute="bottom" constant="8" id="Vc4-xw-LLu"/>
                                     <constraint firstItem="JpZ-UU-AZc" firstAttribute="leading" secondItem="XqI-iK-0CC" secondAttribute="leading" constant="8" id="Wvx-8E-GQT"/>
-                                    <constraint firstItem="ett-ea-6r4" firstAttribute="leading" secondItem="Yod-Mk-jal" secondAttribute="trailing" constant="10" id="buI-ou-lmu"/>
                                     <constraint firstItem="iHy-qL-dTb" firstAttribute="top" secondItem="9h8-yf-Vru" secondAttribute="bottom" constant="14" id="e7I-uj-sFx"/>
                                     <constraint firstItem="P6E-sK-0am" firstAttribute="leading" secondItem="ZL2-t7-efw" secondAttribute="trailing" constant="10" id="gnd-15-eE6"/>
                                     <constraint firstItem="P6E-sK-0am" firstAttribute="top" secondItem="XqI-iK-0CC" secondAttribute="top" constant="27" id="ny2-VT-s2V"/>
@@ -222,6 +222,8 @@
             <connections>
                 <outlet property="captionButton" destination="qPX-cl-c21" id="R15-91-qVM"/>
                 <outlet property="commentButton" destination="ett-ea-6r4" id="U5S-Tu-fHc"/>
+                <outlet property="commentLeading" destination="ROP-Gk-fph" id="nAu-ZM-AHP"/>
+                <outlet property="commentWidth" destination="9Ya-oe-pId" id="BY8-TT-Q9K"/>
                 <outlet property="entryImageView" destination="Qc0-Qb-1xa" id="b3u-T8-hMR"/>
                 <outlet property="locationLabel" destination="P6E-sK-0am" id="RGo-EP-xIq"/>
                 <outlet property="mediaView" destination="9h8-yf-Vru" id="6P7-Xf-6lb"/>
@@ -232,6 +234,8 @@
                 <outlet property="userImageView" destination="ZL2-t7-efw" id="bvr-9B-LZr"/>
                 <outlet property="userNameLabel" destination="9T6-6E-crt" id="tXy-wA-LJN"/>
                 <outlet property="voteButton" destination="Yod-Mk-jal" id="Y7u-Wj-wRl"/>
+                <outlet property="voteButtonLeading" destination="Heq-gt-iUf" id="Dcu-s4-H6h"/>
+                <outlet property="voteButtonWidth" destination="L9Y-c3-oA1" id="NHh-pn-ayl"/>
             </connections>
             <point key="canvasLocation" x="-67" y="21"/>
         </tableViewCell>

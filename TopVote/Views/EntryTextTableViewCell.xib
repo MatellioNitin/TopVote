@@ -21,7 +21,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="200"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="199.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRx-yr-Z7d">
@@ -74,10 +74,10 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yod-Mk-jal">
-                                        <rect key="frame" x="8" y="95" width="24" height="23"/>
+                                        <rect key="frame" x="8" y="95" width="26" height="26"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="24" id="L9Y-c3-oA1"/>
-                                            <constraint firstAttribute="height" constant="23" id="YhT-KA-vHQ"/>
+                                            <constraint firstAttribute="width" constant="26" id="L9Y-c3-oA1"/>
+                                            <constraint firstAttribute="height" constant="26" id="YhT-KA-vHQ"/>
                                         </constraints>
                                         <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
                                         <state key="normal" image="button-icon-star"/>
@@ -86,11 +86,11 @@
                                             <action selector="voteButtonClicked:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="JFk-Aw-pnP"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ett-ea-6r4">
-                                        <rect key="frame" x="42" y="95" width="24" height="23"/>
+                                    <button hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ett-ea-6r4">
+                                        <rect key="frame" x="34" y="95" width="0.0" height="26"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="24" id="9Ya-oe-pId"/>
-                                            <constraint firstAttribute="height" constant="23" id="Gvg-09-v7T"/>
+                                            <constraint firstAttribute="width" placeholder="YES" id="9Ya-oe-pId"/>
+                                            <constraint firstAttribute="height" constant="26" id="Gvg-09-v7T"/>
                                         </constraints>
                                         <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
                                         <state key="normal" image="button-icon-comment">
@@ -101,10 +101,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KxA-uY-kMZ">
-                                        <rect key="frame" x="79" y="95" width="23" height="24"/>
+                                        <rect key="frame" x="44" y="95" width="26" height="26"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="23" id="EgL-9Z-V83"/>
-                                            <constraint firstAttribute="height" constant="24" id="PID-ML-B7i"/>
+                                            <constraint firstAttribute="width" constant="26" id="EgL-9Z-V83"/>
+                                            <constraint firstAttribute="height" constant="26" id="PID-ML-B7i"/>
                                         </constraints>
                                         <inset key="contentEdgeInsets" minX="2" minY="0.0" maxX="2" maxY="4"/>
                                         <state key="normal" image="button-icon-share">
@@ -115,7 +115,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JpZ-UU-AZc" customClass="TVLabel" customModule="Topvote" customModuleProvider="target">
-                                        <rect key="frame" x="8" y="128" width="92" height="15"/>
+                                        <rect key="frame" x="8" y="131" width="92" height="15"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="15" id="Rjf-vB-a8c"/>
                                             <constraint firstAttribute="width" constant="92" id="e6r-BW-fDP"/>
@@ -148,11 +148,11 @@
                                     <constraint firstItem="Yod-Mk-jal" firstAttribute="leading" secondItem="XqI-iK-0CC" secondAttribute="leading" constant="8" id="Heq-gt-iUf"/>
                                     <constraint firstItem="KxA-uY-kMZ" firstAttribute="top" secondItem="jhe-3h-R6D" secondAttribute="bottom" constant="15" id="N61-LP-kFa"/>
                                     <constraint firstItem="9T6-6E-crt" firstAttribute="leading" secondItem="ZL2-t7-efw" secondAttribute="trailing" constant="10" id="NlN-XE-YOA"/>
-                                    <constraint firstItem="KxA-uY-kMZ" firstAttribute="leading" secondItem="ett-ea-6r4" secondAttribute="trailing" constant="13" id="RtP-V7-Yga"/>
+                                    <constraint firstItem="KxA-uY-kMZ" firstAttribute="leading" secondItem="ett-ea-6r4" secondAttribute="trailing" constant="10" id="RtP-V7-Yga"/>
                                     <constraint firstItem="TDT-Yz-7cU" firstAttribute="top" secondItem="XqI-iK-0CC" secondAttribute="top" constant="17" id="Rtl-Ut-D0T"/>
                                     <constraint firstAttribute="trailing" secondItem="iHy-qL-dTb" secondAttribute="trailing" constant="8" id="S8L-Lv-SqS"/>
                                     <constraint firstItem="JpZ-UU-AZc" firstAttribute="leading" secondItem="XqI-iK-0CC" secondAttribute="leading" constant="8" id="Wvx-8E-GQT"/>
-                                    <constraint firstItem="ett-ea-6r4" firstAttribute="leading" secondItem="Yod-Mk-jal" secondAttribute="trailing" constant="10" id="buI-ou-lmu"/>
+                                    <constraint firstItem="ett-ea-6r4" firstAttribute="leading" secondItem="Yod-Mk-jal" secondAttribute="trailing" id="anj-e4-blk"/>
                                     <constraint firstItem="jhe-3h-R6D" firstAttribute="top" secondItem="ZL2-t7-efw" secondAttribute="bottom" constant="15" id="gTE-er-py9"/>
                                     <constraint firstItem="P6E-sK-0am" firstAttribute="leading" secondItem="ZL2-t7-efw" secondAttribute="trailing" constant="10" id="gnd-15-eE6"/>
                                     <constraint firstItem="Yod-Mk-jal" firstAttribute="top" secondItem="jhe-3h-R6D" secondAttribute="bottom" constant="15" id="jjG-Yq-h5a"/>
@@ -194,6 +194,8 @@
                 <outlet property="userImageView" destination="ZL2-t7-efw" id="bvr-9B-LZr"/>
                 <outlet property="userNameLabel" destination="9T6-6E-crt" id="tXy-wA-LJN"/>
                 <outlet property="voteButton" destination="Yod-Mk-jal" id="Y7u-Wj-wRl"/>
+                <outlet property="voteButtonLeading" destination="Heq-gt-iUf" id="56a-kq-bOw"/>
+                <outlet property="voteButtonWidth" destination="L9Y-c3-oA1" id="ZL9-JN-zjH"/>
             </connections>
             <point key="canvasLocation" x="-67" y="21"/>
         </tableViewCell>

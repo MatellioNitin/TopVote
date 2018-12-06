@@ -72,6 +72,15 @@ class UtilityManager: NSObject {
         let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
         return emailPredicate.evaluate(with: enteredEmail)
     }
+    
+    class func subscriptionUnsubscriptionNotification(isSubscribe:Bool){
+        
+        print("subscriptionUnsubscriptionNotification:")
+
+        Account.changeSubscriptionForNotifications(subscribe: isSubscribe, error: { (errorMessage) in
+        print("subscriptionUnsubscriptionNotification::error::\(errorMessage)")
+        }, completion: nil)
+    }
 }
 
 extension UIView {

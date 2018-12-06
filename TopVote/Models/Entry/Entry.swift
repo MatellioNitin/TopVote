@@ -18,7 +18,6 @@ final class Entry: Model, Hashable {
     }
     
     // MARK: * Properties
-    
     var _id: String?
     
     var createdAt: Date?
@@ -28,6 +27,8 @@ final class Entry: Model, Hashable {
     var endDate: Date?
     
     var competition: Competition?
+    
+    var privateCompetition: PCompitionCreate?
     
     var account: Account?
     
@@ -57,6 +58,12 @@ final class Entry: Model, Hashable {
     
     var hasVoted: Bool?
     
+    var value: String?
+    
+    var deepUrl: String?
+    
+    var shareText: String?
+
     var awardImage: UIImage? {
         if let rank = rank {
             if (rank == 1) {

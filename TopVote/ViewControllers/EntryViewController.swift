@@ -70,8 +70,13 @@ class EntryViewController: VideoPlayerViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        loadEntry()
+//        if(isComeFromDeepUrl){
+//            loadSingleEntry()
+//        }
+//        else
+//        {
+            loadEntry()
+     //   }
         // self.navigationController?.navigationBar.topItem?.title = ""
 
         tableView.register(UINib(nibName: "CommentTableViewCell", bundle: nil), forCellReuseIdentifier: "CommentCell")
@@ -93,6 +98,17 @@ class EntryViewController: VideoPlayerViewController {
 //            })
         }
     }
+    
+    func loadSingleEntry() {
+        if let entryId = entryId {
+            Entry.getSingleEntry(entryId: entryId, error: { (errorMessage) in
+                
+            }, completion: { (entry) in
+                self.entry = entry
+            })
+        }
+    }
+    
     
     func refreshView() {
         if let entry = entry {
@@ -207,8 +223,12 @@ class EntryViewController: VideoPlayerViewController {
         guard let url = entry.shareURL else {
             return
         }
-        let textToShare = "Check out this awesome entry on TopVote!"
-        let objectsToShare = [textToShare, url] as [Any]
+        //let textToShare = "Check out this awesome entry on TopVote!"
+       // let textToShare = entry.byImageUri
+        let textToShare = UIImage(named:"icon_back")
+        print("shareEntryshareEntry")
+        
+        let objectsToShare = [textToShare!] as [Any]
         let activityViewController = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         activityViewController.completionWithItemsHandler = {
             (activity, success, items, error) in
@@ -259,6 +279,8 @@ extension EntryViewController: UITableViewDataSource, UITableViewDelegate {
             return commentCell(indexPath, comment: comment)
         } else {
             return addCommentCell(indexPath)
+            
+            
         }
     }
     

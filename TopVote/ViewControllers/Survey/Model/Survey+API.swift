@@ -12,6 +12,9 @@ import Moya
 // MARK: - Compeition / API
 extension Survey {
     enum API {
+        
+        case getSurveyDeeplink(getSurveyId: String)
+
         case getSurvey(getSurveyId: String)
         
         case setSurvey(queryParams: [String: Any]?)
@@ -25,6 +28,8 @@ extension Survey.API: TargetType {
     
     public var path: String {
         switch self {
+        case let .getSurveyDeeplink(surveyId):
+            return "/surveys/\(surveyId)/deeplink"
         case let .getSurvey(surveyId):
             return "/surveys/sqo/\(surveyId)"
         case .setSurvey(_):
@@ -68,7 +73,7 @@ extension Survey.API: TargetType {
         switch self {
         case let .setSurvey(queryParams):
             return .requestParameters(parameters: queryParams!, encoding: JSONEncoding.default)
-        case .getSurvey:
+        case .getSurvey, .getSurveyDeeplink:
             return .requestPlain
         }
     }

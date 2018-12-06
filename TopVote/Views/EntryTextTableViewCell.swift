@@ -15,13 +15,15 @@ import AlamofireImage
 protocol EntryTextTableViewCellDelegate {
     func showUser(_ user: Account)
     func shareEntry(_ entry: Entry)
-    func voteEntry(_ cell: EntryTextTableViewCell, entry: Entry)
+    func voteEntry(_ cell: EntryTextTableViewCell, entry: Entry, isUnVote:Bool)
     func commentEntry(_ entry: Entry)
     func moreEntry(_ entry: Entry)
 }
 
 class EntryTextTableViewCell: UITableViewCell {
     
+//    @IBOutlet weak var commentLeading: NSLayoutConstraint!
+//    @IBOutlet weak var commentWidth: NSLayoutConstraint!
     @IBOutlet weak var moreButton: RoundedButton?
     @IBOutlet weak var shareButton: RoundedButton?
     @IBOutlet weak var commentButton: RoundedButton?
@@ -35,7 +37,13 @@ class EntryTextTableViewCell: UITableViewCell {
     @IBOutlet weak var totalVotesLabel: UILabel?
     @IBOutlet weak var competitionLabel: UILabel?
     @IBOutlet weak var entryImageView: RoundedImageView?
+    
+    @IBOutlet weak var voteButtonWidth: NSLayoutConstraint?
+    @IBOutlet weak var voteButtonLeading: NSLayoutConstraint?
 
+
+    
+    
     @IBOutlet weak var textTypeLabel: UILabel?
 
     private var dateFormatter: DateFormatter?
@@ -96,7 +104,7 @@ class EntryTextTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureWithEntry(_ entry: Entry, compact: Bool) {
+    func configureWithEntry(_ entry: Entry, compact: Bool, isComeFromProfile:Bool = false) {
         self.layoutSubviews()
         
         self.entry = entry
@@ -122,6 +130,7 @@ class EntryTextTableViewCell: UITableViewCell {
             }
       //  }
         
+        
         userNameLabel?.text = entry.account?.username ?? entry.account?.name
         locationLabel?.text = entry.locationName ?? "Not provided"
         if let date = entry.createdAt {
@@ -133,9 +142,25 @@ class EntryTextTableViewCell: UITableViewCell {
                 }
             }
         }
-        
+       // if(AccountManager.session?.account?._id == entry.account?._id){
+         //   shareButton?.isHidden = false
+       // }
+      //  else
+       // {
+         //   shareButton?.isHidden = true
+       // }
       //  captionButton?.setTitle(entry.title, for: .normal)
-        competitionLabel?.text = entry.competition?.title
+        print("shareButtn6")
+
+        if(isComeFromProfile && entry.competition == nil){
+            competitionLabel?.text = entry.privateCompetition?.title
+        }
+        else
+        {
+            competitionLabel?.text = entry.competition?.title
+            
+        }
+
         refreshVotes()
     }
     
@@ -169,7 +194,7 @@ class EntryTextTableViewCell: UITableViewCell {
                 subButton.setImage(starImageForSlot(subButton.tag, averageVote: averageVote), forState: .Normal)
             }
         }*/
-        voteButton?.isEnabled = true
+      //  voteButton?.isEnabled = true
         voteButton?.isSelected = entry.hasVoted ?? false
         if let valueVotes = entry.valueVotes {
             totalVotesLabel?.text = "\(valueVotes) vote\(valueVotes == 0 || valueVotes > 1 ? "s" : "")"
@@ -204,8 +229,16 @@ class EntryTextTableViewCell: UITableViewCell {
             return
         }
         if (sender.state == UIGestureRecognizerState.began) {
-            self.delegate?.voteEntry(self, entry:entry)
+          if(entry.hasVoted != true){
+            self.delegate?.voteEntry(self, entry:entry, isUnVote:false)
+            }
+            else
+            {
+                self.delegate?.voteEntry(self, entry:entry, isUnVote:true)
+
+            }
         }
+        
     }
     
     @IBAction func voteButtonClicked(_ sender: AnyObject?) {
@@ -215,8 +248,13 @@ class EntryTextTableViewCell: UITableViewCell {
         
         // nikhil
         if(entry.hasVoted != true){
-            self.voteButton?.isEnabled = false
-            self.delegate?.voteEntry(self, entry:entry)
+           // self.voteButton?.isEnabled = false
+            self.delegate?.voteEntry(self, entry:entry, isUnVote:false)
+        }
+        else
+        {
+            self.delegate?.voteEntry(self, entry:entry, isUnVote:true)
+
         }
         
     }

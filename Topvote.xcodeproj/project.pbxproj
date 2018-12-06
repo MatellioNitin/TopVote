@@ -82,6 +82,7 @@
 		90DE99B01D1599D400AA04D0 /* MediaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DE99AF1D1599D400AA04D0 /* MediaView.swift */; };
 		90DE99B21D15A24700AA04D0 /* StatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DE99B11D15A24700AA04D0 /* StatTableViewCell.swift */; };
 		90DE99B41D15A25B00AA04D0 /* StatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90DE99B31D15A25B00AA04D0 /* StatTableViewCell.xib */; };
+		945945F3219D47DD00AE9020 /* WebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945945F2219D47DC00AE9020 /* WebViewVC.swift */; };
 		AD0B831F2146467D0041DCD1 /* Poll+Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0B831E2146467C0041DCD1 /* Poll+Options.swift */; };
 		AD5D796921343CAF00807DA3 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD5D796821343CAF00807DA3 /* Config.plist */; };
 		AD757BEE214637A700D77EBC /* Poll+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD757BE2214637A600D77EBC /* Poll+API.swift */; };
@@ -319,6 +320,7 @@
 		90DE99B11D15A24700AA04D0 /* StatTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatTableViewCell.swift; sourceTree = "<group>"; };
 		90DE99B31D15A25B00AA04D0 /* StatTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatTableViewCell.xib; sourceTree = "<group>"; };
 		90F6B1471DCA54A00087B908 /* TopVote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TopVote.entitlements; sourceTree = "<group>"; };
+		945945F2219D47DC00AE9020 /* WebViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewVC.swift; sourceTree = "<group>"; };
 		AD0B831E2146467C0041DCD1 /* Poll+Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Poll+Options.swift"; sourceTree = "<group>"; };
 		AD4130C321402BDB00C61D43 /* Topvote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Topvote.entitlements; path = Topvote/Topvote.entitlements; sourceTree = "<group>"; };
 		AD5D796821343CAF00807DA3 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
@@ -642,12 +644,12 @@
 		900896391C85EC96008CD964 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				900896751C86162C008CD964 /* Login */,
 				AD757BE0214637A600D77EBC /* Poll */,
 				AD757BE6214637A700D77EBC /* Survey */,
 				ADAA816A2136BE0F002DC747 /* CreateCompitition */,
 				ADA1FAF221303A65004D2657 /* Categories */,
 				45FDDC201E2D853900FDE98D /* Util */,
-				900896751C86162C008CD964 /* Login */,
 				90D9B8051CBC042C000E2420 /* Activity */,
 				9008967F1C866555008CD964 /* Competitions */,
 				9008967E1C866542008CD964 /* Profile */,
@@ -676,6 +678,7 @@
 				900896731C8610E4008CD964 /* SplashViewController.swift */,
 				90B7217B1CE1016300EE13AA /* LoggedOutViewController.swift */,
 				4518E7941CCFCE27006953DA /* EmailSignUpViewController.swift */,
+				945945F2219D47DC00AE9020 /* WebViewVC.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -1171,7 +1174,6 @@
 				90938B871C7BA6F50062AE76 /* Resources */,
 				B679B5051F82C9DE00250A5C /* Configuration */,
 				0C2902B67F86819369B681B4 /* [CP] Embed Pods Frameworks */,
-				33A06515077C23155FEACF0A /* [CP] Copy Pods Resources */,
 				ADCE75182126E08E0084D119 /* ShellScript */,
 				AD4130C621402D2500C61D43 /* Embed Frameworks */,
 				ADA9F75321529AE600DD8B24 /* ShellScript */,
@@ -1205,7 +1207,7 @@
 								enabled = 1;
 							};
 							com.apple.Push = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.SafariKeychain = {
 								enabled = 1;
@@ -1309,6 +1311,7 @@
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/Branch/Branch.framework",
+				"${BUILT_PRODUCTS_DIR}/CommonCryptoModule/CommonCryptoModule.framework",
 				"${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework",
 				"${BUILT_PRODUCTS_DIR}/Device/Device.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
@@ -1330,6 +1333,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Branch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CommonCryptoModule.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DZNEmptyDataSet.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Device.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
@@ -1348,21 +1352,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Topvote/Pods-Topvote-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		33A06515077C23155FEACF0A /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Topvote/Pods-Topvote-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ADA9F75321529AE600DD8B24 /* ShellScript */ = {
@@ -1477,6 +1466,7 @@
 				ADAF5BAF213EC18E005EDB09 /* TExtensionManager.swift in Sources */,
 				B679B4EC1F82C79A00250A5C /* String+Additions.swift in Sources */,
 				B6C27A2520A250E200CF80A7 /* AppKeychain+Store.swift in Sources */,
+				945945F3219D47DD00AE9020 /* WebViewVC.swift in Sources */,
 				AD91DA212135379F004FEC53 /* Category.swift in Sources */,
 				ADAF5BB1213ED7DF005EDB09 /* PrivateCompetitionsViewController.swift in Sources */,
 				B679B5071F82CA7E00250A5C /* Account+Requests.swift in Sources */,
@@ -1694,8 +1684,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "369ac1be-c72e-453a-8600-773188378802";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
+				PROVISIONING_PROFILE = "f347792b-aff0-4777-ad3a-de302fcbd2d8";
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_Adhoc;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1730,8 +1720,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "369ac1be-c72e-453a-8600-773188378802";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
+				PROVISIONING_PROFILE = "f347792b-aff0-4777-ad3a-de302fcbd2d8";
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_Adhoc;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -1820,8 +1810,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "369ac1be-c72e-453a-8600-773188378802";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
+				PROVISIONING_PROFILE = "f347792b-aff0-4777-ad3a-de302fcbd2d8";
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_Adhoc;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1911,8 +1901,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "369ac1be-c72e-453a-8600-773188378802";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
+				PROVISIONING_PROFILE = "f347792b-aff0-4777-ad3a-de302fcbd2d8";
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_Adhoc;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1996,8 +1986,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "369ac1be-c72e-453a-8600-773188378802";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
+				PROVISIONING_PROFILE = "f347792b-aff0-4777-ad3a-de302fcbd2d8";
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_Adhoc;
 				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;

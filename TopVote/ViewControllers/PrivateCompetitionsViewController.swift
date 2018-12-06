@@ -9,7 +9,7 @@ import UIKit
 class HomePrivateViewController: CompetitionsViewController {
     
     override func loadCompetitions() {
-        navigationItem.title = "P2P"
+        navigationItem.title = "PRIVATE"
 
         super.loadCompetitions()
         
@@ -93,9 +93,15 @@ class PrivateCompetitionsViewController: UIViewController, UITableViewDataSource
     }
     
     @IBAction func competitionSuggestionTapped(_ sender: AnyObject) {
-        if let nc = storyboard?.instantiateViewController(withIdentifier: "SubmitIdeaNC") {
-            self.present(nc, animated: true, completion: nil)
+        
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "CreateCompititionVC") as? CreateCompititionVC {
+        
+     self.navigationController?.pushViewController(vc, animated: true)
+    
         }
+//        if let nc = storyboard?.instantiateViewController(withIdentifier: "SubmitIdeaNC") {
+//            self.present(nc, animated: true, completion: nil)
+//        }
     }
     
     // MARK: - Table view data source

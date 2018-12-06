@@ -41,6 +41,7 @@ class StatTableViewCell: UITableViewCell {
         competitionsWonLabel.text = "\(account.competitionsWon ?? 0)"
         votesReceivedLabel.text = "\(account.votesReceived ?? 0)"
         votesGivenLabel.text = "\(account.votesGiven ?? 0)"
+        
         if let date = account.createdAt {
             dateJoinedLabel.text = dateFormatter.string(from: date)
         }

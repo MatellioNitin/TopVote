@@ -30,7 +30,7 @@ class ActivityTableViewCell: EntryTableViewCell {
     
     func configureWithActivity(_ activity: Activity) {
         if let entry = activity.entry {
-            super.configureWithEntry(entry, compact: true)
+            super.configureWithEntry(entry, compact: true,selectedTab:1)
         }
         if let date = activity.createdAt {
             timeLabel?.text = date.timeAgo

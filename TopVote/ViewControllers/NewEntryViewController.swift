@@ -138,17 +138,15 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
                         newEntry["competition"] = competitionId
                     }
                     
-                    
                     Entry.create(params: newEntry, error: { (errorMessage) in
                         DispatchQueue.main.async {
                             UtilityManager.RemoveHUD()
-
                             self.showErrorAlert(errorMessage: errorMessage)
                         }
                     }, completion: { (entry) in
                         DispatchQueue.main.async {
                             UtilityManager.RemoveHUD()
-
+                            
                             let _ = self.navigationController?.popViewController(animated: true)
                             self.delegate?.didSaveNewEntry(entry)
                         }
@@ -156,15 +154,16 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
                 } else {
                    // UtilityManager.RemoveHUD()
 
-                    
                     self.showErrorAlert(errorMessage: "Use of your location is required to enter. Please allow access in the settings app")
                 }
             }
         }
-        
-        
     }
+    
     func chooseMedia() {
+        print("imagePickerController")
+
+        print(self.competition?.type!)
 
         let alertController = UIAlertController(title: "How would you like to submit?", message: nil, preferredStyle: .actionSheet)
         let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] (alertAction) in
@@ -172,7 +171,10 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
                 let imagePickerController = UIImagePickerController()
                 imagePickerController.sourceType = .camera
                 if let mediaTypes = UIImagePickerController.availableMediaTypes(for: .camera) {
+                    print("imagePickerController")
+
                     if(self?.competition?.type == 0){
+
                          imagePickerController.mediaTypes = [mediaTypes[0]]
                     }
                     else{
@@ -322,8 +324,12 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
                         }, completion: { (entry) in
                             DispatchQueue.main.async {
                                 self.isUploading = false
+                               
+                                
                                 let _ = self.navigationController?.popViewController(animated: true)
+                                if(entry.competition?.autoApprove == 1){
                                 self.delegate?.didSaveNewEntry(entry)
+                                }
                             }
                         })
                     } else {

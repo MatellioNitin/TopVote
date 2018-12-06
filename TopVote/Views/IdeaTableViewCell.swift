@@ -36,13 +36,13 @@ class IdeaTableViewCell: UITableViewCell {
     }
     
     func refreshVotes() {
-        voteButton.isEnabled = true
+       // voteButton.isEnabled = true
         voteButton.isSelected = idea.hasVoted ?? false
         ideaVotesLabel.text = "\(idea.numberOfVotes ?? 0) total votes"
     }
 
     @IBAction func voteTapped(_ sender: AnyObject) {
-        voteButton.isEnabled = false
+        //voteButton.isEnabled = false
         delegate?.voteIdea(self, idea: idea)
     }
 }

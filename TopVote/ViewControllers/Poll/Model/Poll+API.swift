@@ -12,7 +12,7 @@ import Moya
 // MARK: - Compeition / API
 extension Poll {
     enum API {
-        
+        case getPollDeepLink(getPollId: String)
         case getPoll(getPollId: String)
         case setPoll(queryParams: [String: Any]?)
 
@@ -25,6 +25,8 @@ extension Poll.API: TargetType {
     
     public var path: String {
         switch self {
+        case let .getPollDeepLink(getPollId):
+            return "/polls/\(getPollId)/deeplink"
         case let .getPoll(getPollId):
             return "/polls/\(getPollId)"
         case .setPoll(_):
@@ -73,7 +75,7 @@ extension Poll.API: TargetType {
         case let .setPoll(queryParams):
             return .requestParameters(parameters: queryParams!, encoding: JSONEncoding.default)
 
-        case .getPoll:
+        case .getPoll, .getPollDeepLink:
             return .requestPlain
       
         }

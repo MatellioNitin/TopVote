@@ -243,26 +243,28 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
         UIGraphicsEndImageContext()
 
         image = image?.withRenderingMode(.alwaysOriginal)
-        
+//
         for vc in tbvc.childViewControllers {
             if let vc = vc as? UINavigationController {
                 if vc.viewControllers.first is MyProfileViewController {
-                    vc.tabBarItem = UITabBarItem(title: "PROFILE", image: image, selectedImage: image)
-                    
-    if((AccountManager.session?.account?.categories)!.count == 0){
-            let nav = vc.tabBarController?.viewControllers![0] as! UINavigationController
-                    
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
-            if let categoryVC = tbvc.storyboard?.instantiateViewController(withIdentifier: "CategoryVC") {
-                nav.viewControllers.first?.present(categoryVC, animated: false, completion: nil)
-            }
-         }
-           }
+                    vc.tabBarItem = UITabBarItem(title: "Profile", image: image, selectedImage: image)
+
+//    if((AccountManager.session?.account?.categories)!.count == 0){
+//            let nav = vc.tabBarController?.viewControllers![0] as! UINavigationController
+//
+//    DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+//            if let categoryVC = tbvc.storyboard?.instantiateViewController(withIdentifier: "CategoryVC") {
+//                nav.viewControllers.first?.present(categoryVC, animated: false, completion: nil)
+//            }
+//         }
+//
+        
+      //              }
         }
     }
-}
        print("LOGIN")
         
+    }
     }
     
     func setProfileTabBarImage(_ image: UIImage) {

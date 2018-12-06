@@ -17,11 +17,8 @@ class CreateCompititionVC: UIViewController {
 
     var createCompArray = CreateCompititions()
     var pickerArr = [String]()
-    
     var comptitionImage:UIImage?  = nil
-    
     var comptitionImageURL:String?  = ""
-    
     var selectedTxtField = UITextField()
     var selectedButtonIndex:Int = 1  // 1= compition, 2= logo
     let dateFormatter = DateFormatter()
@@ -35,7 +32,6 @@ class CreateCompititionVC: UIViewController {
         picker.dataSource = self
         picker.delegate = self
         pickerDate.addTarget(self, action: #selector(handleDatePicker), for: .valueChanged)
-        pickerDate.minimumDate = Date()
         setListData()
         
     }
@@ -53,15 +49,15 @@ class CreateCompititionVC: UIViewController {
         let obj = CreateCompitition()
         switch i {
         case 0:
-            obj.setData(type: 1, titleStr: "Title", placeHolderStr:"Title", valueStr: "", pickerArrayList: [])
+            obj.setData(type: 1, titleStr: "Name your competition (Best, Haircut, etc.)", placeHolderStr:"Name your competition", valueStr: "", pickerArrayList: [])
         case 1:
-             obj.setData(type: 3, titleStr: "Start Date (UTC) The date/time when the competition will automatically start. UTC is -4 hours of EST.", placeHolderStr:"Start date", valueStr: "", pickerArrayList: [])
+             obj.setData(type: 3, titleStr: "Select start time of competition.", placeHolderStr:"Start date", valueStr: "", pickerArrayList: [])
         case 2:
-           obj.setData(type: 3, titleStr: "End Date (UTC) The date/time when the competition will expire and winners will be chosen. UTC is -4 hours of EST.", placeHolderStr:"End date", valueStr: "", pickerArrayList: [])
+           obj.setData(type: 3, titleStr: "Select end time of competition.", placeHolderStr:"End date", valueStr: "", pickerArrayList: [])
         case 3:
-           obj.setData(type: 1, titleStr: "Text Description text shown on the entries screen.", placeHolderStr:"Text", valueStr: "", pickerArrayList: [])
+           obj.setData(type: 1, titleStr: "Describe your competition for your friends.", placeHolderStr:"Describe your competition for your friends", valueStr: "", pickerArrayList: [])
         case 4:
-          obj.setData(type: 2, titleStr: "Type Acceptable content", placeHolderStr:"Select Type", valueStr: "", pickerArrayList: ["Image","Video", "Text"])
+          obj.setData(type: 2, titleStr: "Select Competition Type.", placeHolderStr:"Select Competition Type", valueStr: "", pickerArrayList: ["Image","Video"])
       
         default:
             print("default")
@@ -298,6 +294,8 @@ class CreateCompititionVC: UIViewController {
     }
     @objc func handleDatePicker(){
         if(self.selectedTxtField.tag > 200){ // Time
+            pickerDate.minimumDate = nil
+
             dateFormatter.dateFormat = "hh:mm a"
 
             let strSet = dateFormatter.string(from: pickerDate.date)
@@ -311,6 +309,7 @@ class CreateCompititionVC: UIViewController {
             
         }
         else{ // Date
+            pickerDate.minimumDate = Date()
             dateFormatter.dateFormat = "MM/dd/yyyy"
 
         let strSet = dateFormatter.string(from: pickerDate.date)
@@ -385,7 +384,7 @@ extension CreateCompititionVC :UITableViewDataSource, UITableViewDelegate {
         case 2, 3, 4:
             return (tableView.frame.width * 150/580)
         default:
-            return (tableView.frame.width * 120/580)
+            return (tableView.frame.width * 160/580)
         }
         
     }
@@ -398,7 +397,7 @@ extension CreateCompititionVC :UITableViewDataSource, UITableViewDelegate {
         case 2, 3, 4:
             return (tableView.frame.width * 150/580)
         default:
-            return (tableView.frame.width * 120/580)
+            return (tableView.frame.width * 160/580)
         }
         
         
@@ -460,6 +459,13 @@ extension CreateCompititionVC :UITableViewDataSource, UITableViewDelegate {
             cell.txtField.tag = indexPath.row - 1
             cell.txtField.delegate = self
             cell.txtField.keyboardType = .default
+            if(indexPath.row == 5){
+                cell.txtField.tintColor = UIColor.white
+            }
+            else
+            {
+                cell.txtField.tintColor = UIColor.black
+            }
             
         }
        

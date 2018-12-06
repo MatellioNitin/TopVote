@@ -32,7 +32,9 @@ class Constants: NSObject {
         }
         
     }
-
+    
+    static let itunesLink = "https://itunes.apple.com/us/app/Topvote/id1364988858?mt=8"
+    
     static let server: Server = .local
     static let appYellowColor = UIColor(red: 208.0/255.0, green: 172.0/255.0, blue: 49.0/255.0, alpha: 1.0)
 

@@ -1,5 +1,5 @@
 //
-//  ConfigPRODUCTION.swift
+//  ConfigDEV.swift
 //  Momus AI
 //
 //  Created by Luke McDonald on 7/31/17.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-private let _enviromentKey = "PRODUCTION"
+private let _enviromentKey = "DEV"
 
 /// The Configuration used throughout application for API specific tasks.
 

@@ -48,7 +48,7 @@ extension Result {
                     message = value["message"] as? String
                     
                     if let mess = message, didNotifySessionExpire == false {
-                        if mess.lowercased().contains("your session has expired.") || mess.lowercased().contains("session token") {
+                        if mess.lowercased().contains("Your session has expired.") || mess.lowercased().contains("your session has expired.") || mess.lowercased().contains("session token") {
                             DispatchQueue.main.async {
                                 
                                 UtilityManager.dismissToSplash()
@@ -94,7 +94,7 @@ extension Result {
                     
                     message = value["message"] as? String
                     if let mess = message {
-                        if mess.lowercased().contains("your session has expired.")  || mess.lowercased().contains("session token") {
+                        if mess.lowercased().contains("Your session has expired.") || mess.lowercased().contains("your session has expired.")  || mess.lowercased().contains("session token") {
                             DispatchQueue.main.async {
                             UtilityManager.dismissToSplash()
 
@@ -137,7 +137,7 @@ extension Result {
                     
                     message = value["message"] as? String
                     if let mess = message, didNotifySessionExpire == false {
-                        if mess.lowercased().contains("your session has expired.")  || mess.lowercased().contains("session token") {
+                        if mess.lowercased().contains("Your session has expired.") || mess.lowercased().contains("your session has expired.")  || mess.lowercased().contains("session token") {
                             DispatchQueue.main.async {
                                 UtilityManager.dismissToSplash()
 
@@ -213,7 +213,7 @@ extension Result {
                     
                     message = value["message"] as? String
                     if let mess = message, didNotifySessionExpire == false {
-                        if mess.lowercased().contains("your session has expired.")  || mess.lowercased().contains("session token") {
+                        if mess.lowercased().contains("Your session has expired.") || mess.lowercased().contains("your session has expired.")  || mess.lowercased().contains("session token") {
                             DispatchQueue.main.async {
                                 UtilityManager.dismissToSplash()
                                 NotificationCenter.default.post(name: Notification.Name.AccountSessionExpired, object: nil)
