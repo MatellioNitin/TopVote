@@ -3,7 +3,6 @@
 // You are hereby granted a non-exclusive, worldwide, royalty-free license to use,
 // copy, modify, and distribute this software in source code or binary form for use
 // in connection with the web services and APIs provided by Facebook.
-//
 // As with any software that integrates with the Facebook platform, your use of
 // this software is subject to the Facebook Developer Principles and Policies
 // [http://developers.facebook.com/policy/]. This copyright notice shall be
@@ -142,7 +141,7 @@ extension SDKSettings {
    */
   public static var enabledLoggingBehaviors: Set<SDKLoggingBehavior> {
     get {
-      let behaviors = FBSDKSettings.loggingBehavior().flatMap { object -> SDKLoggingBehavior? in
+      let behaviors = FBSDKSettings.loggingBehavior().compactMap { object -> SDKLoggingBehavior? in
         if let value = object as? String {
           return SDKLoggingBehavior(sdkStringValue: value)
         }

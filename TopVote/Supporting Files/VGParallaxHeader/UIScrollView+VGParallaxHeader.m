@@ -129,7 +129,7 @@ static void *VGParallaxHeaderObserverContext = &VGParallaxHeaderObserverContext;
         CGFloat height = self.contentOffset.y * -1 + self.parallaxHeader.originalHeight;
         // Im not 100% sure if this will only speed up VGParallaxHeaderModeCenter
         // but on other modes it can be visible. 0.5px
-        if (self.parallaxHeader.mode == VGParallaxHeaderModeCenter) {
+        if (self.parallaxHeader.mode == VGParallaxHeaderModeTop) {
             height = round(height);
         }
         // This is where the magic is happening
@@ -247,16 +247,16 @@ static void *VGParallaxHeaderObserverContext = &VGParallaxHeaderObserverContext;
 - (void)setupContentViewMode
 {
     switch (self.mode) {
-        case VGParallaxHeaderModeFill:
-            [self addContentViewModeFillConstraints];
-            break;
+//        case VGParallaxHeaderModeTop:
+//            [self addContentViewModeFillConstraints];
+//            break;
         case VGParallaxHeaderModeTop:
             [self addContentViewModeTopConstraints];
             break;
         case VGParallaxHeaderModeTopFill:
             [self addContentViewModeTopFillConstraints];
             break;
-        case VGParallaxHeaderModeCenter:
+        case VGParallaxHeaderModeCenterVGParallaxHeaderModeerModeFill:
         default:
             [self addContentViewModeCenterConstraints];
             break;
@@ -275,10 +275,10 @@ static void *VGParallaxHeaderObserverContext = &VGParallaxHeaderObserverContext;
         self.originalTopInset = edgeInsets.top - ((!self.isInsideTableView) ? self.originalHeight : 0);
         
         switch (self.mode) {
-            case VGParallaxHeaderModeFill:
-                self.insetAwarePositionConstraint.constant = self.originalTopInset / 2;
-                self.insetAwareSizeConstraint.constant = -self.originalTopInset;
-                break;
+//            case VGParallaxHeaderModeTopFill:
+//                self.insetAwarePositionConstraint.constant = self.originalTopInset / 2;
+//                self.insetAwareSizeConstraint.constant = -self.originalTopInset;
+//                break;
             case VGParallaxHeaderModeTop:
                 self.insetAwarePositionConstraint.constant = self.originalTopInset;
                 break;
@@ -286,7 +286,7 @@ static void *VGParallaxHeaderObserverContext = &VGParallaxHeaderObserverContext;
                 self.insetAwarePositionConstraint.constant = self.originalTopInset;
                 self.insetAwareSizeConstraint.constant = -self.originalTopInset;
                 break;
-            case VGParallaxHeaderModeCenter:
+            case VGParallaxHeaderModeCenterVGParallaxHeaderModeerModeFill:
             default:
                 self.insetAwarePositionConstraint.constant = self.originalTopInset / 2;
                 break;

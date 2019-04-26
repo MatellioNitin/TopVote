@@ -26,9 +26,6 @@ class CreateCompititionVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-     
-
         picker.dataSource = self
         picker.delegate = self
         pickerDate.addTarget(self, action: #selector(handleDatePicker), for: .valueChanged)
@@ -45,19 +42,19 @@ class CreateCompititionVC: UIViewController {
     }
     
     func setListData(){
-        for i in 0...4{
+        for i in 0...3{
         let obj = CreateCompitition()
         switch i {
         case 0:
-            obj.setData(type: 1, titleStr: "Name your competition (Best, Haircut, etc.)", placeHolderStr:"Name your competition", valueStr: "", pickerArrayList: [])
+            obj.setData(type: 1, titleStr: "Name your competition", placeHolderStr:"For example: Best Haircut", valueStr: "", pickerArrayList: [])
         case 1:
-             obj.setData(type: 3, titleStr: "Select start time of competition.", placeHolderStr:"Start date", valueStr: "", pickerArrayList: [])
+             obj.setData(type: 3, titleStr: "Select start date", placeHolderStr:"Start date", valueStr: "", pickerArrayList: [])
         case 2:
-           obj.setData(type: 3, titleStr: "Select end time of competition.", placeHolderStr:"End date", valueStr: "", pickerArrayList: [])
+           obj.setData(type: 3, titleStr: "Select end date", placeHolderStr:"End date", valueStr: "", pickerArrayList: [])
         case 3:
-           obj.setData(type: 1, titleStr: "Describe your competition for your friends.", placeHolderStr:"Describe your competition for your friends", valueStr: "", pickerArrayList: [])
-        case 4:
-          obj.setData(type: 2, titleStr: "Select Competition Type.", placeHolderStr:"Select Competition Type", valueStr: "", pickerArrayList: ["Image","Video"])
+           obj.setData(type: 1, titleStr: "Describe your competition for your friends", placeHolderStr:"This is a description of your competition", valueStr: "", pickerArrayList: [])
+//        case 4:
+//          obj.setData(type: 2, titleStr: "Select competition entries", placeHolderStr:"Select competition entries", valueStr: "Image & Video", pickerArrayList: ["Image & Video"])
       
         default:
             print("default")
@@ -87,7 +84,7 @@ class CreateCompititionVC: UIViewController {
         
     }
     func isValidForm()-> Bool{
-        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
+        dateFormatter.dateFormat = "MM/dd/yyyy"
 
         if(comptitionImage == nil){
             self.showErrorAlert(errorMessage: "Please select competiton image")
@@ -119,12 +116,15 @@ class CreateCompititionVC: UIViewController {
             self.showErrorAlert(title:"", errorMessage: "Start date can't be greater than to end date")
             return false
         }
-        else if dateFormatter.date(from: createCompArray[1].value!)!.compare(Date()) == .orderedAscending{
+        else if compareDate(date1: dateFormatter.date(from: createCompArray[1].value!)!, date2: Date()){
+
+       // else if dateFormatter.date(from: createCompArray[1].value!)!.compare(Date()) == .orderedAscending{
             self.showErrorAlert(title:"", errorMessage: "Start date can't be less than to current date")
             return false
 
         }
-        else if dateFormatter.date(from: createCompArray[2].value!)!.compare(Date()) == .orderedAscending{
+        else if compareDate(date1: dateFormatter.date(from: createCompArray[2].value!)!, date2: Date()){
+      //  else if dateFormatter.date(from: createCompArray[2].value!)!.compare(Date()) == .orderedAscending{
             self.showErrorAlert(title:"", errorMessage: "End date can't be less than to current date")
             return false
 
@@ -134,58 +134,79 @@ class CreateCompititionVC: UIViewController {
         return false
 
         }
-    else if(createCompArray[4].value?.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
-        self.showErrorAlert(title:"", errorMessage: "Please select competitons type")
-        return false
-
-        }
+//    else if(createCompArray[4].value?.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
+//        self.showErrorAlert(title:"", errorMessage: "Please select competitons type")
+//        return false
+//
+//        }
    
     else
     {
         return true
-
     }
 }
     
+    func compareDate(date1:Date, date2:Date) -> Bool {
+        let order = NSCalendar.current.compare(date1, to: date2, toGranularity: .day)
+        switch order {
+        case .orderedAscending:
+            return true
+        default:
+            return false
+        }
+    }
+    
+//    func localToUTC(date:String) -> String {
+//        // 2018-09-24T12:43
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "MM/dd/yyyy"
+//       // dateFormatter.calendar = NSCalendar.current
+//       // dateFormatter.timeZone = TimeZone.current
+//
+//        let dt = dateFormatter.date(from: date)
+//       // dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+//        dateFormatter.dateFormat = "yyyy-MM-dd\'T\'"
+//
+//        return dateFormatter.string(from: dt!)
+//    } comment by nikhil
+    
+    
     func localToUTC(date:String) -> String {
         // 2018-09-24T12:43
-        
-
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
-       // dateFormatter.calendar = NSCalendar.current
-        dateFormatter.timeZone = TimeZone.current
+         let dateFormatter = DateFormatter()
+         dateFormatter.dateFormat = "MM/dd/yyyyHH:mm:ss"
+         dateFormatter.calendar = NSCalendar.current
+         dateFormatter.timeZone = TimeZone.current
         
         let dt = dateFormatter.date(from: date)
         dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
-        dateFormatter.dateFormat = "yyyy-MM-dd\'T\'HH:mm"
+        dateFormatter.dateFormat = "yyyy-MM-dd\'T\'HH:mm:ss"
         
         return dateFormatter.string(from: dt!)
     }
     
-    
     func submitAPI()  {
         
-      let index = pickerArr.index(of: createCompArray[4].value!)
+     // let index = pickerArr.index(of: createCompArray[4].value!)
         var params = [String: Any]()
         
         
 //        comptitionImageURL = "https://res.cloudinary.com/top-inc/image/upload/v1536164836/i3mpxnqhbytjx0bjyse3.jpg"
         
     //let logoImageURL = "https://res.cloudinary.com/top-inc/image/upload/v1536164851/xubrdgbpxnxaensfjjfm.jpg"
-        let date = localToUTC(date:createCompArray[1].value!)
+//        let date = localToUTC(date:createCompArray[1].value!)
         
         params["title"] = createCompArray[0].value!
         params["text"] = createCompArray[3].value!
-        params["type"] = "\(index!)"
+        //params["type"] = "\(index!)"
+        params["type"] = "3"
         params["mediaUri"] = comptitionImageURL!
         params["byImageUri"] = ""
-        params["startDate"] = localToUTC(date:createCompArray[1].value!)
-        params["endDate"] = localToUTC(date:createCompArray[2].value!)
+        params["startDate"] = localToUTC(date:createCompArray[1].value! + "00:00:00")
+        params["endDate"] = localToUTC(date:createCompArray[2].value!  +  "23:59:59")
         params["byText"] = "Text"
         params["owner"] = (AccountManager.session?.account?._id)!
    
-    
         PCompitionCreate.find(queryParams: params, error: { [weak self] (errorMessage) in
                 DispatchQueue.main.async {
                     UtilityManager.RemoveHUD()
@@ -253,13 +274,14 @@ class CreateCompititionVC: UIViewController {
         let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] (alertAction) in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 let imagePickerController = UIImagePickerController()
+                imagePickerController.allowsEditing = true
+
                 imagePickerController.sourceType = .camera
                 if let mediaTypes = UIImagePickerController.availableMediaTypes(for: .camera) {
                     imagePickerController.mediaTypes = [mediaTypes[0]]
                 }
                 imagePickerController.navigationBar.tintColor = Constants.appYellowColor
-
-
+                imagePickerController.navigationBar.backgroundColor = Constants.appThemeColor
 
                 imagePickerController.delegate = self
                 self?.present(imagePickerController, animated: true, completion: nil)
@@ -270,6 +292,8 @@ class CreateCompititionVC: UIViewController {
         let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default) { [weak self] (alertAction) in
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 let imagePickerController = UIImagePickerController()
+                imagePickerController.allowsEditing = true
+
                 imagePickerController.sourceType = .photoLibrary
            
                 if let mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary) {
@@ -277,6 +301,7 @@ class CreateCompititionVC: UIViewController {
                 }
                 
                 imagePickerController.navigationBar.tintColor = Constants.appYellowColor
+                imagePickerController.navigationBar.backgroundColor = Constants.appThemeColor
 
 
                 imagePickerController.delegate = self
@@ -293,22 +318,22 @@ class CreateCompititionVC: UIViewController {
 
     }
     @objc func handleDatePicker(){
-        if(self.selectedTxtField.tag > 200){ // Time
-            pickerDate.minimumDate = nil
-
-            dateFormatter.dateFormat = "hh:mm a"
-
-            let strSet = dateFormatter.string(from: pickerDate.date)
-            DispatchQueue.main.async { [unowned self] in
-                let cell = self.tblCompition.cellForRow(at: IndexPath(row:(self.selectedTxtField.tag - 200), section: 0)) as! CommonCell
-                DispatchQueue.main.async {
-                    cell.txtTime.text = strSet
-                }
-            }
-            
-            
-        }
-        else{ // Date
+//        if(self.selectedTxtField.tag > 200){ // Time
+//            pickerDate.minimumDate = nil
+//
+//            dateFormatter.dateFormat = "hh:mm a"
+//
+//            let strSet = dateFormatter.string(from: pickerDate.date)
+//            DispatchQueue.main.async { [unowned self] in
+//                let cell = self.tblCompition.cellForRow(at: IndexPath(row:(self.selectedTxtField.tag - 200), section: 0)) as! CommonCell
+//                DispatchQueue.main.async {
+//                    cell.txtTime.text = strSet
+//                }
+//            }
+//
+//
+//        }
+//        else{ // Date
             pickerDate.minimumDate = Date()
             dateFormatter.dateFormat = "MM/dd/yyyy"
 
@@ -316,10 +341,15 @@ class CreateCompititionVC: UIViewController {
         DispatchQueue.main.async { [unowned self] in
             let cell = self.tblCompition.cellForRow(at: IndexPath(row:(self.selectedTxtField.tag - 100), section: 0)) as! CommonCell
             DispatchQueue.main.async {
-                cell.txtDate.text = strSet
-            }
+                if(self.selectedTxtField.tag == 102){
+                    self.selectedTxtField.text = strSet
+                }
+                else
+                {
+                    self.selectedTxtField.text = strSet
+                }            }
         }
-        }
+       // }
     }
    
     func setDatePickerToTextField(_ textField: UITextField) {
@@ -330,7 +360,8 @@ class CreateCompititionVC: UIViewController {
         } else {
         
             let textTofound = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-            let date = dateFormatter.date(from: textTofound!)
+        let textTofound1 = textTofound?.split(separator: " ").first
+            let date = dateFormatter.date(from: "\(textTofound1!)")
             pickerDate.date = date!
         
             
@@ -338,7 +369,13 @@ class CreateCompititionVC: UIViewController {
  
         let strSet = dateFormatter.string(from: pickerDate.date)
         DispatchQueue.main.async { [unowned self] in
+            if(textField.tag == 102){
                 textField.text = strSet
+            }
+            else
+            {
+                textField.text = strSet
+            }
         }
     }
 
@@ -395,9 +432,9 @@ extension CreateCompititionVC :UITableViewDataSource, UITableViewDelegate {
         }
         switch indexPath.row {
         case 2, 3, 4:
-            return (tableView.frame.width * 150/580)
+            return (tableView.frame.width * 130/580)
         default:
-            return (tableView.frame.width * 160/580)
+            return (tableView.frame.width * 130/580)
         }
         
         
@@ -439,13 +476,13 @@ extension CreateCompititionVC :UITableViewDataSource, UITableViewDelegate {
             let dict = createCompArray[indexPath.row-1]
             cell.lblTitle.text = dict.title
             cell.txtDate.placeholder = "Select Date"
-            cell.txtTime.placeholder = "Select Time"
+            //cell.txtTime.placeholder = "Select Time"
 
             cell.txtDate.tag = 100 + indexPath.row
-            cell.txtTime.tag = 200 + indexPath.row
+           // cell.txtTime.tag = 200 + indexPath.row
             
             cell.txtDate.delegate = self
-            cell.txtTime.delegate = self
+           // cell.txtTime.delegate = self
 
         }
         else
@@ -460,6 +497,7 @@ extension CreateCompititionVC :UITableViewDataSource, UITableViewDelegate {
             cell.txtField.delegate = self
             cell.txtField.keyboardType = .default
             if(indexPath.row == 5){
+                cell.txtField.isEnabled = false
                 cell.txtField.tintColor = UIColor.white
             }
             else
@@ -550,8 +588,8 @@ extension CreateCompititionVC: UITextFieldDelegate {
             
             let indexPath = tblCompition.indexPath(for: cell)
             var dateTimeStr = ""
-            if(cell.txtDate.text != "" && cell.txtTime.text != ""){
-                dateTimeStr = cell.txtDate.text! + " " + cell.txtTime.text!
+            if(cell.txtDate.text != ""){
+                dateTimeStr = cell.txtDate.text!
             }
             
             switch textField.tag {
@@ -637,7 +675,7 @@ extension CreateCompititionVC: UIImagePickerControllerDelegate, UINavigationCont
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true, completion: nil)
         if(selectedButtonIndex == 1){
-         comptitionImage  = info[UIImagePickerControllerOriginalImage] as? UIImage
+         comptitionImage  = info[UIImagePickerControllerEditedImage] as? UIImage
         }
         tblCompition.reloadData()
     }

@@ -43,7 +43,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // ?
     }
-
+    
     func getLocationAndName(_ completion: @escaping (_ success: Bool, _ location: CLLocation?, _ locationName: String?) -> Void) {
         
         let location = locationManager.location

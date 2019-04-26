@@ -54,7 +54,7 @@
                                             <constraint firstAttribute="height" constant="21" id="mmM-sB-8qH"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="11"/>
-                                        <color key="textColor" red="0.37254901960784315" green="0.16862745098039217" blue="0.45490196078431372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" red="0.26274509800000001" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="752" text="Time" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TDT-Yz-7cU" customClass="TVLabel" customModule="Topvote" customModuleProvider="target">
@@ -96,17 +96,27 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </button>
+                                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="djh-Tl-jEb">
+                                                <rect key="frame" x="265" y="0.0" width="35" height="35"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="35" id="Cgj-2I-x2J"/>
+                                                    <constraint firstAttribute="height" constant="35" id="zut-aZ-cmb"/>
+                                                </constraints>
+                                                <state key="normal" image="soundOff"/>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="Qc0-Qb-1xa" firstAttribute="top" secondItem="9h8-yf-Vru" secondAttribute="top" id="8MZ-W8-5mI"/>
                                             <constraint firstAttribute="width" constant="300" id="Dob-qc-mbC"/>
                                             <constraint firstItem="qPX-cl-c21" firstAttribute="centerX" secondItem="9h8-yf-Vru" secondAttribute="centerX" id="FXb-C1-VEp"/>
+                                            <constraint firstAttribute="trailing" secondItem="djh-Tl-jEb" secondAttribute="trailing" id="MuC-nN-SPs"/>
                                             <constraint firstAttribute="bottom" secondItem="qPX-cl-c21" secondAttribute="bottom" constant="20" id="Nsv-du-F3S"/>
                                             <constraint firstItem="Qc0-Qb-1xa" firstAttribute="leading" secondItem="9h8-yf-Vru" secondAttribute="leading" id="YKA-4o-mWC"/>
                                             <constraint firstAttribute="trailing" secondItem="Qc0-Qb-1xa" secondAttribute="trailing" id="kKL-Ks-o7a"/>
                                             <constraint firstAttribute="height" constant="300" id="lFH-Zx-LBS"/>
                                             <constraint firstAttribute="bottom" secondItem="Qc0-Qb-1xa" secondAttribute="bottom" id="qhJ-he-q3e"/>
+                                            <constraint firstItem="djh-Tl-jEb" firstAttribute="top" secondItem="9h8-yf-Vru" secondAttribute="top" id="qyj-Ui-Jgh"/>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yod-Mk-jal">
@@ -233,6 +243,7 @@
                 <outlet property="totalVotesLabel" destination="JpZ-UU-AZc" id="K40-Wk-qWC"/>
                 <outlet property="userImageView" destination="ZL2-t7-efw" id="bvr-9B-LZr"/>
                 <outlet property="userNameLabel" destination="9T6-6E-crt" id="tXy-wA-LJN"/>
+                <outlet property="volumeButton" destination="djh-Tl-jEb" id="FRZ-co-JBE"/>
                 <outlet property="voteButton" destination="Yod-Mk-jal" id="Y7u-Wj-wRl"/>
                 <outlet property="voteButtonLeading" destination="Heq-gt-iUf" id="Dcu-s4-H6h"/>
                 <outlet property="voteButtonWidth" destination="L9Y-c3-oA1" id="NHh-pn-ayl"/>
@@ -246,5 +257,6 @@
         <image name="button-icon-share" width="17" height="22"/>
         <image name="button-icon-star" width="23" height="22"/>
         <image name="button-icon-star-select" width="21" height="20"/>
+        <image name="soundOff" width="20" height="20"/>
     </resources>
 </document>

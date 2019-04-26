@@ -5,11 +5,12 @@
 //  Copyright (c) 2013 VG. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import  <UIKit/UIKit.h>
+
+
 
 typedef NS_ENUM(NSInteger, VGParallaxHeaderMode) {
-    VGParallaxHeaderModeCenter = 0,
-    VGParallaxHeaderModeFill,
+    VGParallaxHeaderModeCenterVGParallaxHeaderModeerModeFill,
     VGParallaxHeaderModeTop,
     VGParallaxHeaderModeTopFill,
 };

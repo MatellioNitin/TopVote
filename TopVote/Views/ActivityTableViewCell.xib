@@ -21,12 +21,12 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" placeholderIntrinsicWidth="196" placeholderIntrinsicHeight="18" text="Subtitle" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RQ9-22-2bx">
-                        <rect key="frame" x="146" y="48" width="90" height="18"/>
+                        <rect key="frame" x="149" y="51" width="90" height="15"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="90" id="LHz-lO-7zA"/>
-                            <constraint firstAttribute="height" constant="18" id="ljl-z4-Y7d"/>
+                            <constraint firstAttribute="height" constant="15" id="ljl-z4-Y7d"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -42,6 +42,9 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oiH-hA-y0p">
+                        <rect key="frame" x="8" y="19" width="36" height="36"/>
+                    </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="751" verticalHuggingPriority="751" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" placeholderIntrinsicWidth="172" placeholderIntrinsicHeight="21" text="Title" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PJV-Dg-cbb">
                         <rect key="frame" x="60" y="8" width="176" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -68,21 +71,30 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="nxo-cZ-TCc" firstAttribute="top" secondItem="p5O-lQ-KTg" secondAttribute="top" constant="-12" id="6AH-sx-KDx"/>
+                    <constraint firstItem="p5O-lQ-KTg" firstAttribute="leading" secondItem="8fc-c9-IwP" secondAttribute="leading" constant="8" id="As2-Fr-4o5"/>
                     <constraint firstItem="PJV-Dg-cbb" firstAttribute="leading" secondItem="p5O-lQ-KTg" secondAttribute="trailing" constant="16" id="BlH-ao-7dq"/>
-                    <constraint firstItem="nxo-cZ-TCc" firstAttribute="leading" secondItem="RQ9-22-2bx" secondAttribute="trailing" constant="8" id="CA5-oa-biZ"/>
+                    <constraint firstItem="nxo-cZ-TCc" firstAttribute="leading" secondItem="RQ9-22-2bx" secondAttribute="trailing" constant="5" id="CA5-oa-biZ"/>
                     <constraint firstItem="nxo-cZ-TCc" firstAttribute="bottom" secondItem="RQ9-22-2bx" secondAttribute="bottom" id="EkW-GM-c0X"/>
+                    <constraint firstAttribute="bottom" secondItem="p5O-lQ-KTg" secondAttribute="bottom" constant="19.5" id="Etc-pC-XjU"/>
                     <constraint firstItem="nxo-cZ-TCc" firstAttribute="trailing" secondItem="8fc-c9-IwP" secondAttribute="trailingMargin" id="ICH-2D-huN"/>
+                    <constraint firstItem="p5O-lQ-KTg" firstAttribute="leading" secondItem="oiH-hA-y0p" secondAttribute="leading" id="PKI-Vf-fu8"/>
+                    <constraint firstItem="p5O-lQ-KTg" firstAttribute="top" secondItem="8fc-c9-IwP" secondAttribute="top" constant="19" id="Vt4-7s-R9l"/>
                     <constraint firstItem="nxo-cZ-TCc" firstAttribute="leading" secondItem="PJV-Dg-cbb" secondAttribute="trailing" constant="8" id="WBM-bS-lCq"/>
+                    <constraint firstItem="p5O-lQ-KTg" firstAttribute="bottom" secondItem="oiH-hA-y0p" secondAttribute="bottom" id="cd9-Ff-0eR"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="p5O-lQ-KTg" secondAttribute="bottom" priority="999" constant="5" id="d20-gr-dCM"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="nxo-cZ-TCc" secondAttribute="bottom" constant="5" id="e2e-xh-A6q"/>
                     <constraint firstItem="p5O-lQ-KTg" firstAttribute="leading" secondItem="8fc-c9-IwP" secondAttribute="leading" constant="8" id="if4-fA-VdQ"/>
                     <constraint firstItem="PJV-Dg-cbb" firstAttribute="top" secondItem="8fc-c9-IwP" secondAttribute="top" constant="8" id="kpt-Oe-H2b"/>
+                    <constraint firstItem="p5O-lQ-KTg" firstAttribute="trailing" secondItem="oiH-hA-y0p" secondAttribute="trailing" id="qUM-eh-XbE"/>
                     <constraint firstItem="p5O-lQ-KTg" firstAttribute="top" secondItem="8fc-c9-IwP" secondAttribute="top" constant="19" id="rn0-gJ-Xex"/>
+                    <constraint firstItem="p5O-lQ-KTg" firstAttribute="top" secondItem="oiH-hA-y0p" secondAttribute="top" id="tWT-eN-Gib"/>
                     <constraint firstItem="nxo-cZ-TCc" firstAttribute="width" secondItem="nxo-cZ-TCc" secondAttribute="height" multiplier="1:1" constant="1" id="tqH-Sh-6u1"/>
+                    <constraint firstItem="PJV-Dg-cbb" firstAttribute="leading" secondItem="p5O-lQ-KTg" secondAttribute="trailing" constant="16" id="xw4-Z5-a35"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="activityTextLabel" destination="PJV-Dg-cbb" id="Pkd-ad-3lZ"/>
+                <outlet property="btnProfile" destination="oiH-hA-y0p" id="Uod-Pf-awz"/>
                 <outlet property="entryImageView" destination="K9e-Ip-xOv" id="CnC-zf-YvR"/>
                 <outlet property="mediaView" destination="nxo-cZ-TCc" id="jis-tJ-gfu"/>
                 <outlet property="timeLabel" destination="RQ9-22-2bx" id="Px0-G5-gOa"/>

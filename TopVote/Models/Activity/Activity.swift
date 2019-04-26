@@ -68,35 +68,73 @@ final class  Activity: Model {
                     string.append(NSMutableAttributedString(string: " competition", attributes: detailAttributes))
                     break
                 case .entryVotedOn:
+                    if let currentUser = AccountManager.session?.account, currentUser._id != self.account?._id {
                     if let userName = account?.username ?? account?.name {
                         string = NSMutableAttributedString(string: userName, attributes: userNameAttributes)
                     }
-                    string.append(NSMutableAttributedString(string: " voted for your entry", attributes: detailAttributes))
+                    }
+                    else
+                    {
+                    
+                         string = NSMutableAttributedString(string: "You've", attributes: userNameAttributes)
+                    }
+                                        
+                    string.append(NSMutableAttributedString(string: " voted for an entry", attributes: detailAttributes))
                     break
                 case .entryCommentedOn:
-                    if let userName = account?.username ?? account?.name {
-                        string = NSMutableAttributedString(string: userName, attributes: userNameAttributes)
+                    
+                    
+                    if let currentUser = AccountManager.session?.account, currentUser._id != self.account?._id {
+                        if let userName = account?.username ?? account?.name {
+                            string = NSMutableAttributedString(string: userName, attributes: userNameAttributes)
+                        }
                     }
-                    string.append(NSMutableAttributedString(string: " commented on your entry", attributes: detailAttributes))
+                    else
+                    {
+                        
+                        string = NSMutableAttributedString(string: "You've", attributes: userNameAttributes)
+                    }
+                    string.append(NSMutableAttributedString(string: " commented on an entry", attributes: detailAttributes))
                     break
                 case .entryShared:
-                    if let userName = account?.username ?? account?.name {
-                        string = NSMutableAttributedString(string: userName, attributes: userNameAttributes)
+                    if let currentUser = AccountManager.session?.account, currentUser._id != self.account?._id {
+                        if let userName = account?.username ?? account?.name {
+                            string = NSMutableAttributedString(string: userName, attributes: userNameAttributes)
+                        }
                     }
-                    string.append(NSMutableAttributedString(string: " shared your entry", attributes: detailAttributes))
+                    else
+                    {
+                        
+                        string = NSMutableAttributedString(string: "You've", attributes: userNameAttributes)
+                    }
+                    string.append(NSMutableAttributedString(string: " shared an entry", attributes: detailAttributes))
                     break
                 case .ideaVotedOn:
-                    if let userName = account?.username ?? account?.name {
-                        string = NSMutableAttributedString(string: userName, attributes: userNameAttributes)
+                    if let currentUser = AccountManager.session?.account, currentUser._id != self.account?._id {
+                        if let userName = account?.username ?? account?.name {
+                            string = NSMutableAttributedString(string: userName, attributes: userNameAttributes)
+                        }
                     }
-                    string.append(NSMutableAttributedString(string: " voted for your idea", attributes: detailAttributes))
+                    else
+                    {
+                        
+                        string = NSMutableAttributedString(string: "You've", attributes: userNameAttributes)
+                    }
+                    string.append(NSMutableAttributedString(string: " voted for an idea", attributes: detailAttributes))
                     break
                     
                 case .entryFlagOn:
-                    if let userName = account?.username ?? account?.name {
-                        string = NSMutableAttributedString(string: userName, attributes: userNameAttributes)
+                    if let currentUser = AccountManager.session?.account, currentUser._id != self.account?._id {
+                        if let userName = account?.username ?? account?.name {
+                            string = NSMutableAttributedString(string: userName, attributes: userNameAttributes)
+                        }
                     }
-                    string.append(NSMutableAttributedString(string: " flaged for your entry", attributes: detailAttributes))
+                    else
+                    {
+                        
+                        string = NSMutableAttributedString(string: "You've", attributes: userNameAttributes)
+                    }
+                    string.append(NSMutableAttributedString(string: " flaged for an entry", attributes: detailAttributes))
                     break
                     
                     

@@ -34,6 +34,7 @@ class MediaView: UIView {
         playerLayer = AVPlayerLayer(player: player)
         playerLayer!.videoGravity = AVLayerVideoGravity.resizeAspectFill
         playerLayer!.frame = bounds
+        player?.volume = 0.0
         layer.insertSublayer(playerLayer!, at: 0)
     }
     

@@ -35,9 +35,13 @@ class EditProfileViewController: KeyboardScrollViewController {
                 btnProfileImage.setImage(nil, for: .normal)
 
             }
-            
-            usernameTextField.isUserInteractionEnabled = false
-            emailTextField.isUserInteractionEnabled = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+                self.profileImageView.cornerRadius = self.profileImageView.frame.size.height / 2
+                self.profileImageView.isMasksToBounds = true
+                
+            }
+//            usernameTextField.isUserInteractionEnabled = false
+//            emailTextField.isUserInteractionEnabled = false
             
             nameTextField.text = user.name
             usernameTextField.text = user.username
@@ -59,6 +63,8 @@ class EditProfileViewController: KeyboardScrollViewController {
                 imagePickerController.sourceType = .camera
                 imagePickerController.mediaTypes = ["public.image"]
                 imagePickerController.navigationBar.tintColor = Constants.appYellowColor
+                imagePickerController.navigationBar.backgroundColor = Constants.appThemeColor
+
 
                 imagePickerController.delegate = self
                 self?.present(imagePickerController, animated: true, completion: nil)
@@ -73,12 +79,14 @@ class EditProfileViewController: KeyboardScrollViewController {
                 imagePickerController.mediaTypes = ["public.image"]
                 imagePickerController.delegate = self
                 imagePickerController.navigationBar.tintColor = Constants.appYellowColor
+                imagePickerController.navigationBar.backgroundColor = Constants.appThemeColor
 
                 self?.present(imagePickerController, animated: true, completion: nil)
             } else {
                 self?.showAlert(title: "Oops!", confirmTitle: "Ok", errorMessage: "Please allow access to your photo library.", actions: nil, confirmCompletion: nil, completion: nil)
             }
         }
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alertController.addAction(cameraAction)
         alertController.addAction(photoLibraryAction)
@@ -222,7 +230,8 @@ class EditProfileViewController: KeyboardScrollViewController {
         
 //        UtilityManager.dismissToSplash()
 //        return
-        
+        UtilityManager.ShowHUD(text: "Please wait...")
+
         if let user = AccountManager.session?.account {
             if let mediaInfo = mediaInfo, let url = mediaInfo.secure_url?.absoluteString {
                 user.profileImageUri = url
@@ -232,12 +241,19 @@ class EditProfileViewController: KeyboardScrollViewController {
             user.username = usernameTextField.text?.lowercased()
             user.email = emailTextField.text
             user.bio = bioTextView.text
+            user.userFollowers = nil
+            user.userFollowing = nil
+
 
             user.save(error: { [weak self ](errorMessage) in
+                UtilityManager.RemoveHUD()
+
                 DispatchQueue.main.async {
                     self?.showErrorAlert(errorMessage: errorMessage)
                 }
             }, completion: {
+                UtilityManager.RemoveHUD()
+
                 DispatchQueue.main.async {
                     AccountManager.session?.account = user
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "ProfileImageChanged"), object: nil)

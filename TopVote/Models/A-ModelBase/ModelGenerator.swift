@@ -96,7 +96,6 @@ extension ModelGenerator {
     }
     
     /// Converts a Model array to array of Dictionaries. Type: [[String: Any]]
-    ///
     /// - Parameter array: the array to convert.
     /// - Returns: array of dictionaries. [[String: Any]].
     
@@ -118,7 +117,6 @@ extension ModelGenerator {
             return nil
         }
     }
-    
     /// Converts a Model to Dictionary type. [String: Any]
     ///
     /// - Parameter model: the model to convert.

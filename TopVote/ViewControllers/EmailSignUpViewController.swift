@@ -23,7 +23,7 @@ class EmailSignUpViewController: KeyboardScrollViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        usernameTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Username", font: usernameTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
+        usernameTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Username or Email", font: usernameTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
         passwordTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Password", font: passwordTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
         passwordConfirmTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Confirm Password", font: usernameTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
         emailTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Email", font: passwordTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
@@ -93,6 +93,8 @@ class EmailSignUpViewController: KeyboardScrollViewController {
 //    
     
     func signUp(_ username: String, password: String, email: String) {
+        UtilityManager.ShowHUD(text: "Please wait...")
+
         let params = [
             "email": email,
             "password": password,
@@ -101,10 +103,14 @@ class EmailSignUpViewController: KeyboardScrollViewController {
         
         Account.create(params: params, error: { (errorMessage) in
             DispatchQueue.main.async {
+                UtilityManager.RemoveHUD()
+
                 self.showErrorAlert(errorMessage: errorMessage)
             }
         }) { (account) in
             AccountManager.session?.account = account
+            UtilityManager.RemoveHUD()
+
             DispatchQueue.main.async {
                 self.dismiss(animated: true, completion: nil)
             }

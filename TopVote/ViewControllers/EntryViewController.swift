@@ -53,7 +53,6 @@ class EntryViewController: VideoPlayerViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var showComments = false
-
     var entryId: String?
     var entry: Entry? {
         didSet {
@@ -117,7 +116,8 @@ class EntryViewController: VideoPlayerViewController {
                 mediaView.layoutIfNeeded()
                  if entry.mediaType == "IMAGE" {
                     entryImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
-                } else if entry.mediaType == "VIDEO" {
+                 } else if entry.mediaType == "VIDEO" ||  (entry.mediaType == "IMAGE-VIDEO" && (entry.mediaUri?.contains(".mov"))!){
+
                     mediaView.addPlayer(uri)
                     mediaView.startPlaying()
                 }

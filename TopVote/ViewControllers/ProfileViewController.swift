@@ -1,7 +1,5 @@
-//
 //  ProfileViewController.swift
 //  Super
-//
 //  Created by Matthew Arkin on 10/16/14.
 //  Copyright (c) 2014 Super. All rights reserved.
 //
@@ -15,10 +13,11 @@ class YourProfileViewController: ProfileViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         //incrementProfileVisits()
 
-        let followButton = UIBarButtonItem(image: UIImage(named:"icon_back"), style:UIBarButtonItemStyle.plain, target: self, action: #selector(YourProfileViewController.close))
-        navigationItem.leftBarButtonItem = followButton
+        let backButton = UIBarButtonItem(image: UIImage(named:"icon_back"), style:UIBarButtonItemStyle.plain, target: self, action: #selector(YourProfileViewController.close))
+        navigationItem.leftBarButtonItem = backButton
     }
     
     override func refreshProfile() {
@@ -52,26 +51,38 @@ class YourProfileViewController: ProfileViewController {
     }
     
     func toggleFollow() {
+
         if let user = user, let userId = user._id {
             let followingAccount = user.followingAccount ?? false
             if (!followingAccount) {
+                UtilityManager.ShowHUD(text: "Please wait...")
                 Account.follow(accountId: userId, error: { (errorMessage) in
+                    UtilityManager.RemoveHUD()
                     self.showErrorAlert(errorMessage: errorMessage)
                 }, completion: { (followedAccount) in
                     DispatchQueue.main.async {
                         self.user = followedAccount
+                        self.getProfileAPI()
                         //self.refreshFollowButton()
                         self.refreshProfile()
+                       // UtilityManager.RemoveHUD()
+
                     }
                 })
             } else {
+                UtilityManager.ShowHUD(text: "Please wait...")
+
                 Account.unfollow(accountId: userId, error: { (errorMessage) in
+                    UtilityManager.RemoveHUD()
                     self.showErrorAlert(errorMessage: errorMessage)
                 }, completion: { (unfollowedAccount) in
                     DispatchQueue.main.async {
+                        self.getProfileAPI()
                         self.user = unfollowedAccount
                         //self.refreshFollowButton()
                         self.refreshProfile()
+                      //  UtilityManager.RemoveHUD()
+
                     }
                 })
             }
@@ -104,6 +115,8 @@ class MyProfileViewController: ProfileViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        UtilityManager.ShowHUD(text: "Please wait...")
+
         AccountManager.session?.account?.me(error: { (errorMessage) in
             self.showErrorAlert(errorMessage: errorMessage)
         }, completion: {
@@ -111,6 +124,7 @@ class MyProfileViewController: ProfileViewController {
                 self.user = AccountManager.session?.account
                 self.refreshProfile()
                 self.tableView.reloadData()
+                UtilityManager.RemoveHUD()
             }
         })
     }
@@ -148,7 +162,10 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
             if (profileType == .awards) {
                 tableView.reloadData()
             }
+             getProfileAPI()
         }
+        
+        //.///
     }
     
     override var entries: Entries {
@@ -166,6 +183,9 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
                 tableView.reloadData()
             }
         }
+        
+        
+        
     }
 
     var profileType = ProfileType.entries {
@@ -179,7 +199,6 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         tableView.register(UINib(nibName: "CompactEntryTableViewCell", bundle: nil), forCellReuseIdentifier: "CompactEntryCell")
         tableView.register(UINib(nibName: "AwardedEntryTableViewCell", bundle: nil), forCellReuseIdentifier: "AwardedEntryCell")
         tableView.register(UINib(nibName: "StatTableViewCell", bundle: nil), forCellReuseIdentifier: "StatCell")
@@ -188,12 +207,13 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
         tableView.separatorStyle = .none
         tableView.backgroundColor = #colorLiteral(red: 0.9688993096, green: 0.9659650922, blue: 0.9719695449, alpha: 1)
         shouldAutoplay = false
-
         headerView = Bundle.main.loadNibNamed("HeaderView", owner: 0, options: nil)?[0] as! HeaderView
         headerView.delegate = self
         profileHeaderView = Bundle.main.loadNibNamed("ProfileHeaderView", owner: 0, options: nil)?[0] as! ProfileHeaderView
         profileHeaderView.delegate = self
-        tableView.setParallaxHeader(profileHeaderView, mode: .fill, height: 306)
+        tableView.setParallaxHeader(profileHeaderView, mode: .topFill, height: 306)
+        
+        //setParallaxHeader(profileHeaderView, mode: .fill, height: 306)
         
         tableView.estimatedRowHeight = 50.0
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -201,9 +221,102 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        refreshProfile()
-        self.tableView.reloadData()
+       // getProfileAPI()
+         }
+    
+    func getProfileAPI(){
+        let currentUser = AccountManager.session?.account
+        //, let user = user, currentUser._id != user._id {
+        if self.tabBarController?.selectedIndex != 3
+        {
+            UtilityManager.ShowHUD(text: "Please wait...")
+            
+            Account.getOtherProfile(accountId: (user?._id)!, error: { (errorMessage) in
+                UtilityManager.RemoveHUD()
+                
+                self.showErrorAlert(errorMessage: errorMessage)
+            }, completion: { [weak self] (following, followers) in
+                
+                
+                if let followers = followers {
+                    self?.user?.userFollowers = followers
+                }
+                if let following = following {
+                    
+                    self?.user?.userFollowing = following
+                }
+                self?.user?.followingAccount = false
+                
+                for dict in followers! {
+                    let dict1 = dict as Account
+                    if(dict1._id == currentUser?._id){
+                        self?.user?.followingAccount = true
+                    }
+                }
+                self?.refreshProfile()
+                self?.tableView.reloadData()
+                UtilityManager.RemoveHUD()
+
+                }
+            )
+        }
+        else
+        {
+            
+            self.tableView.reloadData()
+            refreshProfile()
+
+        }
+        
     }
+        
+//        }   else{
+            
+            
+           
+//
+//        if (followers?.contains(where: { $0["followingAccount"] as? Bool == true }))! {
+//            print("Exist")
+//
+//
+////        if let dict = followers?.(where: { $0["followingAccount"] as? Bool == true }) {
+////            print(dict)
+//            self?.user?.followingAccount = true
+//
+//        }
+//        else
+//        {
+//            self?.user?.followingAccount = false
+//        }
+//
+//        if following.filter.contains(where: { $0["followingAccount"] as? String == value }) {
+//
+//            self?.user?.followingAccount = true
+//        }
+//        else
+//        {
+//           self?.user?.followingAccount = false
+//        }
+        
+        
+        //self?.refreshProfile()
+
+       // }
+
+                            
+   
+          //  if((otherAccount.userFollowers) != nil){
+                //let filtered =  otherAccount.userFollowers.filter { $0.contains("lo") }
+//                            completion: { (following, followers) in
+//            DispatchQueue.main.async {
+            
+            
+
+    //)
+    //}
+//        refreshProfile()
+//        self.tableView.reloadData()
+// }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -231,23 +344,61 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
             headerView.refreshView(user)
             profileHeaderView.refreshView(user)
         }
+        
         self.tableView.reloadData()
     }
     
     func showFollowers() {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "FollowVC") as? FollowViewController {
             vc.followType = FollowViewController.FollowType.followers
-            //vc.user = user
-            navigationController?.pushViewController(vc, animated: true)
+            let currentUser = AccountManager.session?.account
+            let user1 = user
+            if  currentUser?._id != user1?._id {
+                vc.userId = user1?._id
+                if(user1?.userFollowers != nil){
+                    vc.usersTemp = (user1?.userFollowers)!
+                }
+                 vc.noDataString = "Sorry there are no any following users"
+                    //(self.user?.userFollowers)!
+                navigationController?.pushViewController(vc, animated: true)
+
+            }
+            else{
+                vc.noDataString = "Sorry, you currently have no followers"
+                navigationController?.pushViewController(vc, animated: true)
+
+            }
+
         }
     }
     
     func showFollowing() {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "FollowVC") as? FollowViewController {
             vc.followType = FollowViewController.FollowType.following
-            //vc.user = user
-            navigationController?.pushViewController(vc, animated: true)
+            if let currentUser = AccountManager.session?.account, let user = user, currentUser._id != user._id {
+               
+                vc.userId = user._id
+                 if(user.userFollowing != nil){
+                    vc.usersTemp = user.userFollowing!
+                }
+                
+                vc.noDataString = "Sorry there are no any followers users"
+                navigationController?.pushViewController(vc, animated: true)
+
+                //(self.user?.userFollowing)!
+            }
+            
+            else
+            {
+                vc.noDataString = "Sorry you are not currently following anyone"
+                navigationController?.pushViewController(vc, animated: true)
+
+
+            }
         }
+        
+   
+    
     }
 
     func followTappped() {
@@ -354,18 +505,23 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
         tableView.deselectRow(at: indexPath, animated: true)
         //var entry: PFEntry?
         var entry: Entry?
+       
+
         if (profileType == .entries) {
             //entry = entries[indexPath.row]
         } else if (profileType == .awards) {
             entry = awardedEntries[indexPath.row]
         }
         
+        if let currentUser = AccountManager.session?.account, currentUser._id == entry?.account?._id {
         if let entry = entry {
             if let giftCardURL = entry.competition?.giftCardURL {
                 if let link = URL(string: giftCardURL) {
                     UIApplication.shared.open(link)
                 }
             }
+        }
+        
         }
         
 //        if let entry = entry {
@@ -379,7 +535,6 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
     }
     
     // MARK: - Navigation
-    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -13,8 +13,8 @@ class Style {
 
     static var tintColor = UIColor.white {
         didSet {
-            UITabBar.appearance().tintColor = UIColor(hex: "#5F2B74")
-            UITabBar.appearance().unselectedItemTintColor = UIColor(hex: "#5F2B74")
+            UITabBar.appearance().tintColor = UIColor(hex: "#432354")
+            UITabBar.appearance().unselectedItemTintColor = UIColor(hex: "#432354")
             UINavigationBar.appearance().barTintColor = tintColor
         }
     }
@@ -61,7 +61,7 @@ class Style {
     
     class func setup() {
         Style.tintColor = UIColor(hex: "#D0AC31")
-        Style.barTintColor = UIColor(hex: "#5F2B74")
+        Style.barTintColor = UIColor(hex: "#432354")
         Style.fontName = "Avenir-Medium"
         Style.fontBoldName = "Avenir-Heavy"
         Style.fontItalicName = "Roboto-Italic"
@@ -263,7 +263,7 @@ class TVAlertController: UIAlertController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.view.tintColor = Style.barTintColor
+//        self.view.tintColor = Style.barTintColor  //Commented by Mahipal
     }
     
 }

@@ -1,10 +1,8 @@
-//
+
 //  CommonCell.swift
 //  Topvote
-//
 //  Created by CGT on 24/08/18.
 //  Copyright © 2018 Top, Inc. All rights reserved.
-//
 
 import UIKit
 
@@ -27,7 +25,7 @@ class CommonCell: UITableViewCell {
     
     @IBOutlet weak var txtDate: CustomUITextField!
     
-    @IBOutlet weak var txtTime: CustomUITextField!
+    //@IBOutlet weak var txtTime: CustomUITextField!
 
     
     
@@ -38,6 +36,7 @@ class CommonCell: UITableViewCell {
     @IBOutlet weak var lblQuestion: UILabel! // QuestionCell
     @IBOutlet weak var imgRadio: UIImageView! //AnswerRadioCell
     @IBOutlet weak var lblOption: UILabel!
+    @IBOutlet weak var imgView: UIImageView!
     @IBOutlet weak var btnSubmit: UIButton! // SubmitCell
     
     

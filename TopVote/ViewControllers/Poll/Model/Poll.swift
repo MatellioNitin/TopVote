@@ -43,8 +43,9 @@ final class Poll: Model {
     var shareText:String?
     
     var isFilled:Bool? = false
-
     
+    
+
 
     
 

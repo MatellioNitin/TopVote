@@ -65,13 +65,25 @@ class ProfileHeaderView: UIView {
             followersButton.titleLabel?.textAlignment = .center
             followingButton.titleLabel?.textAlignment = .center
             
-            nameLabel.text = user.name ?? user.username ?? "Amazing Voter"
+            
+            nameLabel.text = user.name
+            if(nameLabel.text == nil || nameLabel.text == ""){
+                nameLabel.text = user.username
+            }
+            else if(user.name == "" && user.username == ""){
+                nameLabel.text = "Amazing Voter"
+            }
+            
+            
+         //   nameLabel.text = user.name ?? user.username ?? "Amazing Voter"
             bioLabel.text = user.bio
             locationLabel.text = user.locationName
            // locationLabel.sizeToFit()
-    
-            followersButton.setTitle("\(user.followers ?? 0)", for: UIControlState())
-            followingButton.setTitle("\(user.following ?? 0)", for: UIControlState())
+            followersButton.setTitle("\(user.userFollowers?.count ?? 0)", for: UIControlState())
+            followingButton.setTitle("\(user.userFollowing?.count ?? 0)", for: UIControlState())
+            
+//            followersButton.setTitle("\(user.followers ?? 0)", for: UIControlState())
+//            followingButton.setTitle("\(user.following ?? 0)", for: UIControlState())
             
             if let currentUser = AccountManager.session?.account, currentUser._id != user._id {
                 let isFollowing = user.followingAccount ?? false
@@ -92,6 +104,11 @@ class ProfileHeaderView: UIView {
     }
     
     @IBAction func followTapped(_ sender: UIButton) {
+        followerButton.isUserInteractionEnabled = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.followerButton.isUserInteractionEnabled = true
+
+        }
         delegate?.followTappped()
     }
     

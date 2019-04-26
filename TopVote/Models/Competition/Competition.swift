@@ -32,7 +32,9 @@ final class Competition: Model {
     var byText: String?
     
     var byImageUri: String?
-
+    
+    var termsLink: String?
+    
     var status: Int?
     
     var type: Int?

@@ -43,7 +43,8 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
     var isFirstTime = true
 
     var isUploading = false
-    
+    var isComeFromDeepLink = false
+
     // MARK: - ViewController Method
 
     override func viewDidLoad() {
@@ -72,6 +73,7 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
     
     func refreshView() {
         imageView.isHidden = true
+        
         if let entryMediaInfo = entryMediaInfo, let type = entryMediaInfo.type {
             if type == "IMAGE" {
                 if let imageURL = entryMediaInfo.secure_url {
@@ -82,7 +84,7 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
                 }
             }
                 
-            if (type == "VIDEO") {
+            if type == "VIDEO" ||  (type == "IMAGE-VIDEO" && (competition?.mediaUri?.contains(".mov"))!)  {
                 if let url = entryMediaInfo.secure_url {
                     imageView.isHidden = true
                     mediaView.addPlayer(url)
@@ -148,6 +150,7 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
                             UtilityManager.RemoveHUD()
                             
                             let _ = self.navigationController?.popViewController(animated: true)
+                            print("Share New Entry \(entry)")
                             self.delegate?.didSaveNewEntry(entry)
                         }
                     })
@@ -169,6 +172,7 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
         let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] (alertAction) in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 let imagePickerController = UIImagePickerController()
+                imagePickerController.allowsEditing = true
                 imagePickerController.sourceType = .camera
                 if let mediaTypes = UIImagePickerController.availableMediaTypes(for: .camera) {
                     print("imagePickerController")
@@ -177,12 +181,20 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
 
                          imagePickerController.mediaTypes = [mediaTypes[0]]
                     }
+                    else if(self?.competition?.type == 3){
+                        imagePickerController.mediaTypes = [mediaTypes[0],mediaTypes[1]]
+
+                    imagePickerController.videoMaximumDuration = 60
+                        imagePickerController.allowsEditing = true
+                    }
                     else{
+                        
                          imagePickerController.mediaTypes = [mediaTypes[1]]
                     }
                 }
             imagePickerController.navigationBar.tintColor = Constants.appYellowColor
-                
+            imagePickerController.navigationBar.backgroundColor = Constants.appThemeColor
+
 
                 imagePickerController.delegate = self
                 self?.present(imagePickerController, animated: true, completion: nil)
@@ -201,6 +213,8 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
         let photoLibraryAction = UIAlertAction(title: ActionTitle, style: .default) { [weak self] (alertAction) in
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 let imagePickerController = UIImagePickerController()
+                imagePickerController.allowsEditing = true
+
                 imagePickerController.sourceType = .photoLibrary
                 if let mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary) {
                     
@@ -208,13 +222,19 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
                         
                         imagePickerController.mediaTypes = [mediaTypes[0]]
                     }
-                    else{
+                    else if(self?.competition?.type == 3){
+                     imagePickerController.mediaTypes = [mediaTypes[0],mediaTypes[1]]
+                        imagePickerController.videoMaximumDuration = 60
+                        imagePickerController.allowsEditing = true
+                    }
+                    else  {
                         imagePickerController.mediaTypes = [mediaTypes[1]]
                         imagePickerController.videoMaximumDuration = 30
                         imagePickerController.allowsEditing = true
                     }
                  
                 }
+                imagePickerController.navigationBar.backgroundColor = Constants.appThemeColor
                 imagePickerController.navigationBar.tintColor = Constants.appYellowColor
 
                 imagePickerController.delegate = self
@@ -324,11 +344,18 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
                         }, completion: { (entry) in
                             DispatchQueue.main.async {
                                 self.isUploading = false
-                               
+                                if(self.isComeFromDeepLink){
+                                      self.showErrorAlert(title:"Congratulation", errorMessage: "Your Entry has been submited successfully.")
+                                self.navigationController?.popToRootViewController(animated: true)
+                                    
+                                }
+                                else{
                                 
                                 let _ = self.navigationController?.popViewController(animated: true)
                                 if(entry.competition?.autoApprove == 1){
+                                    print("New Entry \(entry)")
                                 self.delegate?.didSaveNewEntry(entry)
+                                }
                                 }
                             }
                         })
@@ -349,6 +376,62 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
         return sizeinMB
     }
     
+//
+//    func cropVideo(sourceURL1: NSURL, statTime:Float, endTime:Float)
+//    {
+//        let manager = FileManager.default
+//
+//        guard let documentDirectory = try? manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true) else {return}
+//        guard let mediaType = "mp4" as? String else {return}
+//        guard let url = sourceURL1 as? NSURL else {return}
+//
+//        if mediaType == kUTTypeMovie as String || mediaType == "mp4" as String {
+//            let asset = AVAsset(URL: url as URL)
+//            let length = Float(asset.duration.value) / Float(asset.duration.timescale)
+//            print("video length: \(length) seconds")
+//
+//            let start = statTime
+//            let end = endTime
+//
+//            var outputURL = documentDirectory.URLByAppendingPathComponent("output")
+//            do {
+//                try manager.createDirectoryAtURL(outputURL, withIntermediateDirectories: true, attributes: nil)
+//                let name = Moment.newName()
+//                outputURL = outputURL.URLByAppendingPathComponent("\(name).mp4")
+//            }catch let error {
+//                print(error)
+//            }
+//
+//            //Remove existing file
+//            _ = try? manager.removeItemAtURL(outputURL)
+//
+//
+//            guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) else {return}
+//            exportSession.outputURL = outputURL
+//            exportSession.outputFileType = AVFileTypeMPEG4
+//
+//            let startTime = CMTime(seconds: Double(start ?? 0), preferredTimescale: 1000)
+//            let endTime = CMTime(seconds: Double(end ?? length), preferredTimescale: 1000)
+//            let timeRange = CMTimeRange(start: startTime, end: endTime)
+//
+//            exportSession.timeRange = timeRange
+//            exportSession.exportAsynchronouslyWithCompletionHandler{
+//                switch exportSession.status {
+//                case .Completed:
+//                    print("exported at \(outputURL)")
+//                    self.saveVideoTimeline(outputURL)
+//                case .Failed:
+//                    print("failed \(exportSession.error)")
+//
+//                case .Cancelled:
+//                    print("cancelled \(exportSession.error)")
+//
+//                default: break
+//                }
+//            }
+//        }
+//    }
+//
     func validationMethod(data : Data!) -> Bool? {
 
         if data != nil {
@@ -424,7 +507,7 @@ extension NewEntryViewController: UITextViewDelegate {
             let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
           let txtAfterUpdate1 = newText.trimmingCharacters(in: .whitespacesAndNewlines)
             if ((txtAfterUpdate1.count) == 0) {
-                lblCharLeft.text = "\(500 - ((txtAfterUpdate1.count) - 1)) characters left"
+                lblCharLeft.text = "\(500 - (txtAfterUpdate1.count)) characters left"
                 self.lblTextPlaceHolder.isHidden = false
                 return true
             }
@@ -445,6 +528,7 @@ extension NewEntryViewController: UITextViewDelegate {
 
           //  let txtAfterUpdate = text.replacingCharacters(in: range, with: text as String)
                 if ((txtAfterUpdate.count) >= 500) {
+                    lblCharLeft.text = "0 character left"
                 return false
             }
                 else if ((txtAfterUpdate.count) == 0) {
@@ -484,17 +568,17 @@ extension NewEntryViewController: UIImagePickerControllerDelegate {
         
         if let mediaType = info[UIImagePickerControllerMediaType] as? String {
             if mediaType == kUTTypeImage as String {
-                if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+                if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
                     if let fixedImage = pickedImage.fixedOrientation() {
                         if let data = UIImageJPEGRepresentation(fixedImage, 0.8) {
                             
-                            let dataSizeinKb = getdataSizeinMB(forData: data)
-                            if(dataSizeinKb > 5){
-                                self.showErrorAlert(title:"", errorMessage: "Image can't be greater than 5 mb.")
-                                return
-                            }
+//                            let dataSizeinKb = getdataSizeinMB(forData: data)
+//                            if(dataSizeinKb > 5){
+//                                self.showErrorAlert(title:"", errorMessage: "Image can't be greater than 5 mb.")
+//                                return
+//                            }
                             
-                            if(self.validationMethod(data: data))!{
+//                            if(self.validationMethod(data: data))!{
 
                             let temporaryDirectory = NSTemporaryDirectory()
                             let fileName = UUID().uuidString + ".png"
@@ -520,7 +604,7 @@ extension NewEntryViewController: UIImagePickerControllerDelegate {
                                 })
                             }
                         }
-                    }
+                  //  }
                   }
                 }
             } else if mediaType == kUTTypeMovie as String {
@@ -533,16 +617,19 @@ extension NewEntryViewController: UIImagePickerControllerDelegate {
 
                     let videoData: Data = NSData(contentsOf: url as URL)! as Data
                     
-                    let dataSizeinKb = getdataSizeinMB(forData: videoData)
-                    if(dataSizeinKb > 5){
-                        self.showErrorAlert(title:"", errorMessage: "Video can't be greater than 5 mb.")
-                        return
-                    }
+//                    let dataSizeinKb = getdataSizeinMB(forData: videoData)
+//                    if(dataSizeinKb > 5){
+//                        self.showErrorAlert(title:"", errorMessage: "Video can't be greater than 5 mb.")
+//                        return
+//                    }
                     
-                    if(self.validationMethod(data: videoData))!{
+                 //   if(self.validationMethod(data: videoData))!{
+                        
                         DispatchQueue.main.async {
                             UtilityManager.ShowHUD(text: "Please wait...")
-                        }
+                            
+                    }
+                    
                     Media.uploadVideo(url, progress: { (progress, completed) in
                         print("progress: \(progress)  completed: \(completed)")
                     }, error: { (errorMessage) in
@@ -555,7 +642,7 @@ extension NewEntryViewController: UIImagePickerControllerDelegate {
                         }
                     })
                  }
-               }
+             //  }
              
            }
          }

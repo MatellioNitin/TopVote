@@ -17,8 +17,13 @@ class FollowViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
 
+    @IBOutlet weak var lblNodata: UILabel!
     var followType : FollowType = .followers
+    var userId: String! = ""
     var user: Account!
+    var noDataString = ""
+
+    var usersTemp = Accounts()
     var users = Accounts() {
         didSet {
             tableView.reloadData()
@@ -29,14 +34,89 @@ class FollowViewController: UIViewController {
         super.viewDidLoad()
         
         tableView.register(UINib(nibName: "UserFollowTableViewCell", bundle: nil), forCellReuseIdentifier: "UserFollowCell")
+        self.lblNodata.text = self.noDataString
 
         navigationItem.title = followType == .followers ? "Followers" : "Following"
-
-        fetchUsersIfNeeded()
+        
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        
+        if userId! == "" {
+            fetchUsersIfNeeded()
+        }
+        else
+        {
+            getProfileAPI()
+            
+//            DispatchQueue.main.async {
+//                self.users = self.usersTemp
+//                if(self.users.count == 0){
+//                    self.lblNodata.isHidden = false
+//                }
+//                else
+//                {
+//                    self.lblNodata.isHidden = true
+//                }
+//                self.tableView.reloadData()
+//            }
+        }
+        
     }
     
+    
+    func getProfileAPI(){
+        
+//    let currentUser = AccountManager.session?.account
+//        if currentUser?._id != userId {
+            UtilityManager.ShowHUD(text: "Please wait...")
+            Account.getOtherProfile(accountId: (userId)!, error: { (errorMessage) in
+                UtilityManager.RemoveHUD()
+                
+                self.showErrorAlert(errorMessage: errorMessage)
+            }, completion: { [weak self] (following, followers) in
+                
+                
+//                if let followers = followers {
+//                    self?.user?.userFollowers = followers
+//                }
+//                if let following = following {
+//
+//                    self?.user?.userFollowing = following
+//                }
+                
+                
+                if (self?.followType == .followers) {
+                    if let followers = followers {
+                        self?.users = followers
+                    }
+                } else {
+                    if let following = following {
+                        self?.users = following
+                    }
+                }
+                
+                if(self?.users.count == 0){
+                    self?.lblNodata.isHidden = false
+                }
+                else
+                {
+                    self?.lblNodata.isHidden = true
+                }
+         
+                self?.tableView.reloadData()
+                UtilityManager.RemoveHUD()
+                
+                }
+            )
+//}
+        
+    }
+    
+    
     func fetchUsersIfNeeded() {
-        if (users.count == 0) {
+       // if (self.users.count == 0) {
+            UtilityManager.ShowHUD(text: "Please wait...")
+
             Account.follows(error: { (errorMessage) in
                 
             }) { [weak self] (following, followers) in
@@ -49,10 +129,22 @@ class FollowViewController: UIViewController {
                         self?.users = following
                     }
                 }
+                
+                if(self?.users.count == 0){
+                    self?.lblNodata.isHidden = false
+                }
+                else
+                {
+                    self?.lblNodata.isHidden = true
+                }
+                
+                UtilityManager.RemoveHUD()
+
+                
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
                 }
-            }
+          //  }
         }
 //                if let user = user, let followerIds = user.followerIds, followerIds.count > 0 {
 //                    let query = PFVoter.usersForIdsQuery(followerIds)
@@ -96,6 +188,10 @@ extension FollowViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+            return 60
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

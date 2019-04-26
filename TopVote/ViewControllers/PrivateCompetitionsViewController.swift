@@ -65,9 +65,7 @@ class PrivateCompetitionsViewController: UIViewController, UITableViewDataSource
         self.tableView.register(UINib(nibName: "NoCompetitionILikeCell", bundle: nil), forCellReuseIdentifier: "finalCell")
 
         refreshControl.addTarget(self, action: #selector(PrivateCompetitionsViewController.loadCompetitions), for: UIControlEvents.valueChanged)
-        
-
-        
+                
         loadCompetitions()
         
         self.navigationItem.hidesBackButton = true

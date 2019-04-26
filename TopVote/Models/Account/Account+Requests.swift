@@ -52,6 +52,59 @@ extension Account {
         }
     }
     
+    
+    static func getOtherProfile(accountId: String, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ following: Accounts?, _ followers: Accounts?) -> Void) {
+        Account.provider.request(Account.API.getOtherProfile(accountId: accountId)) { result in
+            result.handleResponseData(completion: { (errorMessage, data, token) in
+                if let value = data, let follow: FollowInterceptor = FollowInterceptor.create(data: value) {
+                    
+                    let following: Accounts? = follow.following
+                    let followers: Accounts? = follow.followers
+                    
+                    completion(following, followers)
+                } else if let errorMessage = errorMessage {
+                    error(errorMessage)
+                } else {
+                    error("Request cannot be completed at this time. Please try again later.")
+                }
+                
+            })
+        }
+    }
+ 
+    
+    static func unfollow(accountId: String, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ otherAccount: Account) -> Void) {
+        Account.provider.request(Account.API.unfollow(accountId: accountId)) { result in
+            result.handleResponseData(completion: { (errorMessage, data, token) in
+                if let value = data, let account: Account = Account.create(data: value) {
+                    completion(account)
+                } else if let errorMessage = errorMessage {
+                    error(errorMessage)
+                }
+            })
+        }
+    }
+    
+ 
+//        Account.provider.request(Account.API.me) { result in
+//            result.handleResponseData(completion: { (errorMessage, data, token) in
+//                if let value = data, let account: Account = Account.create(data: value) {
+//                    DispatchQueue.main.async {
+//                        NotificationCenter.default.post(name: NSNotification.Name.AccountRefreshed, object: nil)
+//                    }
+//
+//                    AccountManager.session?.account = account
+//                    AccountManager.saveSession()
+//
+//                    completion()
+//                } else if let errorMessage = errorMessage {
+//                    error(errorMessage)
+//                } else {
+//                    error("Request cannot be completed at this time. Please try again later.")
+//                }
+//            })
+//        }
+//    }
     func entries(queryParams: [String: Any]?, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ entries: Entries) -> Void) {
         Account.provider.request(Account.API.entries(queryParams: queryParams)) { result in
             result.handleResponseData(completion: { (errorMessage, data, token) in
@@ -307,17 +360,7 @@ extension Account {
     }
     
     
-    static func unfollow(accountId: String, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ unfollowedAccount: Account) -> Void) {
-        Account.provider.request(Account.API.unfollow(accountId: accountId)) { result in
-            result.handleResponseData(completion: { (errorMessage, data, token) in
-                if let value = data, let account: Account = Account.create(data: value) {
-                    completion(account)
-                } else if let errorMessage = errorMessage {
-                    error(errorMessage)
-                }
-            })
-        }
-    }
+   
     
     static func follows(error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ following: Accounts?, _ followers: Accounts?) -> Void) {
         Account.provider.request(Account.API.follows) { result in

@@ -47,7 +47,7 @@ class WebViewVC: UIViewController {
     @IBAction func backButtonAction(_ sender: Any) {
         
         self.navigationController?.popViewController(animated: true)
-//            viewWeb = nil
+//            view-Web = nil
             viewWeb.delegate = nil
         
     }

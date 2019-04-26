@@ -19,6 +19,11 @@ class UserFollowTableViewCell: UserTableViewCell {
             if let followingAccount = user.followingAccount {
                 followButton.isSelected = followingAccount == true
             }
+            else{
+//                if user.followingAccount != nil {
+                    followButton.isSelected = false
+              //  }
+            }
             followButton.isHidden = currentUser._id == user._id
         }
     }

@@ -13,6 +13,7 @@ class ActivityTableViewCell: EntryTableViewCell {
 
     @IBOutlet weak var activityTextLabel: UILabel!
     
+    @IBOutlet weak var btnProfile: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
     }

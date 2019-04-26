@@ -107,6 +107,8 @@ class CompetitionTableViewCell: UITableViewCell {
             switch type {
             case 0 : imageName = "icon-camera"
             case 1 : imageName = "icon-video"
+            case 3 : imageName = "image-video"
+
             default : imageName = "text"
             }
             

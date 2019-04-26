@@ -39,7 +39,7 @@ final class Entry: Model, Hashable {
     var mediaType: String?
     
     var mediaUri: String?
-    
+
     var mediaUriThumbnail: String?
     
     var byImageUri: String?

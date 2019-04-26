@@ -13,7 +13,7 @@ class CategoryVC: UIViewController {
     @IBOutlet weak var btnSelectAll: UIButton!
     @IBOutlet weak var btnBack: UIButton!
     @IBOutlet weak var tblCategory: UITableView!
-    
+    @IBOutlet weak var lblTitle: UILabel!
     var categoryArray = Categorys()
     var savedCategory = NSMutableArray()
 
@@ -24,7 +24,6 @@ class CategoryVC: UIViewController {
         }
         self.navigationController?.navigationBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = true
-        
         savedCategory = NSMutableArray(array: (AccountManager.session?.account?.categories)!)
 
         getCategoryList()
@@ -55,7 +54,7 @@ class CategoryVC: UIViewController {
             }) { [weak self] (competitions) in
                     UtilityManager.RemoveHUD()
                     self?.categoryArray = competitions
-
+                if(competitions.count > 0){
                     var isAllSelecct = true
                     
                 for i in 0...(self?.categoryArray.count)! - 1 {
@@ -68,14 +67,12 @@ class CategoryVC: UIViewController {
                     if(isAllSelecct){
                          self?.btnSelectAll .setTitle("Unselect All", for: .normal)
                     }
-         
+                }
             
-                    
                     print("self?.savedCategory.count \(self?.savedCategory.count)")
                         print("self?.savedCategory.count \(self?.savedCategory.count)")
-                        
-                        
-//
+
+                
 //                    if(self?.savedCategory.count == self?.categoryArray.count){
 //                        self?.btnSelectAll .setTitle("Unselect All", for: .normal)
 //                    }
@@ -99,26 +96,28 @@ class CategoryVC: UIViewController {
     
     @IBAction func saveAction(_ sender: Any) {
         
-//        if(savedCategory.count == 0){
-//
-//            self.showErrorAlert(errorMessage: "Please select atleast one category.")
-//            return
-//        }
-        
+        if(savedCategory.count == 0){
+
+            self.showErrorAlert(errorMessage: "Please select atleast one category.")
+            return
+        }
+        UtilityManager.ShowHUD(text: "Please wait...")
+
         if let user = AccountManager.session?.account {
-            UtilityManager.ShowHUD(text: "Please wait...")
 
             user.categories = savedCategory as? [String]
             
             user.save(error: { [weak self ](errorMessage) in
+                UtilityManager.RemoveHUD()
+
                 DispatchQueue.main.async {
                     self?.showErrorAlert(errorMessage: errorMessage)
-                    UtilityManager.RemoveHUD()
 
                 }
                 }, completion: {
+                    UtilityManager.RemoveHUD()
+
                     DispatchQueue.main.async {
-                        UtilityManager.RemoveHUD()
                         AccountManager.session?.account = user
                        
                         if self.navigationController?.viewControllers == nil {
@@ -134,6 +133,10 @@ class CategoryVC: UIViewController {
     
     @IBAction func btnSelectAllAction(_ sender: Any) {
 
+        if(categoryArray.count == 0){
+            return
+        }
+        
         if(btnSelectAll.titleLabel?.text == "Select All"){
             btnSelectAll .setTitle("Unselect All", for: .normal)
             savedCategory.removeAllObjects()

@@ -22,6 +22,7 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var segmentedButtonSorter: UISegmentedControl!
     @IBOutlet weak var searchTextField: UITextField!
 
+    @IBOutlet weak var lblNoData: UILabel!
     var followingActivities = Activities()
     var myActivities = Activities()
     var filteredActivities = Activities()
@@ -29,13 +30,15 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        lblNoData.isHidden = true
         tableView.register(UINib(nibName: "ActivityTableViewCell", bundle: nil), forCellReuseIdentifier: "ActivityCell")
         
         tableView.estimatedRowHeight = 61
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.separatorColor = UIColor(patternImage: UIImage(named: "horizontal-divide-activity")!)
         tableView.separatorInset = UIEdgeInsetsMake(0, 60, 0, 0)
+        tableView.tableFooterView = UIView(frame: .zero)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,6 +77,13 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
                     self?.followingActivities = activities
                     DispatchQueue.main.async {
                         UtilityManager.RemoveHUD()
+                        if(self?.followingActivities.count == 0){
+                            self?.lblNoData.isHidden = false
+                        }
+                        else
+                        {
+                            self?.lblNoData.isHidden = true
+                        }
                         self?.filter()
                     }
                 })
@@ -100,7 +110,13 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
                     self?.myActivities = activities
                     DispatchQueue.main.async {
                         UtilityManager.RemoveHUD()
-
+                        if(self?.myActivities.count == 0){
+                            self?.lblNoData.isHidden = false
+                        }
+                        else
+                        {
+                            self?.lblNoData.isHidden = true
+                        }
                         self?.filter()
                     }
                 })
@@ -121,6 +137,18 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func searchTextFieldChanged(_ sender: AnyObject) {
         filter()
     }
+    
+    @IBAction func getProfileAction(_ sender: UIButton) {
+        
+        let activity = filteredActivities[sender.tag]
+        if let nc = storyboard?.instantiateViewController(withIdentifier: "YourProfileNC") as? UINavigationController {
+            if let vc = nc.childViewControllers.first as? YourProfileViewController {
+                vc.user = activity.account
+                self.present(nc, animated: true, completion: nil)
+                        }
+            }
+    }
+    
     
     func filter() {
         if let text = searchTextField.text?.lowercased(), searchTextField.isHidden == false && text.count > 0 {
@@ -152,12 +180,20 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
                 break
             }
         }
+        if(self.filteredActivities.count == 0){
+            self.lblNoData.isHidden = false
+        }
+        else
+        {
+            self.lblNoData.isHidden = true
+        }
         self.tableView.reloadData()
     }
 
     // MARK: - Table view data source
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return filteredActivities.count
     }
 
@@ -165,20 +201,40 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "ActivityCell", for: indexPath) as! ActivityTableViewCell
         let activity = filteredActivities[indexPath.row]
-        cell.configureWithActivity(activity)
         
+        cell.configureWithActivity(activity)
+        cell.btnProfile.tag = indexPath.row
+        
+        cell.btnProfile.addTarget(self, action:#selector(self.getProfileAction(_:)), for: .touchUpInside)
+
+        
+        if let profileImageUri = activity.account?.profileImageUri, let uri = URL(string: profileImageUri) {
+            cell.userImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+        } else {
+            cell.userImageView?.image = UIImage(named: "profile-default-avatar")
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+     
         tableView.deselectRow(at: indexPath, animated: true)
         let activity = filteredActivities[indexPath.row]
-        if let nc = storyboard?.instantiateViewController(withIdentifier: "YourProfileNC") as? UINavigationController {
-            if let vc = nc.childViewControllers.first as? YourProfileViewController {
-                vc.user = activity.account
-                self.present(nc, animated: true, completion: nil)
-            }
+        
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "entriesVC") as? CompetitionEntriesViewController {
+            
+            vc.isComeFromDeepUrl = true
+            vc.idEntry = (activity.entry?._id)!
+            self.navigationController?.pushViewController(vc, animated: true)
         }
+        
+        
+//        if let nc = storyboard?.instantiateViewController(withIdentifier: "YourProfileNC") as? UINavigationController {
+//            if let vc = nc.childViewControllers.first as? YourProfileViewController {
+//                vc.user = activity.account
+//                self.present(nc, animated: true, completion: nil)
+//            }
+//        }
     }
 
     // MARK: - Navigation

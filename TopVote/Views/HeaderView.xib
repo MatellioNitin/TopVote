@@ -32,7 +32,7 @@
                                         <segment title="Awards"/>
                                         <segment title="Stats"/>
                                     </segments>
-                                    <color key="tintColor" red="0.37254901960784315" green="0.16862745098039217" blue="0.45490196078431372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="tintColor" red="0.26274509800000001" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <connections>
                                         <action selector="controlChanged:" destination="tXi-SW-bWl" eventType="valueChanged" id="7em-cA-keO"/>
                                     </connections>

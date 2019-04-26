@@ -17,6 +17,11 @@ extension Poll {
         var _id: String?
         
         var title: String?
+        
+        var optionText: String?
+
+        var type: Int?
+
 
 
     }

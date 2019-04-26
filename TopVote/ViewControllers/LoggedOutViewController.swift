@@ -4,7 +4,6 @@
 //
 //  Created by Kurt Jensen on 5/9/16.
 //  Copyright © 2016 TopVote. All rights reserved.
-//
 
 import UIKit
 import FacebookLogin
@@ -33,7 +32,7 @@ class LoggedOutViewController: KeyboardScrollViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        usernameTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Username", font: usernameTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
+        usernameTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Username or Email", font: usernameTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
         passwordTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Password", font: passwordTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
     }
 
@@ -290,13 +289,20 @@ class LoggedOutViewController: KeyboardScrollViewController {
     }
     
     func logIn(_ username: String, password: String) {
+        
+        UtilityManager.ShowHUD(text: "Please wait...")
+
         let params = [
             "user": username,
             "password": password
         ]
         Account.login(params: params, error: { (errorMessage) in
+            UtilityManager.RemoveHUD()
+
             self.showErrorAlert(errorMessage: errorMessage)
         }) { (account) in
+            UtilityManager.RemoveHUD()
+
             appDelegate.registerNotification()
             self.dismiss(animated: true, completion: nil)
         }
@@ -326,7 +332,7 @@ class LoggedOutViewController: KeyboardScrollViewController {
                 }, completion: { () in
                     DispatchQueue.main.async {
                         UtilityManager.RemoveHUD()
-                        self.showAlert(title: "", confirmTitle: "Ok", errorMessage: "We have sent you a reset password. Please check your email.", actions: nil, confirmCompletion: nil, completion: nil)
+                        self.showAlert(title: "", confirmTitle: "Ok", errorMessage: "We reset your password. Please check your email.", actions: nil, confirmCompletion: nil, completion: nil)
    
                     }
                 })

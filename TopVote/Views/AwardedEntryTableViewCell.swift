@@ -65,6 +65,10 @@ class AwardedEntryTableViewCell: UITableViewCell {
             giftLabel.isHidden = true
         }
 
+        if let currentUser = AccountManager.session?.account, currentUser._id != entry.account?._id {
+            giftLabel.isHidden = true
+        }
+        
         if let date = entry.createdAt {
             timeLabel.text = date.timeAgo
         }

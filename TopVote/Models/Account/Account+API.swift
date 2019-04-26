@@ -42,6 +42,8 @@ extension Account {
         
         case confirmPassword([String: Any?])
 
+        case getOtherProfile(accountId: String)
+        
         case unfollow(accountId: String)
         
         case follows
@@ -103,6 +105,8 @@ extension Account.API: TargetType {
             return "/accounts/password/change"
         case let .confirmPassword:
             return "/accounts/password/confirm"
+        case let .getOtherProfile(accountId):
+            return "/accounts/follows/\(accountId)"
         case let .unfollow(accountId):
             return "/accounts/me/follow/\(accountId)"
         case .follows:
@@ -237,7 +241,7 @@ extension Account.API: TargetType {
                 return .requestParameters(parameters: queryParams, encoding: URLEncoding.queryString)
             }
             return .requestPlain
-        case .logout, .show, .unfollow, .follow, .follows, .me, .activities, .followingActivities:
+    case .logout, .show, .unfollow, .follow, .follows, .me, .activities, .followingActivities, .getOtherProfile:
             return .requestPlain
         case let .update(account):  // Always sends parameters in URL, regardless of which HTTP method is used
             return .requestParameters(parameters: Account.dictionary(model: account), encoding: JSONEncoding.default)

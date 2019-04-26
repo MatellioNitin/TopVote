@@ -52,6 +52,10 @@ final class Account: Model {
     
     var following: Int?
     
+    var userFollowers: Accounts?
+    
+    var userFollowing: Accounts?
+    
     var followingAccount: Bool?
 
     var competitionsWon: Int?

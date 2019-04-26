@@ -83,6 +83,8 @@
 		90DE99B21D15A24700AA04D0 /* StatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DE99B11D15A24700AA04D0 /* StatTableViewCell.swift */; };
 		90DE99B41D15A25B00AA04D0 /* StatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90DE99B31D15A25B00AA04D0 /* StatTableViewCell.xib */; };
 		945945F3219D47DD00AE9020 /* WebViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945945F2219D47DC00AE9020 /* WebViewVC.swift */; };
+		94628637225353C400733E34 /* PollVC1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94628636225353C300733E34 /* PollVC1.swift */; };
+		9474ADB822548EEC002444FF /* PollTBCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9474ADB722548EEC002444FF /* PollTBCell.swift */; };
 		AD0B831F2146467D0041DCD1 /* Poll+Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0B831E2146467C0041DCD1 /* Poll+Options.swift */; };
 		AD5D796921343CAF00807DA3 /* Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = AD5D796821343CAF00807DA3 /* Config.plist */; };
 		AD757BEE214637A700D77EBC /* Poll+API.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD757BE2214637A600D77EBC /* Poll+API.swift */; };
@@ -321,6 +323,8 @@
 		90DE99B31D15A25B00AA04D0 /* StatTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StatTableViewCell.xib; sourceTree = "<group>"; };
 		90F6B1471DCA54A00087B908 /* TopVote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = TopVote.entitlements; sourceTree = "<group>"; };
 		945945F2219D47DC00AE9020 /* WebViewVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewVC.swift; sourceTree = "<group>"; };
+		94628636225353C300733E34 /* PollVC1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollVC1.swift; sourceTree = "<group>"; };
+		9474ADB722548EEC002444FF /* PollTBCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollTBCell.swift; sourceTree = "<group>"; };
 		AD0B831E2146467C0041DCD1 /* Poll+Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Poll+Options.swift"; sourceTree = "<group>"; };
 		AD4130C321402BDB00C61D43 /* Topvote.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Topvote.entitlements; path = Topvote/Topvote.entitlements; sourceTree = "<group>"; };
 		AD5D796821343CAF00807DA3 /* Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Config.plist; sourceTree = "<group>"; };
@@ -458,12 +462,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90D43CC21C8A33880050DE6E /* UIKit.framework in Frameworks */,
 				ADF87E87213FCC1A0099D6CD /* iAd.framework in Frameworks */,
 				ADF87E85213FCC0E0099D6CD /* CoreSpotlight.framework in Frameworks */,
 				ADF87E83213FCBFE0099D6CD /* MobileCoreServices.framework in Frameworks */,
 				ADF87E81213FCBF60099D6CD /* SafariServices.framework in Frameworks */,
 				ADF87E7F213FCBEC0099D6CD /* AdSupport.framework in Frameworks */,
-				90D43CC21C8A33880050DE6E /* UIKit.framework in Frameworks */,
 				90D43CC01C8A33820050DE6E /* SystemConfiguration.framework in Frameworks */,
 				90D43CBE1C8A337B0050DE6E /* CoreTelephony.framework in Frameworks */,
 				90D43CBC1C8A33730050DE6E /* CoreGraphics.framework in Frameworks */,
@@ -771,6 +775,8 @@
 			children = (
 				AD757BE1214637A600D77EBC /* Model */,
 				AD757BE5214637A600D77EBC /* PollVC.swift */,
+				94628636225353C300733E34 /* PollVC1.swift */,
+				9474ADB722548EEC002444FF /* PollTBCell.swift */,
 			);
 			path = Poll;
 			sourceTree = "<group>";
@@ -1221,6 +1227,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1392,7 +1399,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ \"${CONFIGURATION}\" = \"DEV\" ]; then\ncp TopVote/Configuration/Environment/ConfigDEV.swift TopVote/Configuration/Environment/ConfigEnv.swift\nsed -i '' -e 's/^struct.*/struct ConfigEnv/' TopVote/Configuration/Environment/ConfigEnv.swift\nelif [ \"${CONFIGURATION}\" = \"Debug\" ]; then\ncp TopVote/Configuration/Environment/ConfigDEV.swift TopVote/Configuration/Environment/ConfigEnv.swift\nsed -i '' -e 's/^struct.*/struct ConfigEnv/' TopVote/Configuration/Environment/ConfigEnv.swift\nelif [ \"${CONFIGURATION}\" = \"LOCAL\" ]; then\ncp TopVote/Configuration/Environment/ConfigLOCAL.swift TopVote/Configuration/Environment/ConfigEnv.swift\nsed -i '' -e 's/^struct.*/struct ConfigEnv/' TopVote/Configuration/Environment/ConfigEnv.swift\nelif [ \"${CONFIGURATION}\" = \"STAGE\" ]; then\ncp TopVote/Configuration/Environment/ConfigSTAGE.swift TopVote/Configuration/Environment/ConfigEnv.swift\nsed -i '' -e 's/^struct.*/struct ConfigEnv/' TopVote/Configuration/Environment/ConfigEnv.swift\nelse\ncp TopVote/Configuration/Environment/ConfigPRODUCTION.swift TopVote/Configuration/Environment/ConfigEnv.swift\nsed -i '' -e 's/^struct.*/struct ConfigEnv/' TopVote/Configuration/Environment/ConfigEnv.swift\nfi";
+			shellScript = "if [ \"${CONFIGURATION}\" = \"DEV\" ]; then\ncp TopVote/Configuration/Environment/ConfigDEV.swift TopVote/Configuration/Environment/ConfigEnv.swift\nsed -i '' -e 's/^struct.*/struct ConfigEnv/' TopVote/Configuration/Environment/ConfigEnv.swift\nelif [ \"${CONFIGURATION}\" = \"Debug\" ]; then\ncp TopVote/Configuration/Environment/ConfigDEV.swift TopVote/Configuration/Environment/ConfigEnv.swift\nsed -i '' -e 's/^struct.*/struct ConfigEnv/' TopVote/Configuration/Environment/ConfigEnv.swift\nelif [ \"${CONFIGURATION}\" = \"LOCAL\" ]; then\ncp TopVote/Configuration/Environment/ConfigLOCAL.swift TopVote/Configuration/Environment/ConfigEnv.swift\nsed -i '' -e 's/^struct.*/struct ConfigEnv/' TopVote/Configuration/Environment/ConfigEnv.swift\nelif [ \"${CONFIGURATION}\" = \"STAGE\" ]; then\ncp TopVote/Configuration/Environment/ConfigSTAGE.swift TopVote/Configuration/Environment/ConfigEnv.swift\nsed -i '' -e 's/^struct.*/struct ConfigEnv/' TopVote/Configuration/Environment/ConfigEnv.swift\nelse\ncp TopVote/Configuration/Environment/ConfigPRODUCTION.swift TopVote/Configuration/Environment/ConfigEnv.swift\nsed -i '' -e 's/^struct.*/struct ConfigEnv/' TopVote/Configuration/Environment/ConfigEnv.swift\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1422,6 +1429,7 @@
 				AD757BEE214637A700D77EBC /* Poll+API.swift in Sources */,
 				900896871C873BE1008CD964 /* CommentsViewController.swift in Sources */,
 				B679B5131F82CAAF00250A5C /* AppConfig.swift in Sources */,
+				9474ADB822548EEC002444FF /* PollTBCell.swift in Sources */,
 				B679B4EA1F82C79A00250A5C /* String+Crypto.swift in Sources */,
 				B60662941FA6B2FE0048B7C7 /* Idea+API.swift in Sources */,
 				B679B50B1F82CA7E00250A5C /* Account+Notification.swift in Sources */,
@@ -1450,6 +1458,7 @@
 				B679B4E41F82C79A00250A5C /* Array+Additions.swift in Sources */,
 				B60662961FA6B30B0048B7C7 /* Idea+Requests.swift in Sources */,
 				B6569D171F914FA9001EB4BA /* Entry.swift in Sources */,
+				94628637225353C400733E34 /* PollVC1.swift in Sources */,
 				AD9E6407213FBBCD00ED99E3 /* PCompitionCreate.swift in Sources */,
 				B679B4FB1F82C9C800250A5C /* ConfigAssistant.swift in Sources */,
 				B679B4DF1F82C79A00250A5C /* UIViewController+Visible.swift in Sources */,
@@ -1584,6 +1593,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1638,7 +1648,9 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1665,11 +1677,11 @@
 			baseConfigurationReference = 0849C084CCEAB84F8BCB3822 /* Pods-Topvote.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BRANCH_IO_KEY = key_live_cpzZ6whOAbqu7VY4IWakvmfpsve29Y6Q;
+				BRANCH_IO_KEY = key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Shailendra Singh Rathore (MZA3C9K959)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Shailendra Singh Rathore (MZA3C9K959)";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FG3LGC6FXG;
@@ -1684,9 +1696,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "f347792b-aff0-4777-ad3a-de302fcbd2d8";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_Adhoc;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
+				PROVISIONING_PROFILE = "9edf0b1e-2d37-40fd-ba5c-ceecf635ca25";
+				PROVISIONING_PROFILE_SPECIFIER = topvote_debug;
+				REEXPORTED_LIBRARY_PATHS = "";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -1701,11 +1714,11 @@
 			baseConfigurationReference = 3C508E82CB9649765A46DBF9 /* Pods-Topvote.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BRANCH_IO_KEY = key_live_cpzZ6whOAbqu7VY4IWakvmfpsve29Y6Q;
+				BRANCH_IO_KEY = key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Shailendra Singh Rathore (MZA3C9K959)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FG3LGC6FXG;
@@ -1720,9 +1733,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "f347792b-aff0-4777-ad3a-de302fcbd2d8";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_Adhoc;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
+				PROVISIONING_PROFILE = "9edf0b1e-2d37-40fd-ba5c-ceecf635ca25";
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
+				REEXPORTED_LIBRARY_PATHS = "";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -1759,6 +1773,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1791,12 +1806,13 @@
 			baseConfigurationReference = DAC661C364E875C5A168A91C /* Pods-Topvote.dev.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BRANCH_IO_KEY = key_live_cpzZ6whOAbqu7VY4IWakvmfpsve29Y6Q;
+				BRANCH_IO_KEY = key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Shailendra Singh Rathore (MZA3C9K959)";
 				CODE_SIGN_STYLE = Manual;
+				CONFIGURATION_TEMP_DIR = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FG3LGC6FXG;
 				ENABLE_BITCODE = NO;
@@ -1810,9 +1826,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "f347792b-aff0-4777-ad3a-de302fcbd2d8";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_Adhoc;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
+				PROVISIONING_PROFILE = "9edf0b1e-2d37-40fd-ba5c-ceecf635ca25";
+				PROVISIONING_PROFILE_SPECIFIER = topvote_debug;
+				REEXPORTED_LIBRARY_PATHS = "";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -1850,6 +1867,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1882,11 +1900,11 @@
 			baseConfigurationReference = E204C888E4B62C0E02A16AB6 /* Pods-Topvote.local.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BRANCH_IO_KEY = key_live_cpzZ6whOAbqu7VY4IWakvmfpsve29Y6Q;
+				BRANCH_IO_KEY = key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Shailendra Singh Rathore (MZA3C9K959)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FG3LGC6FXG;
@@ -1901,9 +1919,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "f347792b-aff0-4777-ad3a-de302fcbd2d8";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_Adhoc;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
+				PROVISIONING_PROFILE = "9edf0b1e-2d37-40fd-ba5c-ceecf635ca25";
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
+				REEXPORTED_LIBRARY_PATHS = "";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -1940,7 +1959,9 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1967,11 +1988,11 @@
 			baseConfigurationReference = 908728ED9AAEE33006760FB3 /* Pods-Topvote.production.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				BRANCH_IO_KEY = key_live_cpzZ6whOAbqu7VY4IWakvmfpsve29Y6Q;
+				BRANCH_IO_KEY = key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Shailendra Singh Rathore (MZA3C9K959)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FG3LGC6FXG;
@@ -1986,9 +2007,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "f347792b-aff0-4777-ad3a-de302fcbd2d8";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_Adhoc;
-				SWIFT_INCLUDE_PATHS = "$(SRCROOT)/CommonCrypto";
+				PROVISIONING_PROFILE = "9edf0b1e-2d37-40fd-ba5c-ceecf635ca25";
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
+				REEXPORTED_LIBRARY_PATHS = "";
+				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;

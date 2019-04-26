@@ -68,6 +68,7 @@ class Media: Model {
     //    }
     
     static let providerClosure = { (target: Media.API) -> Endpoint in
+        
         let defaultEndpoint = MoyaProvider.defaultEndpointMapping(for: target)
         
         var headerFields = URLRequest.authHeaders(httpMethod: defaultEndpoint.method.rawValue, urlPath: target.path, version: target.version)

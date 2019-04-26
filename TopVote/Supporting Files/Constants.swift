@@ -37,6 +37,8 @@ class Constants: NSObject {
     
     static let server: Server = .local
     static let appYellowColor = UIColor(red: 208.0/255.0, green: 172.0/255.0, blue: 49.0/255.0, alpha: 1.0)
+    static let appThemeColor = UIColor(red: 67.0/255.0, green: 35.0/255.0, blue: 84.0/255.0, alpha: 1.0)
+
 
     
     static var COMPETITIONS_REFRESH_TIME: TimeInterval {

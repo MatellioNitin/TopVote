@@ -6,11 +6,11 @@
 
 import Foundation
 
-private let _enviromentKey = "DEV"
+//private let _enviromentKey = "DEV"
 
-//private let _enviromentKey = "LOCAL"
+private let _enviromentKey = "LOCAL"
 
-/// The Configuration used throughout application for API specific tasks.
+// The Configuration used throughout application for API specific tasks.
 
 struct Config
     

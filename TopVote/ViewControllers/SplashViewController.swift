@@ -1,10 +1,8 @@
 //
 //  SplashViewController.swift
 //  TopVote
-//
 //  Created by Kurt Jensen on 3/1/16.
 //  Copyright © 2016 TopVote. All rights reserved.
-//
 
 import UIKit
 //import FBSDKCoreKit
@@ -33,29 +31,23 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
         self.logoImageView.isHidden = false
         logoImageView.center = view.center
     }
+    
      func locationOn() {
         print("viewDidLayoutSubviews")
         
         if AccountManager.fetchLastSession(), let currentAccount = AccountManager.session?.account {
-            
-            //            if (user.needsProfileFix()) {
-            //                user.setup({ (success, error) -> Void in
-            //                    if (success) {
-            //                        self.editProfile()
-            //                    } else {
-            //                        self.showErrorPopup(error?.localizedDescription, completion: nil)
-            //                    }
-            //                })
-            //            } else {
-            //                //
+      
             (UIApplication.shared.delegate as? AppDelegate)?.registerForRemoteNotification()
-            //                //
+            
             setupProfileTabBarImage()
-            //                //
+            
             LocationManager.instance.getLocationAndName { (success, location, locationName) -> Void in
                 if (success) {
                     //                        user.location = PFGeoPoint(location: location)
                     currentAccount.locationName = locationName
+                    currentAccount.userFollowing = nil
+                    currentAccount.userFollowers = nil
+
                     currentAccount.save(error: { (errorMessage) in
                         
                     }, completion: {
@@ -65,16 +57,11 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
                     })
                 } else {
                     
-                    
-                    // self.presentSettings()
-                    
-                    //self.showAlert(title: "Oops!", confirmTitle: "Settings", errorMessage: "Use of your location is required to use the app. Please allow access in the settings app", actions: nil, confirmCompletion: nil, completion: {
-                    //})
-                    
                     self.activityIndicatorView.stopAnimating()
                     self.activityIndicatorView.isHidden = true
-                    self.locationPopUp()
-                    // self.showErrorAlert(errorMessage: "Use of your location is required to use the app. Please allow access in the settings app")
+                    if !CLLocationManager.locationServicesEnabled(){
+                        self.locationPopUp()
+                    }
                 }
             }
             //            }
@@ -243,23 +230,23 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
         UIGraphicsEndImageContext()
 
         image = image?.withRenderingMode(.alwaysOriginal)
-//
+
         for vc in tbvc.childViewControllers {
             if let vc = vc as? UINavigationController {
                 if vc.viewControllers.first is MyProfileViewController {
                     vc.tabBarItem = UITabBarItem(title: "Profile", image: image, selectedImage: image)
 
-//    if((AccountManager.session?.account?.categories)!.count == 0){
-//            let nav = vc.tabBarController?.viewControllers![0] as! UINavigationController
-//
-//    DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
-//            if let categoryVC = tbvc.storyboard?.instantiateViewController(withIdentifier: "CategoryVC") {
-//                nav.viewControllers.first?.present(categoryVC, animated: false, completion: nil)
-//            }
-//         }
-//
+    if((AccountManager.session?.account?.categories)!.count == 0){
+            let nav = vc.tabBarController?.viewControllers![0] as! UINavigationController
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+            if let categoryVC = tbvc.storyboard?.instantiateViewController(withIdentifier: "CategoryVC") {
+                nav.viewControllers.first?.present(categoryVC, animated: false, completion: nil)
+            }
+         }
+
         
-      //              }
+                    }
         }
     }
        print("LOGIN")

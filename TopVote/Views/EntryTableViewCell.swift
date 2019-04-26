@@ -15,6 +15,7 @@ import AlamofireImage
 protocol EntryTableViewCellDelegate {
     func showUser(_ user: Account)
     func playMedia(_ cell: EntryTableViewCell)
+    func volumeMedia(_ cell: EntryTableViewCell)
     func shareEntry(_ entry: Entry)
     func voteEntry(_ cell: EntryTableViewCell, entry: Entry, isUnVote:Bool)
     func commentEntry(_ entry: Entry)
@@ -33,6 +34,8 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var innerContentView: UIView?
     @IBOutlet weak var timeLabel: UILabel?
     @IBOutlet weak var captionButton: UIButton?
+    @IBOutlet weak var volumeButton: UIButton?
+
     @IBOutlet weak var userImageView: RoundedImageView?
     @IBOutlet weak var entryImageView: RoundedImageView?
     @IBOutlet weak var userNameLabel: UILabel?
@@ -54,6 +57,7 @@ class EntryTableViewCell: UITableViewCell {
     
     var entry: Entry?
     
+
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .none
@@ -77,6 +81,13 @@ class EntryTableViewCell: UITableViewCell {
         let voteGR = UILongPressGestureRecognizer(target: self, action: #selector(EntryTableViewCell.voteButtonTapped(_:)))
         voteGR.minimumPressDuration = 2
         entryImageView?.addGestureRecognizer(voteGR)
+        
+//        let tapVolume = UITapGestureRecognizer(target: self, action: #selector(EntryTableViewCell.playMediaTapped))
+//        tapVolume.numberOfTapsRequired = 1
+//        volumeButton?.addGestureRecognizer(tapVolume)
+        
+        volumeButton?.addTarget(self, action:#selector(EntryTableViewCell.volumeMediaTapped), for: .touchUpInside)
+        
         
         NotificationCenter.default.addObserver(self,
             selector: #selector(EntryTableViewCell.playerItemDidReachEnd(_:)),
@@ -109,7 +120,7 @@ class EntryTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureWithEntry(_ entry: Entry, compact: Bool, isComeFromProfile:Bool = false, selectedTab:Int) {
+    func configureWithEntry(_ entry: Entry, compact: Bool, isComeFromProfile:Bool = false, selectedTab:Int, isVideoMuted:Bool = false) {
         self.layoutSubviews()
         
         self.entry = entry
@@ -117,22 +128,44 @@ class EntryTableViewCell: UITableViewCell {
             textTypeLabel?.text = self.entry?.competition?.text
         }
         else if let mediaType = entry.mediaType {
+            captionButton?.isHidden = true
+
             if let mediaUri = entry.mediaUri, let uri = URL(string: mediaUri) {
-                if mediaType == "IMAGE" {
+                if mediaType == "IMAGE-VIDEO" {
+                    if mediaUri.contains(".jpg") || mediaUri.contains(".jpeg") || mediaUri.contains(".png") ||  mediaUri.contains(".gif") {
+                        self.entryImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: true)
+                        
+                    } else {
+                        self.mediaView.addPlayer(uri)
+                        if let captionButton = self.captionButton {
+                            self.bringSubview(toFront: captionButton)
+                        }
+                        self.captionButton?.isHidden = false
+                    }
+                    
+                    
+                }
+                else if mediaType == "IMAGE" {
                     entryImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
-                } else if mediaType == "VIDEO" {
+                } else if mediaType == "VIDEO" || (mediaType == "IMAGE-VIDEO" && (entry.mediaUri?.contains(".mov"))!) {
+                    
                     mediaView.addPlayer(uri)
+
                     if let captionButton = captionButton {
                         self.bringSubview(toFront: captionButton)
                     }
+                    captionButton?.isHidden = false
                 }
+                
             }
-
+            NSLog("Profile Name \(entry.account?.username)")
+            NSLog("Profile image \(entry.account?.profileImageUri)")
             if let profileImageUri = entry.account?.profileImageUri, let uri = URL(string: profileImageUri) {
                 userImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
             } else {
                 userImageView?.image = UIImage(named: "profile-default-avatar")
             }
+            
         }
         
         userNameLabel?.text = entry.account?.username ?? entry.account?.name
@@ -184,6 +217,21 @@ class EntryTableViewCell: UITableViewCell {
         }
     }
     
+    func toggleVolume() {
+        if (mediaView.player?.volume != 0) {
+            
+           volumeButton?.setImage(UIImage(named:"soundOff"), for: .normal)
+            mediaView.player?.volume = 0
+            
+        } else {
+            
+            volumeButton?.setImage(UIImage(named:"soundOn"), for: .normal)
+            mediaView.player?.volume = .greatestFiniteMagnitude
+            
+        }
+        
+    }
+    
     func startMedia() {
         if (mediaView.player?.rate != 1.0) {
             mediaView.player?.play()
@@ -195,6 +243,25 @@ class EntryTableViewCell: UITableViewCell {
             mediaView.player?.pause()
         }
     }
+//    
+//    func volumeButtonAction() {
+//        
+//        if(isVideoMuted){
+//            isVideoMuted =  false
+//        }
+//        else {
+//            isVideoMuted =  true
+//        }
+//        
+//        let indexPath = IndexPath(item: sender.tag - 1, section: 1)
+//        
+//        //IndexPath(forRow: sender.tag - 1, inSection: 0)
+//        
+//        self.tableView.reloadRows(at: [indexPath], with: .none)
+//    }
+    
+    
+    
     
     func refreshVotes() {
         guard let entry = entry else {
@@ -225,6 +292,10 @@ class EntryTableViewCell: UITableViewCell {
     
     @objc func playMediaTapped() {
         self.delegate?.playMedia(self)
+    }
+    
+    @objc func volumeMediaTapped() {
+        self.delegate?.volumeMedia(self)
     }
     
     @objc func showProfileTapped() {

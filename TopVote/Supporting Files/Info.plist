@@ -61,7 +61,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2018120301</string>
+	<string>2019042601</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -151,7 +151,7 @@
 	<key>branch_app_domain</key>
 	<string>topvotedev.app.link</string>
 	<key>branch_key</key>
-	<string>key_live_cpzZ6whOAbqu7VY4IWakvmfpsve29Y6Q</string>
+	<string>key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93</string>
 	<key>method</key>
 	<string>app-store</string>
 </dict>

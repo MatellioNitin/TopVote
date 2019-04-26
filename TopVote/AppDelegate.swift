@@ -7,10 +7,12 @@
 //
 
 import UIKit
+
 //import Parse
 //import ParseFacebookUtilsV4
 //import ParseTwitterUtils
 //import FPPicker
+
 import FBSDKCoreKit
 import OAuthSwift
 import UserNotifications
@@ -68,7 +70,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
    
         
         //OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
-        
+        print("bounds = \(UIScreen.main.bounds)")
+        print("nativeBounds = \(UIScreen.main.nativeBounds)")
+
         if #available(iOS 10.0, *) {
             //iOS 10 or above version
             UNUserNotificationCenter.current().delegate = self
@@ -153,7 +157,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
         //8d81c1c8-5fa8-410f-a33b-572edcaba0db for client account
         OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification;
         
-        
         // Add your AppDelegate as an obsserver
         OneSignal.add(self as OSPermissionObserver)
         
@@ -167,7 +170,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
             print("User accepted notifications: \(accepted)")
         })
         
-         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+    FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         //
         
@@ -356,6 +359,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
             
             if let vc = mainStoryboard.instantiateViewController(withIdentifier: "entriesVC") as? CompetitionEntriesViewController {
                 
+                
                 // check same link click again
                 if(nav.viewControllers.last? .isKind(of: CompetitionEntriesViewController.self))!{
                     let vc1 = nav.viewControllers.last as! CompetitionEntriesViewController
@@ -427,8 +431,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
              return FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: annotation)
         }
         return true
-        
-
        
     }
     
@@ -437,7 +439,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
     deviceTokenData = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
         
-    print("didRegisterForRemoteNotificationsWithDeviceToken")
+        print("didRegisterForRemoteNotificationsWithDeviceToken \(String(describing: deviceTokenData))")
     registerNotification()
         
     }
@@ -480,8 +482,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
         if let wd = UIApplication.shared.delegate?.window {
             var vc = wd!.rootViewController
             if(vc is UINavigationController){
-                vc = (vc as! UINavigationController).visibleViewController
-                print(vc)
+//                vc = (vc as! UINavigationController).?visibleViewController
+//                print(vc)
 
             }
             

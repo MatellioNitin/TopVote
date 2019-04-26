@@ -52,6 +52,7 @@ class HomeViewController: CompetitionsViewController {
 
         }
         else{
+            
         self.performSegue(withIdentifier: "toEntries", sender: competition)
         }
     }
@@ -351,6 +352,8 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
         if (segue.identifier == "toEntries"), let vc = segue.destination as? CompetitionEntriesViewController {
             vc.competition = sender as? Competition
             vc.textHeader = (sender as? Competition)?.text
+            vc.textLink = (sender as? Competition)?.termsLink
+
 
         } else if (segue.identifier == "toEntry"), let vc = segue.destination as? EntryViewController {
             vc.entryId = (sender as! Competition).winner?._id
