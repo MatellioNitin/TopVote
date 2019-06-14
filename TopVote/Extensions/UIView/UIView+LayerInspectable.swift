@@ -52,6 +52,24 @@ extension UIView {
     
     /// Shadow color of view. defaults nil.
     
+    @IBInspectable var makeCircle: Bool {
+        get {
+            return self.makeCircle
+        }
+        set {
+            
+            if(newValue == true)
+            {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { // Change `2.0` to the desired number of seconds.
+                    // Code you want to be delayed
+                    self.layer.cornerRadius = (min(self.bounds.height,self.bounds.width) / 2)
+                    self.layer.masksToBounds = true
+                    self.clipsToBounds = true
+                }
+            }
+        }
+    }
+    
     @IBInspectable
     var shadowColor: UIColor? {
         get {

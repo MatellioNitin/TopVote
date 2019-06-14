@@ -18,6 +18,8 @@ final class Poll: Model {
 
     var name: String?
     
+    var description: String?
+    
     var deepUrl: String?
 
     var mediaUri: String?

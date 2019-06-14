@@ -23,7 +23,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -61,7 +61,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2019042601</string>
+	<string>2019061301</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -111,6 +111,8 @@
 	<string>Topvote uses your media to enter competitions.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Topvote uses your camera to enter competitions.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Topvote uses your location to localize competitions.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Topvote uses your location to localize competitions.</string>
 	<key>NSMicrophoneUsageDescription</key>
@@ -149,7 +151,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>branch_app_domain</key>
-	<string>topvotedev.app.link</string>
+	<string>7vo6.app.link</string>
 	<key>branch_key</key>
 	<string>key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93</string>
 	<key>method</key>

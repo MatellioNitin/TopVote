@@ -21,7 +21,8 @@ class PollVC: UIViewController, PollCellDelegate {
     var pollId = ""
     var delegate: PollSurveyDelegate?
     var isVideoMuted = true
-
+    var selectedIndexPath:IndexPath? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -29,8 +30,11 @@ class PollVC: UIViewController, PollCellDelegate {
        // self.navigationController?.navigationBar.topItem?.title = ""
 
         self.tblPoll.estimatedRowHeight = 100;
+        self.tblPoll.estimatedSectionHeaderHeight = 100;
 //        self.tblPoll.rowHeight = UITableViewAutomaticDimension
         tblPoll.rowHeight = UITableViewAutomaticDimension
+        tblPoll.sectionHeaderHeight = UITableViewAutomaticDimension
+
 
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -158,7 +162,7 @@ class PollVC: UIViewController, PollCellDelegate {
         present(activityViewController, animated: true, completion: nil)
     }
 
-    func submitAPI()  {
+    func submitAPI(index:Int)  {
 
         UtilityManager.ShowHUD(text: "Please wait...")
         var params = [String: Any]()
@@ -176,10 +180,60 @@ class PollVC: UIViewController, PollCellDelegate {
                 UtilityManager.RemoveHUD()
                 print(competitions)
              //   self?.showErrorAlert(title:"Congratulation", errorMessage: "Your Poll is submited successfully.")
-            self?.navigationController?.popViewController(animated: true)
+                if(self!.selectId == self!.objPoll.selected){
+                    // Unvote
+                    self!.selectId = ""
+                    self!.objPoll.selected = ""
+//                    let currentCell = self!.tblPoll.cellForRow(at: self!.selectedIndexPath!) as! PollTBCell
+                    if(self!.selectedIndexPath != nil){
+                    
+                    self!.tblPoll.reloadRows(at: [self!.selectedIndexPath!], with: UITableViewRowAnimation.none)
+                    }
+                    else
+                    {
+                        self!.tblPoll.reloadData()
+                    }
 
-                self?.delegate?.didSavePollSurvey(text: (competitions.shareText)!, link: (competitions.deepUrl)!,pollOrSurvey: "Poll")
+                    
+                   // currentCell.btnVote .setImage(UIImage(named:"button-icon-star"), for: .normal)
+                }
+                
+                else
+                {
+                    self!.objPoll.selected = self!.selectId
+                    self!.objPoll.mediaUri = competitions.mediaUri
+                    self!.objPoll.shareText = competitions.shareText
+                    
+                  //  let currentCell = self!.tblPoll.cellForRow(at: self!.selectedIndexPath!) as! PollTBCell
+                    
+                   // currentCell.btnVote .setImage(UIImage(named:"button-icon-star"), for: .normal)
+                    
+                    let indexPath1 = NSIndexPath(row: index, section: 0)
+//                    let currentCell1 = self!.tblPoll.cellForRow(at: indexPath1 as IndexPath) as! PollTBCell
+//                    currentCell1.btnVote .setImage(UIImage(named:"button-icon-star-select"), for: .normal)
+                    if(self!.selectedIndexPath != nil){
 
+                    self!.tblPoll.reloadRows(at: [self!.selectedIndexPath!, indexPath1 as IndexPath], with: UITableViewRowAnimation.none)
+                    }
+                    else
+                    {
+                        self!.tblPoll.reloadData()
+                    }
+
+
+//                self?.navigationController?.popViewController(animated: true)
+//
+//                self?.delegate?.didSavePollSurvey(text: (competitions.shareText)!, link: (competitions.deepUrl)!,pollOrSurvey: "Poll")
+
+                }
+                
+                if(!(self?.isDeepLinkClick)! && self!.selectId != ""){
+                    let button1 = UIBarButtonItem(image: UIImage(named: "shareOnNav"), style: .plain, target: self, action:#selector(self?.shareClick))
+                    self?.navigationItem.rightBarButtonItem  = button1
+                }
+                else{
+                    self?.navigationItem.rightBarButtonItem = nil
+                }
 
             }
         }
@@ -209,12 +263,11 @@ class PollVC: UIViewController, PollCellDelegate {
         selectId = objPoll.options![index]._id!
         if(selectId != "")
         {
-            submitAPI()
+            submitAPI(index: index)
         }
         else
         {
             self.showErrorAlert(title:"", errorMessage: "Please fill Poll form.")
-            
         }
         
         
@@ -269,7 +322,7 @@ class PollVC: UIViewController, PollCellDelegate {
         else{
         if(selectId != "")
             {
-                submitAPI()
+                //submitAPI()
             }
         else
             {
@@ -355,7 +408,7 @@ extension PollVC : UITableViewDataSource
             // 2 - Video
             if(dict.type == 0){
                 let cell = tableView.dequeueReusableCell(withIdentifier: "PollTextTBCell", for: indexPath) as! PollTBCell
-                cell.lblText.text = dict.title!
+                cell.lblText.text = dict.title
                 cell.lblOptionText.text = dict.optionText!
                 if(dict.optionText! == ""){
                      cell.bottomViewMargin.constant = 0
@@ -372,12 +425,17 @@ extension PollVC : UITableViewDataSource
                 cell.delegate = self
                 cell.btnVote.tag = indexPath.row
                 if((self.objPoll.selected)! == dict._id!){
+                    selectedIndexPath = indexPath
                     cell.btnVote .setImage(UIImage(named:"button-icon-star-select"), for: .normal)
                 }
-                if((self.objPoll.selected)! != ""){
-                    cell.btnVote.isUserInteractionEnabled = false
-
+                else
+                {
+                    cell.btnVote .setImage(UIImage(named:"button-icon-star"), for: .normal)
                 }
+//                if((self.objPoll.selected)! != ""){
+//                    cell.btnVote.isUserInteractionEnabled = false
+//
+//                }
                 return cell
             }
             else{
@@ -387,12 +445,17 @@ extension PollVC : UITableViewDataSource
                 cell.btnVolume?.isHidden = true
                 cell.lblOptionText.text = dict.optionText
                 if((self.objPoll.selected)! == dict._id!){
+                    selectedIndexPath = indexPath
                     cell.btnVote .setImage(UIImage(named:"button-icon-star-select"), for: .normal)
                 }
-                
-                if((self.objPoll.selected)! != ""){
-                    cell.btnVote.isUserInteractionEnabled = false
+                else
+                {
+                    cell.btnVote .setImage(UIImage(named:"button-icon-star"), for: .normal)
                 }
+               
+//                if((self.objPoll.selected)! != ""){
+//                    cell.btnVote.isUserInteractionEnabled = false
+//                }
                 
                 if(dict.type == 2){
                     if let mediaUri = dict.title, let uri = URL(string: mediaUri) {
@@ -450,6 +513,7 @@ extension PollVC:UITableViewDelegate{
                 return 350
             }
            return UITableViewAutomaticDimension
+        
 //    }
 //        return 0
 
@@ -482,13 +546,13 @@ extension PollVC:UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         //return UITableViewAutomaticDimension
 
-        return 44  // or whatever
+        return UITableViewAutomaticDimension
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
    
             let cell = tableView.dequeueReusableCell(withIdentifier: "HeaderPollCell") as! PollTBCell
-            cell.lblText.text = objPoll.title
+            cell.lblText.text = objPoll.description
             return cell
             
         }

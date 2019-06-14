@@ -33,7 +33,9 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var commentWidth: NSLayoutConstraint!
     @IBOutlet weak var innerContentView: UIView?
     @IBOutlet weak var timeLabel: UILabel?
-    @IBOutlet weak var captionButton: UIButton?
+    //@IBOutlet weak var captionButton: UIButton?
+    
+    @IBOutlet weak var lblCaption: UILabel!
     @IBOutlet weak var volumeButton: UIButton?
 
     @IBOutlet weak var userImageView: RoundedImageView?
@@ -128,7 +130,7 @@ class EntryTableViewCell: UITableViewCell {
             textTypeLabel?.text = self.entry?.competition?.text
         }
         else if let mediaType = entry.mediaType {
-            captionButton?.isHidden = true
+            lblCaption?.isHidden = true
 
             if let mediaUri = entry.mediaUri, let uri = URL(string: mediaUri) {
                 if mediaType == "IMAGE-VIDEO" {
@@ -137,26 +139,25 @@ class EntryTableViewCell: UITableViewCell {
                         
                     } else {
                         self.mediaView.addPlayer(uri)
-                        if let captionButton = self.captionButton {
-                            self.bringSubview(toFront: captionButton)
+                        if let lblCaption = self.lblCaption {
+                            self.bringSubview(toFront: lblCaption)
                         }
-                        self.captionButton?.isHidden = false
+                        self.lblCaption?.isHidden = false
                     }
-                    
-                    
                 }
                 else if mediaType == "IMAGE" {
                     entryImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                    self.lblCaption?.isHidden = false
+
                 } else if mediaType == "VIDEO" || (mediaType == "IMAGE-VIDEO" && (entry.mediaUri?.contains(".mov"))!) {
                     
                     mediaView.addPlayer(uri)
 
-                    if let captionButton = captionButton {
-                        self.bringSubview(toFront: captionButton)
+                    if let lblCaption = lblCaption {
+                        self.bringSubview(toFront: lblCaption)
                     }
-                    captionButton?.isHidden = false
+                    lblCaption?.isHidden = false
                 }
-                
             }
             NSLog("Profile Name \(entry.account?.username)")
             NSLog("Profile image \(entry.account?.profileImageUri)")
@@ -187,7 +188,6 @@ class EntryTableViewCell: UITableViewCell {
 //        }
         if(selectedTab == 2){
             shareButton?.isHidden = true
-
         }
         else
         {
@@ -195,8 +195,10 @@ class EntryTableViewCell: UITableViewCell {
 
         }
         
-        
-        captionButton?.setTitle(entry.title, for: .normal)
+        if(lblCaption != nil){
+            lblCaption.text = entry.title
+        }
+       // captionButton?.setTitle("greer gergregerggeerggergeggerg er gergerg er gg g erg g re gre ge gr greg e", for: .normal)
      
         if(isComeFromProfile && entry.competition == nil){
             competitionLabel?.text = entry.privateCompetition?.title

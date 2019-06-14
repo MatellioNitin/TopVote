@@ -49,7 +49,7 @@ extension UIViewController {
         }
     }
     
-    func showErrorAlert(title:String = "Ooops!", errorMessage: String, completion: (() -> Void)? = nil) {
+    func showErrorAlert(title:String = "Oops!", errorMessage: String, completion: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             let alertController = UIAlertController(title: title, message: errorMessage, preferredStyle: .alert)
             

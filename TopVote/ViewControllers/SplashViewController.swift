@@ -20,10 +20,10 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         imageView.contentMode = .scaleAspectFill
         NotificationCenter.default.addObserver(self, selector: #selector(SplashViewController.setupProfileTabBarImage as (SplashViewController) -> () -> ()), name: NSNotification.Name(rawValue: "ProfileImageChanged"), object: nil)
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -61,6 +61,16 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
                     self.activityIndicatorView.isHidden = true
                     if !CLLocationManager.locationServicesEnabled(){
                         self.locationPopUp()
+                    }
+                    
+                    else if (currentAccount.locationName != nil){
+                        self.animateToApp()
+
+                    }
+                    else
+                    {
+                        self.animateToApp()
+
                     }
                 }
             }
@@ -114,8 +124,22 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
                             
                         //})
                         self.activityIndicatorView.stopAnimating()
-                            self.activityIndicatorView.isHidden = true
+                        self.activityIndicatorView.isHidden = true
+                        if !CLLocationManager.locationServicesEnabled(){
                             self.locationPopUp()
+                        }
+                            
+                        else if (currentAccount.locationName != nil){
+                            self.animateToApp()
+                        }
+                        else
+                        {
+                            self.animateToApp()
+                        }
+                        
+//                        self.activityIndicatorView.stopAnimating()
+//                            self.activityIndicatorView.isHidden = true
+//                            self.locationPopUp()
                         // self.showErrorAlert(errorMessage: "Use of your location is required to use the app. Please allow access in the settings app")
                     }
                 }
@@ -126,6 +150,7 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
+    
      func locationPopUp() {
         
         let uiAlert = UIAlertController(title: "Location", message: "Use of your location is required to use the app. Please allow access in the settings app", preferredStyle: UIAlertControllerStyle.alert)

@@ -188,7 +188,7 @@ class CompetitionEntriesViewController: EntriesViewController {
 //                }
 //                else
 //                {
-                    self.showErrorAlert(errorMessage: "You can no longer enter because you are  already submitted entry for this competition.")
+                    self.showErrorAlert(errorMessage: "Sorry, you have already entered this competition!")
                     
             //    }
           //  }
@@ -1161,12 +1161,15 @@ extension EntriesViewController: EntryTableViewCellDelegate,EntryTextTableViewCe
     func destroyEntry(_ entry: Entry) {
         let alertController = TVAlertController(title: "Are you sure?", message: "This cannot be undone.", preferredStyle: .alert)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] (action) -> Void in
+            UtilityManager.ShowHUD(text: "Please wait...")
+
             entry.delete(error: { [weak self] (errorMessage) in
                 DispatchQueue.main.async {
                     self?.showErrorAlert(errorMessage: errorMessage)
                 }
                 }, completion: {
                     DispatchQueue.main.async {
+                        UtilityManager.RemoveHUD()
                         self?.isPopUpShow = false
                         self?.loadEntries()
                     }

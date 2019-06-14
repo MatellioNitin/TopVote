@@ -7,12 +7,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "poll@2x.png",
+      "filename" : "poll@1x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "poll@3x.png",
+      "filename" : "poll@2x.png",
       "scale" : "3x"
     }
   ],

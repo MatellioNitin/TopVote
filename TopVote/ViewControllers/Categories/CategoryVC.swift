@@ -95,8 +95,9 @@ class CategoryVC: UIViewController {
     }
     
     @IBAction func saveAction(_ sender: Any) {
-        
-        if(savedCategory.count == 0){
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+
+        if(self.savedCategory.count == 0){
 
             self.showErrorAlert(errorMessage: "Please select atleast one category.")
             return
@@ -105,8 +106,12 @@ class CategoryVC: UIViewController {
 
         if let user = AccountManager.session?.account {
 
-            user.categories = savedCategory as? [String]
-            
+            user.categories = self.savedCategory as? [String]
+            user.followers = 0
+            user.following = 0
+            user.userFollowers = nil
+            user.userFollowing = nil
+
             user.save(error: { [weak self ](errorMessage) in
                 UtilityManager.RemoveHUD()
 
@@ -127,6 +132,7 @@ class CategoryVC: UIViewController {
                         }
                     }
             })
+        }
         }
         
     }

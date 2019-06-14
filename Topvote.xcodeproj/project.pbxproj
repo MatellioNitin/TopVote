@@ -11,6 +11,7 @@
 		45FDDC1D1E2D80E800FDE98D /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FDDC1B1E2D80E800FDE98D /* Date+Extension.swift */; };
 		45FDDC1E1E2D80E800FDE98D /* DateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45FDDC1C1E2D80E800FDE98D /* DateTimeAgo.bundle */; };
 		66B1B91A8F080293E27087A6 /* Pods_Topvote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76DCB7C83C3892AAF6C24A45 /* Pods_Topvote.framework */; };
+		84FF643622A015D400E953CA /* InstagramLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FF643522A015D400E953CA /* InstagramLoginViewController.swift */; };
 		9004B6101CE3873B00E90887 /* CompactEntryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9004B60F1CE3873B00E90887 /* CompactEntryTableViewCell.xib */; };
 		9004B6121CE3922B00E90887 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9004B6111CE3922B00E90887 /* GradientView.swift */; };
 		900789C61D42802E00EA8668 /* UIScrollView+VGParallaxHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 900789C51D42802E00EA8668 /* UIScrollView+VGParallaxHeader.m */; };
@@ -229,6 +230,7 @@
 		45FDDC1B1E2D80E800FDE98D /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		45FDDC1C1E2D80E800FDE98D /* DateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DateTimeAgo.bundle; sourceTree = "<group>"; };
 		76DCB7C83C3892AAF6C24A45 /* Pods_Topvote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Topvote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		84FF643522A015D400E953CA /* InstagramLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstagramLoginViewController.swift; sourceTree = "<group>"; };
 		9004B60F1CE3873B00E90887 /* CompactEntryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CompactEntryTableViewCell.xib; sourceTree = "<group>"; };
 		9004B6111CE3922B00E90887 /* GradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		900789C41D42802E00EA8668 /* UIScrollView+VGParallaxHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+VGParallaxHeader.h"; sourceTree = "<group>"; };
@@ -679,6 +681,7 @@
 		900896751C86162C008CD964 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				84FF643522A015D400E953CA /* InstagramLoginViewController.swift */,
 				900896731C8610E4008CD964 /* SplashViewController.swift */,
 				90B7217B1CE1016300EE13AA /* LoggedOutViewController.swift */,
 				4518E7941CCFCE27006953DA /* EmailSignUpViewController.swift */,
@@ -1313,7 +1316,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Topvote/Pods-Topvote-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Topvote/Pods-Topvote-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
@@ -1358,7 +1361,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Topvote/Pods-Topvote-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Topvote/Pods-Topvote-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		ADA9F75321529AE600DD8B24 /* ShellScript */ = {
@@ -1439,6 +1442,7 @@
 				900789C81D42825E00EA8668 /* HeaderView.swift in Sources */,
 				ADA01FE3214A560D00703D88 /* CustomeTPTextView.swift in Sources */,
 				90DB44DB1C91D43300988135 /* AddCommentTableViewCell.swift in Sources */,
+				84FF643622A015D400E953CA /* InstagramLoginViewController.swift in Sources */,
 				902674221C876B81006EDE16 /* EntryViewController.swift in Sources */,
 				B6B239311F8E992500B03F48 /* Competition+Requests.swift in Sources */,
 				B679B5061F82CA7800250A5C /* AccountManager.swift in Sources */,
@@ -1680,8 +1684,8 @@
 				BRANCH_IO_KEY = key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Shailendra Singh Rathore (MZA3C9K959)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Shailendra Singh Rathore (MZA3C9K959)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FG3LGC6FXG;
@@ -1697,7 +1701,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
 				PROVISIONING_PROFILE = "9edf0b1e-2d37-40fd-ba5c-ceecf635ca25";
-				PROVISIONING_PROFILE_SPECIFIER = topvote_debug;
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_Debug;
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
@@ -1717,7 +1721,7 @@
 				BRANCH_IO_KEY = key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Shailendra Singh Rathore (MZA3C9K959)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
@@ -1809,8 +1813,8 @@
 				BRANCH_IO_KEY = key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Shailendra Singh Rathore (MZA3C9K959)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
 				CODE_SIGN_STYLE = Manual;
 				CONFIGURATION_TEMP_DIR = "";
 				DEFINES_MODULE = YES;
@@ -1827,7 +1831,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
 				PROVISIONING_PROFILE = "9edf0b1e-2d37-40fd-ba5c-ceecf635ca25";
-				PROVISIONING_PROFILE_SPECIFIER = topvote_debug;
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_Debug;
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
@@ -1903,7 +1907,7 @@
 				BRANCH_IO_KEY = key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Shailendra Singh Rathore (MZA3C9K959)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
@@ -1920,7 +1924,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
 				PROVISIONING_PROFILE = "9edf0b1e-2d37-40fd-ba5c-ceecf635ca25";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_Debug;
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_INCLUDE_PATHS = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
@@ -1991,7 +1995,7 @@
 				BRANCH_IO_KEY = key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Shailendra Singh Rathore (MZA3C9K959)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;

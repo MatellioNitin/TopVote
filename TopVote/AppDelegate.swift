@@ -24,7 +24,6 @@ import OneSignal
 import UserNotifications
 
 
-
 let appDelegate = UIApplication.shared.delegate as! AppDelegate
 let screenBounds = UIScreen.main.bounds
 
@@ -70,9 +69,93 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
    
         
         //OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
-        print("bounds = \(UIScreen.main.bounds)")
-        print("nativeBounds = \(UIScreen.main.nativeBounds)")
+//        print("bounds = \(UIScreen.main.bounds)")
+//        print("nativeBounds = \(UIScreen.main.nativeBounds)")
+//        // logLevel
+//        let logLevel: Any
+//        #if DEBUG
+//        logLevel = kKVALogLevelEnumTrace
+//        #else
+//        logLevel = kKVALogLevelEnumInfo
+//        #endif
+        
+        // appGUIDString
+        let appGUIDString: String
+        #if DEBUG
+        appGUIDString = "aa05480b-965c-4f54-a3ea-f89f96b02161"
+        #else
+        appGUIDString = "aa05480b-965c-4f54-a3ea-f89f96b02161"
+        #endif
+        
+        // parametersDictionary
+//        let parametersDictionary: [AnyHashable: Any] = [
+//            kKVAParamLogLevelEnumKey: logLevel,
+//            kKVAParamAppGUIDStringKey: appGUIDString
+//        ]
+        
+        // KochavaTracker.shared
+       // KochavaTracker.shared.configure(withParametersDictionary: parametersDictionary, delegate: nil)
 
+        
+        // KochavaTracker.shared.configure(withParametersDictionary: [kKVAParamAppGUIDStringKey: "aa05480b-965c-4f54-a3ea-f89f96b02161"], delegate: nil)
+        
+//        // parametersDictionary
+//        var parametersDictionary: [AnyHashable: Any] = [:]
+//        #if DEBUG
+//        parametersDictionary[kKVAParamLogLevelEnumKey] = kKVALogLevelEnumTrace
+//        #endif
+//        parametersDictionary[kKVAParamAppGUIDStringKey] = "aa05480b-965c-4f54-a3ea-f89f96b02161"
+//
+//        // KochavaTracker.shared
+//        KochavaTracker.shared.configure(withParametersDictionary: parametersDictionary, delegate: nil)
+//
+//        KochavaTracker.shared.sendEvent(withNameString: "Login", infoString: "Tovote Login")
+
+//
+//        // parametersDictionary
+//        var parametersDictionary: [AnyHashable: Any] = [:]
+//        #if DEBUG
+//        parametersDictionary[kKVAParamLogLevelEnumKey] = kKVALogLevelEnumTrace
+//        #endif
+//        parametersDictionary[kKVAParamAppGUIDStringKey] = "aa05480b-965c-4f54-a3ea-f89f96b02161"
+//        parametersDictionary["_SessionBegin"] = Date();
+//
+//        tracker.configure(withParametersDictionary:parametersDictionary, delegate: nil)
+//
+        
+//        var eventMapObject: [AnyHashable: Any] = [:]
+//        eventMapObject["name"] = "Nitin";
+//        eventMapObject["time"] = "\(Date())";
+//        KochavaTracker.shared.sendEvent(withNameString: "Login", infoDictionary: eventMapObject)
+//
+//
+//        if let event = KochavaEvent(eventTypeEnum: .purchase) {
+//            event.nameString = "Gold Token"
+//            event.priceDoubleNumber = 0.99
+//
+//            KochavaTracker.shared.send(event)
+//        }
+
+        
+       // KochavaTracker.shared.sendEvent(withNameString: "Player Defeated", infoString: nil)
+
+        // KochavaTracker.shared
+//        tracker.configure(withParametersDictionary: parametersDictionary, delegate: nil)
+
+        
+//        // parametersDictionary
+//        var parametersDictionary: [AnyHashable: Any] = [:]
+//        #if DEBUG
+//        parametersDictionary[kKVAParamLogLevelEnumKey] = kKVALogLevelEnumTrace
+//        #endif
+//        parametersDictionary[kKVAParamAppGUIDStringKey] = "aa05480b-965c-4f54-a3ea-f89f96b02161"
+//
+//        // KochavaTracker.shared
+//        tracker.configure(withParametersDictionary: parametersDictionary, delegate: nil)
+
+        
+        
+        //
         if #available(iOS 10.0, *) {
             //iOS 10 or above version
             UNUserNotificationCenter.current().delegate = self

@@ -114,10 +114,12 @@ class CompetitionTableViewCell: UITableViewCell {
             
 //            let photoimage = (MediaType(rawValue: type) == .image) ? UIImage(named: "icon-camera") : UIImage(named: "icon-video")
             typeImageView.image = UIImage(named: imageName)
+
         }
         else{
             let photoimage =  UIImage(named: imageName)
             typeImageView.image = photoimage
+
         }
      
         var hasEnded = competition.hasEnded()
