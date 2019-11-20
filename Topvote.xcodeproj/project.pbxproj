@@ -10,6 +10,10 @@
 		4518E7951CCFCE27006953DA /* EmailSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4518E7941CCFCE27006953DA /* EmailSignUpViewController.swift */; };
 		45FDDC1D1E2D80E800FDE98D /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45FDDC1B1E2D80E800FDE98D /* Date+Extension.swift */; };
 		45FDDC1E1E2D80E800FDE98D /* DateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45FDDC1C1E2D80E800FDE98D /* DateTimeAgo.bundle */; };
+		551A3F4723349EE300881189 /* EntryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 551A3F4623349EE300881189 /* EntryTableViewCell.xib */; };
+		5534D60822F2B7740089DA38 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5534D60722F2B7540089DA38 /* Montserrat-Bold.ttf */; };
+		556969512342296B0036271B /* SignUpBioVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556969502342296B0036271B /* SignUpBioVC.swift */; };
+		556A53FF238424F200C8941A /* CreatePollVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556A53FE238424F200C8941A /* CreatePollVC.swift */; };
 		66B1B91A8F080293E27087A6 /* Pods_Topvote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76DCB7C83C3892AAF6C24A45 /* Pods_Topvote.framework */; };
 		84FF643622A015D400E953CA /* InstagramLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FF643522A015D400E953CA /* InstagramLoginViewController.swift */; };
 		9004B6101CE3873B00E90887 /* CompactEntryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9004B60F1CE3873B00E90887 /* CompactEntryTableViewCell.xib */; };
@@ -32,7 +36,7 @@
 		9008965B1C85EC96008CD964 /* CompetitionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900896461C85EC96008CD964 /* CompetitionTableViewCell.swift */; };
 		9008965C1C85EC96008CD964 /* CompetitionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900896471C85EC96008CD964 /* CompetitionTableViewCell.xib */; };
 		9008965D1C85EC96008CD964 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900896481C85EC96008CD964 /* EntryTableViewCell.swift */; };
-		9008965E1C85EC96008CD964 /* EntryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900896491C85EC96008CD964 /* EntryTableViewCell.xib */; };
+		9008965E1C85EC96008CD964 /* EntryTableViewCell1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900896491C85EC96008CD964 /* EntryTableViewCell1.xib */; };
 		900896631C85EDE2008CD964 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 900896611C85EDE2008CD964 /* LaunchScreen.storyboard */; };
 		900896641C85EDE2008CD964 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 900896621C85EDE2008CD964 /* Main.storyboard */; };
 		900896701C8602A8008CD964 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9008966F1C8602A8008CD964 /* Style.swift */; };
@@ -229,6 +233,10 @@
 		4518E7941CCFCE27006953DA /* EmailSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmailSignUpViewController.swift; sourceTree = "<group>"; };
 		45FDDC1B1E2D80E800FDE98D /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		45FDDC1C1E2D80E800FDE98D /* DateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DateTimeAgo.bundle; sourceTree = "<group>"; };
+		551A3F4623349EE300881189 /* EntryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EntryTableViewCell.xib; sourceTree = "<group>"; };
+		5534D60722F2B7540089DA38 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		556969502342296B0036271B /* SignUpBioVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpBioVC.swift; sourceTree = "<group>"; };
+		556A53FE238424F200C8941A /* CreatePollVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePollVC.swift; sourceTree = "<group>"; };
 		76DCB7C83C3892AAF6C24A45 /* Pods_Topvote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Topvote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84FF643522A015D400E953CA /* InstagramLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstagramLoginViewController.swift; sourceTree = "<group>"; };
 		9004B60F1CE3873B00E90887 /* CompactEntryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CompactEntryTableViewCell.xib; sourceTree = "<group>"; };
@@ -260,7 +268,7 @@
 		900896461C85EC96008CD964 /* CompetitionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompetitionTableViewCell.swift; sourceTree = "<group>"; };
 		900896471C85EC96008CD964 /* CompetitionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CompetitionTableViewCell.xib; sourceTree = "<group>"; };
 		900896481C85EC96008CD964 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
-		900896491C85EC96008CD964 /* EntryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EntryTableViewCell.xib; sourceTree = "<group>"; };
+		900896491C85EC96008CD964 /* EntryTableViewCell1.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EntryTableViewCell1.xib; sourceTree = "<group>"; };
 		900896611C85EDE2008CD964 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		900896621C85EDE2008CD964 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		900896691C85F916008CD964 /* PFVoter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PFVoter.swift; sourceTree = "<group>"; };
@@ -333,7 +341,7 @@
 		AD757BE2214637A600D77EBC /* Poll+API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Poll+API.swift"; sourceTree = "<group>"; };
 		AD757BE3214637A600D77EBC /* Poll+Requests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Poll+Requests.swift"; sourceTree = "<group>"; };
 		AD757BE4214637A600D77EBC /* Poll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
-		AD757BE5214637A600D77EBC /* PollVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollVC.swift; sourceTree = "<group>"; };
+		AD757BE5214637A600D77EBC /* PollVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PollVC.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		AD757BE8214637A700D77EBC /* Survey+API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Survey+API.swift"; sourceTree = "<group>"; };
 		AD757BE9214637A700D77EBC /* Survey+Questions+Options.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Survey+Questions+Options.swift"; sourceTree = "<group>"; };
 		AD757BEA214637A700D77EBC /* Survey+Questions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Survey+Questions.swift"; sourceTree = "<group>"; };
@@ -576,7 +584,8 @@
 				ADA01FE4214A742200703D88 /* EntryTextTableViewCell.swift */,
 				ADA01FE5214A742300703D88 /* EntryTextTableViewCell.xib */,
 				900896481C85EC96008CD964 /* EntryTableViewCell.swift */,
-				900896491C85EC96008CD964 /* EntryTableViewCell.xib */,
+				551A3F4623349EE300881189 /* EntryTableViewCell.xib */,
+				900896491C85EC96008CD964 /* EntryTableViewCell1.xib */,
 				9004B60F1CE3873B00E90887 /* CompactEntryTableViewCell.xib */,
 				900896821C86719F008CD964 /* ActivityTableViewCell.swift */,
 				900789DD1D429B0900EA8668 /* ActivityTableViewCell.xib */,
@@ -604,7 +613,6 @@
 				ADAF5BAB213EBF2C005EDB09 /* CustomClasses */,
 				900896451C85EC96008CD964 /* Views */,
 				900896341C85EC96008CD964 /* PFObjects */,
-				B679B49A1F82C44900250A5C /* Models */,
 				B679B4B01F82C74D00250A5C /* Extensions */,
 				B679B4ED1F82C9B600250A5C /* Configuration */,
 				900896321C85EC96008CD964 /* AppDelegate.swift */,
@@ -667,6 +675,7 @@
 		900896451C85EC96008CD964 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B679B49A1F82C44900250A5C /* Models */,
 				900789DC1D42970800EA8668 /* Cells */,
 				9004B6111CE3922B00E90887 /* GradientView.swift */,
 				90DE99AF1D1599D400AA04D0 /* MediaView.swift */,
@@ -685,6 +694,7 @@
 				900896731C8610E4008CD964 /* SplashViewController.swift */,
 				90B7217B1CE1016300EE13AA /* LoggedOutViewController.swift */,
 				4518E7941CCFCE27006953DA /* EmailSignUpViewController.swift */,
+				556969502342296B0036271B /* SignUpBioVC.swift */,
 				945945F2219D47DC00AE9020 /* WebViewVC.swift */,
 			);
 			name = Login;
@@ -736,6 +746,7 @@
 		90D9B7FD1CBBE9B6000E2420 /* Font */ = {
 			isa = PBXGroup;
 			children = (
+				5534D60722F2B7540089DA38 /* Montserrat-Bold.ttf */,
 				90D9B7DC1CBBE99F000E2420 /* Roboto-Light.ttf */,
 				90D9B7DD1CBBE99F000E2420 /* Roboto-LightItalic.ttf */,
 				90D9B7DE1CBBE99F000E2420 /* Roboto-Medium.ttf */,
@@ -851,6 +862,7 @@
 			children = (
 				ADAA816B2136BE92002DC747 /* CreateCompititionVC.swift */,
 				ADAA816D2136DB30002DC747 /* CreateCompitition.swift */,
+				556A53FE238424F200C8941A /* CreatePollVC.swift */,
 				AD9E6401213FBBCD00ED99E3 /* Model */,
 			);
 			path = CreateCompitition;
@@ -1261,8 +1273,9 @@
 				90D9B7FA1CBBE99F000E2420 /* Roboto-Italic.ttf in Resources */,
 				90D9B7F81CBBE99F000E2420 /* Roboto-Condensed.ttf in Resources */,
 				90D9B7F91CBBE99F000E2420 /* Roboto-CondensedItalic.ttf in Resources */,
+				551A3F4723349EE300881189 /* EntryTableViewCell.xib in Resources */,
 				90D9B7F61CBBE99F000E2420 /* Roboto-BoldCondensedItalic.ttf in Resources */,
-				9008965E1C85EC96008CD964 /* EntryTableViewCell.xib in Resources */,
+				9008965E1C85EC96008CD964 /* EntryTableViewCell1.xib in Resources */,
 				AD5D796921343CAF00807DA3 /* Config.plist in Resources */,
 				45FDDC1E1E2D80E800FDE98D /* DateTimeAgo.bundle in Resources */,
 				90D9B7F31CBBE99F000E2420 /* Roboto-BlackItalic.ttf in Resources */,
@@ -1281,6 +1294,7 @@
 				90AFD40E1CC16D6100B47745 /* CommentTableViewCell.xib in Resources */,
 				90AFD40C1CC16D3A00B47745 /* AddCommentTableViewCell.xib in Resources */,
 				90D9B7F21CBBE99F000E2420 /* Roboto-Black.ttf in Resources */,
+				5534D60822F2B7740089DA38 /* Montserrat-Bold.ttf in Resources */,
 				90D9B7ED1CBBE99F000E2420 /* Roboto-Light.ttf in Resources */,
 				90D9B7F01CBBE99F000E2420 /* Roboto-MediumItalic.ttf in Resources */,
 				90D9B7FC1CBBE99F000E2420 /* Roboto-ThinItalic.ttf in Resources */,
@@ -1333,6 +1347,7 @@
 				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
 				"${BUILT_PRODUCTS_DIR}/OAuthSwift/OAuthSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/PhotoTweaks/PhotoTweaks.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/UIScrollView-InfiniteScroll/UIScrollView_InfiniteScroll.framework",
@@ -1355,6 +1370,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OAuthSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhotoTweaks.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIScrollView_InfiniteScroll.framework",
@@ -1425,6 +1441,7 @@
 				B679B4D91F82C79A00250A5C /* UIView+Animation.swift in Sources */,
 				B6E840DB209E234C00253327 /* StringRawRepresentable.swift in Sources */,
 				B6E840D1209E230500253327 /* Model.swift in Sources */,
+				556969512342296B0036271B /* SignUpBioVC.swift in Sources */,
 				B679B4E91F82C79A00250A5C /* String+UrlEscaped.swift in Sources */,
 				AD757BF4214637A700D77EBC /* Survey+Questions.swift in Sources */,
 				B6EED50D1FA02275009DC3C0 /* Media+AudioInfo.swift in Sources */,
@@ -1553,6 +1570,7 @@
 				B6C27A2320A250E200CF80A7 /* AppKeychain.swift in Sources */,
 				9004B6121CE3922B00E90887 /* GradientView.swift in Sources */,
 				900896741C8610E4008CD964 /* SplashViewController.swift in Sources */,
+				556A53FF238424F200C8941A /* CreatePollVC.swift in Sources */,
 				90D9B8071CBC04E3000E2420 /* IdeaTableViewCell.swift in Sources */,
 				45FDDC1D1E2D80E800FDE98D /* Date+Extension.swift in Sources */,
 				B679B4E21F82C79A00250A5C /* UIViewController+Crashlytics.swift in Sources */,
@@ -1620,7 +1638,9 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/cgt-jod-mac-nitinr/Desktop/Desktop/Backup/Topvote/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1670,7 +1690,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/cgt-jod-mac-nitinr/Desktop/Desktop/Backup/Topvote/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1684,8 +1706,8 @@
 				BRANCH_IO_KEY = key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = FG3LGC6FXG;
@@ -1700,11 +1722,11 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "9edf0b1e-2d37-40fd-ba5c-ceecf635ca25";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_Debug;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = topvote_debug;
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/raj/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -1721,7 +1743,7 @@
 				BRANCH_IO_KEY = key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
@@ -1737,11 +1759,11 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "9edf0b1e-2d37-40fd-ba5c-ceecf635ca25";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/raj/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				SYMROOT = build;
@@ -1800,7 +1822,9 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/cgt-jod-mac-nitinr/Desktop/Desktop/Backup/Topvote/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = DEV;
@@ -1814,7 +1838,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CONFIGURATION_TEMP_DIR = "";
 				DEFINES_MODULE = YES;
@@ -1830,11 +1854,11 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "9edf0b1e-2d37-40fd-ba5c-ceecf635ca25";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_Debug;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = topvote_debug;
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/raj/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -1894,7 +1918,9 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/cgt-jod-mac-nitinr/Desktop/Desktop/Backup/Topvote/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = LOCAL;
@@ -1907,7 +1933,7 @@
 				BRANCH_IO_KEY = key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
@@ -1923,11 +1949,11 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "9edf0b1e-2d37-40fd-ba5c-ceecf635ca25";
-				PROVISIONING_PROFILE_SPECIFIER = TopVote_Debug;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/raj/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -1981,7 +2007,9 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/cgt-jod-mac-nitinr/Desktop/Desktop/Backup/Topvote/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_PRECOMPILE_BRIDGING_HEADER = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1995,7 +2023,7 @@
 				BRANCH_IO_KEY = key_live_kdOa0U8paE5inygtZwW4Lphbuyb85S93;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Topvote/Topvote.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Top, Inc. (FG3LGC6FXG)";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
@@ -2011,11 +2039,11 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.topcorp.Topvote;
 				PRODUCT_NAME = Topvote;
-				PROVISIONING_PROFILE = "9edf0b1e-2d37-40fd-ba5c-ceecf635ca25";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "TopVote/Supporting Files/TopVote-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/raj/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				SYMROOT = build;

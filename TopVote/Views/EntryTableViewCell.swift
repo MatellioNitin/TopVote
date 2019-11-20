@@ -18,6 +18,7 @@ protocol EntryTableViewCellDelegate {
     func volumeMedia(_ cell: EntryTableViewCell)
     func shareEntry(_ entry: Entry)
     func voteEntry(_ cell: EntryTableViewCell, entry: Entry, isUnVote:Bool)
+    func voteEntryDoubleTap(_ cell: EntryTableViewCell, entry: Entry, isUnVote:Bool)
     func commentEntry(_ entry: Entry)
     func moreEntry(_ entry: Entry)
 }
@@ -47,6 +48,7 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var totalVotesLabel: UILabel?
     @IBOutlet weak var competitionLabel: UILabel?
     
+    @IBOutlet weak var btnEntryInProfile: UIButton!
     @IBOutlet weak var textTypeLabel: UILabel?
 
     private var dateFormatter: DateFormatter?
@@ -58,8 +60,13 @@ class EntryTableViewCell: UITableViewCell {
     var delegate: EntryTableViewCellDelegate?
     
     var entry: Entry?
+    var status: Int = 0
+    var isCompact: Bool = false
+    var tapGR2: UITapGestureRecognizer?
+    var voteGR: UILongPressGestureRecognizer?
     
-
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .none
@@ -75,14 +82,30 @@ class EntryTableViewCell: UITableViewCell {
         let tapLabelGR = UITapGestureRecognizer(target: self, action: #selector(EntryTableViewCell.showProfileTapped))
         tapLabelGR.numberOfTapsRequired = 1
         userNameLabel?.addGestureRecognizer(tapLabelGR)
-
-        let tapGR2 = UITapGestureRecognizer(target: self, action: #selector(EntryTableViewCell.playMediaTapped))
-        tapGR2.numberOfTapsRequired = 1
-        mediaView.addGestureRecognizer(tapGR2)
         
-        let voteGR = UILongPressGestureRecognizer(target: self, action: #selector(EntryTableViewCell.voteButtonTapped(_:)))
-        voteGR.minimumPressDuration = 2
-        entryImageView?.addGestureRecognizer(voteGR)
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        
+//        if(!self.isCompact){
+         self.tapGR2 = UITapGestureRecognizer(target: self, action: #selector(EntryTableViewCell.playMediaTapped))
+        self.tapGR2!.numberOfTapsRequired = 1
+        self.mediaView.addGestureRecognizer(self.tapGR2!)
+        
+         self.voteGR = UILongPressGestureRecognizer(target: self, action: #selector(EntryTableViewCell.voteButtonTapped(_:)))
+        self.voteGR!.minimumPressDuration = 2
+        self.entryImageView?.addGestureRecognizer(self.voteGR!)
+        
+       // }
+      //  }
+        
+        let voteDoubleTap = UITapGestureRecognizer(target: self, action: #selector(EntryTableViewCell.voteDoubleTapped))
+        voteDoubleTap.numberOfTapsRequired = 2
+        mediaView.addGestureRecognizer(voteDoubleTap)
+        
+        let voteTextDoubleTap = UITapGestureRecognizer(target: self, action: #selector(EntryTableViewCell.voteDoubleTapped))
+        voteTextDoubleTap.numberOfTapsRequired = 2
+        textTypeLabel?.addGestureRecognizer(voteTextDoubleTap)
+        
+        
         
 //        let tapVolume = UITapGestureRecognizer(target: self, action: #selector(EntryTableViewCell.playMediaTapped))
 //        tapVolume.numberOfTapsRequired = 1
@@ -126,8 +149,11 @@ class EntryTableViewCell: UITableViewCell {
         self.layoutSubviews()
         
         self.entry = entry
+        isCompact = compact
+       
         if(self.entry?.mediaType == "TEXT"){
             textTypeLabel?.text = self.entry?.competition?.text
+             self.entryImageView?.image = UIImage(named: "textImage")
         }
         else if let mediaType = entry.mediaType {
             lblCaption?.isHidden = true
@@ -136,18 +162,34 @@ class EntryTableViewCell: UITableViewCell {
                 if mediaType == "IMAGE-VIDEO" {
                     if mediaUri.contains(".jpg") || mediaUri.contains(".jpeg") || mediaUri.contains(".png") ||  mediaUri.contains(".gif") {
                         self.entryImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: true)
+                        if (compact) {
+                           // entryImageView!.isUserInteractionEnabled = false
+                            //entryImageView!.removeGestureRecognizer(voteGR!)
+
+                        }
                         
                     } else {
                         self.mediaView.addPlayer(uri)
                         if let lblCaption = self.lblCaption {
                             self.bringSubview(toFront: lblCaption)
                         }
+                        if (compact) {
+
+                           // mediaView.isUserInteractionEnabled = false
+                            //mediaView.removeGestureRecognizer(tapGR2!)
+
+                        }
                         self.lblCaption?.isHidden = false
                     }
                 }
                 else if mediaType == "IMAGE" {
-                    entryImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                    entryImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: true)
                     self.lblCaption?.isHidden = false
+                    if (compact) {
+                        //entryImageView!.removeGestureRecognizer(voteGR!)
+
+                       // entryImageView!.isUserInteractionEnabled = false
+                    }
 
                 } else if mediaType == "VIDEO" || (mediaType == "IMAGE-VIDEO" && (entry.mediaUri?.contains(".mov"))!) {
                     
@@ -157,20 +199,27 @@ class EntryTableViewCell: UITableViewCell {
                         self.bringSubview(toFront: lblCaption)
                     }
                     lblCaption?.isHidden = false
+                    if (compact) {
+                        //mediaView.removeGestureRecognizer(tapGR2!)
+
+                       // mediaView.isUserInteractionEnabled = false
+                    }
                 }
             }
             NSLog("Profile Name \(entry.account?.username)")
             NSLog("Profile image \(entry.account?.profileImageUri)")
             if let profileImageUri = entry.account?.profileImageUri, let uri = URL(string: profileImageUri) {
-                userImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                userImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "profile-default-avatar"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
             } else {
                 userImageView?.image = UIImage(named: "profile-default-avatar")
             }
             
+            
+
         }
         
         userNameLabel?.text = entry.account?.username ?? entry.account?.name
-        locationLabel?.text = entry.locationName ?? "Not provided"
+        locationLabel?.text = entry.locationName ?? ""
         if let date = entry.createdAt {
             if (compact) {
                 timeLabel?.text = date.timeAgo
@@ -208,6 +257,8 @@ class EntryTableViewCell: UITableViewCell {
             competitionLabel?.text = entry.competition?.title
 
         }
+ 
+        
         refreshVotes()
     }
     
@@ -220,18 +271,25 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     func toggleVolume() {
-        if (mediaView.player?.volume != 0) {
-            
-           volumeButton?.setImage(UIImage(named:"soundOff"), for: .normal)
-            mediaView.player?.volume = 0
-            
-        } else {
-            
-            volumeButton?.setImage(UIImage(named:"soundOn"), for: .normal)
-            mediaView.player?.volume = .greatestFiniteMagnitude
-            
-        }
+//        DispatchQueue.main.async {
         
+        
+        
+            if (self.mediaView.player?.isMuted == false) {
+//            self.mediaView.player?.isMuted = true
+            self.volumeButton?.setImage(UIImage(named:"soundOff"), for: .normal)
+
+
+        } else {
+//            self.mediaView.player?.volume = .greatestFiniteMagnitude
+//            self.mediaView.playe r?.volume = 0.0
+//            self.mediaView.player?.isMuted = false
+            self.volumeButton?.setImage(UIImage(named:"soundOn"), for: .normal)
+
+//        }
+        }
+        self.mediaView.player?.isMuted =  !(self.mediaView.player?.isMuted)!
+
     }
     
     func startMedia() {
@@ -309,10 +367,33 @@ class EntryTableViewCell: UITableViewCell {
         }
     }
     
-    @objc func voteButtonTapped(_ sender: UILongPressGestureRecognizer) {
+    @objc func voteDoubleTapped() {
+        if(status == 0 && !isCompact){
+
         guard let entry = entry else {
             return
         }
+//        if (entry.competition?.status != 0) {
+            if(entry.hasVoted != true){
+                // self.voteButton?.isEnabled = false
+                self.delegate?.voteEntryDoubleTap(self, entry:entry, isUnVote:false)
+            }
+            else
+            {
+              //  self.delegate?.voteEntryDoubleTap(self, entry:entry, isUnVote:true)
+            }
+       // }
+        }
+    }
+    
+    @objc func voteButtonTapped(_ sender: UILongPressGestureRecognizer) {
+        
+        if(status == 0){
+
+        guard let entry = entry else {
+            return
+        }
+      //  if (entry.competition?.status != 0) {
         if (sender.state == UIGestureRecognizerState.began) {
             
             if(entry.hasVoted != true){
@@ -322,6 +403,7 @@ class EntryTableViewCell: UITableViewCell {
             else
             {
                 self.delegate?.voteEntry(self, entry:entry, isUnVote:true)
+                }
             }
         }
     }

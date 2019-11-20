@@ -41,6 +41,11 @@ extension Date {
         formatter.dateFormat = "MM/dd/YY"
         return formatter.string(from: self)
     }
+    func formattedDateOnlyForFullYear() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/YYYY"
+        return formatter.string(from: self)
+    }
     
     func toJustBeforeMidnight() -> Date {
         var components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: self)

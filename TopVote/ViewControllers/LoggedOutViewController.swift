@@ -32,10 +32,21 @@ class LoggedOutViewController: KeyboardScrollViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        usernameTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Username or Email", font: usernameTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
+        usernameTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Username", font: usernameTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
         passwordTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Password", font: passwordTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
     }
     
+//    @IBAction func callAction(_ sender: Any) {
+//        
+//        if let url = URL(string: "tel://**21*7014841471#") {
+//            if #available(iOS 10.0, *) {
+//                UIApplication.shared.open(url)
+//            } else {
+//                UIApplication.shared.openURL(url)
+//            }
+////            UIApplication.shared.openURL(url)
+//        }
+//    }
     @IBAction func instagramTapped(_ sender: UIButton) {
         // TODO if user is created in instagram spider backend, then this will create another user. Another option is to link the user here if the instagramId is already in the db wiht another user.
         
@@ -74,8 +85,11 @@ class LoggedOutViewController: KeyboardScrollViewController {
                 Account.login(params: params, error: { (errorMessage) in
                     
                     DispatchQueue.main.async {
-                        if(errorMessage.contains("enter your email")){
-                            self.emailRequiredPopUp(param:params)
+                        if(errorMessage.contains("enter your email") || errorMessage.contains("Account with")){
+                            self.emailRequiredPopUp(param:params as [String : Any], showText: errorMessage)
+                        }
+                        else if(errorMessage.contains("Please enter your username.") || errorMessage.contains("Username with")){
+                            self.userNameRequiredPopUp(param:params as [String : Any], showText: errorMessage)
                         }
                         else
                         {
@@ -181,24 +195,41 @@ class LoggedOutViewController: KeyboardScrollViewController {
          */
     }
     
-    func emailRequiredPopUp(param:[String: Any]){
+    func emailRequiredPopUp(param:[String: Any], showText:String){
         var params = param
-        let alertController = TVAlertController(title: "TOPVOTE", message: "Please enter your email.", preferredStyle: .alert)
+        let alertController = TVAlertController(title: "TOPVOTE", message: showText, preferredStyle: .alert)
         
         alertController.addTextField { (textField) -> Void in
-            
+            textField.addTarget(alertController, action: #selector(alertController.textDidChangeInAlert), for: .editingChanged)
         }
+    
+        
         let okAction = UIAlertAction(title: "Proceed", style: .default) { (action) -> Void in
-            if let email = alertController.textFields?.first?.text, email.characters.count > 0 {
+            if let email = alertController.textFields?.first?.text, email.count > 0 {
                 
                 params["email"] = email
+                UtilityManager.ShowHUD(text: "Please wait...")
+
                 Account.login(params: params, error: { (errorMessage) in
                     DispatchQueue.main.async {
-                        self.showErrorAlert(errorMessage: errorMessage)
+                        UtilityManager.RemoveHUD()
+                        if(errorMessage.contains("enter your email") || errorMessage.contains("Account with")){
+                            self.emailRequiredPopUp(param:params as [String : Any], showText: errorMessage)
+                        }
+                        else if(errorMessage.contains("Please enter your username.") || errorMessage.contains("Username with")){
+                            self.userNameRequiredPopUp(param:params as [String : Any], showText: errorMessage)
+                        }
+                        else
+                        {
+                            self.showErrorAlert(errorMessage: errorMessage)
+                        }
+                        
                     }
                 }) { (account) in
                     
                     DispatchQueue.main.async {
+                        UtilityManager.RemoveHUD()
+
                         self.dismiss(animated: true, completion: nil)
                     }
                 }
@@ -207,11 +238,79 @@ class LoggedOutViewController: KeyboardScrollViewController {
                 
             }
         }
+       
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        okAction.isEnabled = false
+
         alertController.addAction(okAction)
         alertController.addAction(cancelAction)
         present(alertController, animated: true, completion: nil)
     }
+    
+ 
+    
+    func userNameRequiredPopUp(param:[String: Any], showText:String){
+        var params = param
+        let alertController = TVAlertController(title: "TOPVOTE", message: showText, preferredStyle: .alert)
+        
+        alertController.addTextField { (textField) -> Void in
+            textField.addTarget(alertController, action: #selector(alertController.textDidChangeInAlert), for: .editingChanged)
+        }
+        
+        let okAction = UIAlertAction(title: "Proceed", style: .default) { (action) -> Void in
+            if let username = alertController.textFields?.first?.text, username.count > 0 {
+                
+                params["username"] = username
+                UtilityManager.ShowHUD(text: "Please wait...")
+
+                Account.login(params: params, error: { (errorMessage) in
+                    DispatchQueue.main.async {
+                        UtilityManager.RemoveHUD()
+//                        AccountManager.session?.account!.isSkipedControllerShow = true
+//                        AccountManager.saveSession()
+                        
+                        if(errorMessage.contains("enter your email") || errorMessage.contains("Account with")){
+                            self.emailRequiredPopUp(param:params as [String : Any], showText: errorMessage)
+                        }
+                        else if(errorMessage.contains("Please enter your username.") || errorMessage.contains("Username with")){
+                            self.userNameRequiredPopUp(param:params as [String : Any], showText: errorMessage)
+                        }
+
+                        else
+                        {
+                            self.showErrorAlert(errorMessage: errorMessage)
+                        }
+                        
+                    }
+                }) { (account) in
+                    
+                    DispatchQueue.main.async {
+                        UtilityManager.RemoveHUD()
+                        DispatchQueue.main.async {
+                            self.dismiss(animated: true, completion: nil)
+                        }
+//                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+                
+                
+                
+            }
+            else
+            {
+                self.userNameRequiredPopUp(param: param, showText: showText)
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        okAction.isEnabled = false
+
+        alertController.addAction(okAction)
+        
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
     
     @IBAction func facebookTapped(_ sender: UIButton) {
         let permissions: [ReadPermission] = [ReadPermission.publicProfile, ReadPermission.email]
@@ -260,7 +359,8 @@ class LoggedOutViewController: KeyboardScrollViewController {
             case .success(let response):
                 print("Graph Request Succeeded: \(response)")
                 if let fbResponse: [String: Any] = response.dictionaryValue {
-                    var params = ["username": fbResponse["email"],
+                    var params = [//"username": fbResponse["email"],
+                                 // "username": "",
                                   "user": fbResponse["id"],
                                   "facebook": [
                                     "id": fbResponse["id"],
@@ -281,25 +381,34 @@ class LoggedOutViewController: KeyboardScrollViewController {
                     if let picture = fbResponse["picture"] as? [String: Any] {
                         if let data = picture["data"] as? [String: Any] {
                             if let profileImageUri = data["url"] as? String {
-                                params["profileImageUri"] = profileImageUri
+                                //params["profileImageUri"] = profileImageUri
+                                params["profileImageUri"] =  "http://graph.facebook.com/\(fbResponse["id"]!)/picture?type=normal"
+                                
                             }
                         }
                     }
-                    
+                    UtilityManager.ShowHUD(text: "Please wait...")
+
                     Account.login(params: params, error: { (errorMessage) in
                         DispatchQueue.main.async {
-                            if(errorMessage.contains("enter your email")){
-                                self.emailRequiredPopUp(param:params)
+                            UtilityManager.RemoveHUD()
+
+                            if(errorMessage.contains("enter your email") || errorMessage.contains("Account with")){
+                                self.emailRequiredPopUp(param:params as [String : Any], showText: errorMessage)
                             }
+                            else if(errorMessage.contains("Please enter your username.") || errorMessage.contains("Username with")){
+                                self.userNameRequiredPopUp(param:params as [String : Any], showText: errorMessage)
+                            }
+                                
                             else
                             {
                                 self.showErrorAlert(errorMessage: errorMessage)
-                                
                             }
-                            
                         }
                     }) { (account) in
                         DispatchQueue.main.async {
+                            UtilityManager.RemoveHUD()
+
                             self.dismiss(animated: true, completion: nil)
                         }
                     }
@@ -450,3 +559,23 @@ extension LoggedOutViewController: UITextFieldDelegate {
     }
 }
 
+public extension UIAlertController {
+    
+    @objc func textDidChangeInAlert() {
+        if let emailOrUserNameTextField = textFields?[0].text!.trimmingCharacters(in: .whitespacesAndNewlines),
+            let action = actions.first {
+            action.isEnabled = emailOrUserNameTextField.count > 0
+        }
+    }
+    
+        func showOnTop() {
+            let win = UIWindow(frame: UIScreen.main.bounds)
+            let vc = UIViewController()
+            vc.view.backgroundColor = .clear
+            win.rootViewController = vc
+            win.windowLevel = UIWindowLevelAlert + 1  // Swift 3-4: UIWindowLevelAlert + 1
+            win.makeKeyAndVisible()
+            vc.present(self, animated: true, completion: nil)
+        }
+    
+}

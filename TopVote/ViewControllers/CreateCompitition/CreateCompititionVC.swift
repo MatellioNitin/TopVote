@@ -10,10 +10,30 @@ import UIKit
 
 class CreateCompititionVC: UIViewController {
     
+    
+    @IBOutlet weak var imgCompetition: UIImageView!
+    
+    @IBOutlet weak var txtName: CustomUITextField!
+    
+    @IBOutlet weak var txtStartDate: CustomUITextField!
+    
+    @IBOutlet weak var txtEndDate: CustomUITextField!
+    
+    @IBOutlet weak var txtDescription: CustomUITextField!
+    
+    @IBOutlet weak var txtCategory: CustomUITextField!
+    
+    @IBOutlet var btnCompType: [UIButton]!
+    
+    @IBOutlet var btnContentType: [UIButton]!
     @IBOutlet weak var tblCompition: UITableView!
+    
+    @IBOutlet weak var btnCategory: UIButton!
     
     let picker = UtilityManager.normalPicker()
     var pickerDate = UtilityManager.picker_Date_Create()
+
+    var compititionObj = Competition()
 
     var createCompArray = CreateCompititions()
     var pickerArr = [String]()
@@ -22,167 +42,85 @@ class CreateCompititionVC: UIViewController {
     var selectedTxtField = UITextField()
     var selectedButtonIndex:Int = 1  // 1= compition, 2= logo
     let dateFormatter = DateFormatter()
+    var categoryArray = Categorys()
+    var savedCategory = Categorys()
+    var savedIdCategory = NSMutableArray()
 
-    
+    // MARK: - ViewController Method
     override func viewDidLoad() {
         super.viewDidLoad()
         picker.dataSource = self
         picker.delegate = self
         pickerDate.addTarget(self, action: #selector(handleDatePicker), for: .valueChanged)
-        setListData()
         
+        txtStartDate.addDoneOnKeyboardWithTarget(self, action: #selector(self.doneButtonWiithModuleAction(done:)))
+        txtEndDate.addDoneOnKeyboardWithTarget(self, action: #selector(self.doneButtonWiithModuleAction(done:)))
+        txtCategory.addDoneOnKeyboardWithTarget(self, action: #selector(self.doneButtonWiithModuleAction(done:)))
+        
+        getCategoryList()
+        if(compititionObj._id != nil){
+            self.navigationItem.title = "Edit Competition"
+            updateListData()
+        }
+        else
+        {
+            self.navigationItem.title = "Create Competition"
+            //setListData()
+            
+        }
     }
     
+    
+   
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func btnAddImageTapped(_ sender: UIButton) {
-        imagePickerManager.showImageOptionAt(vc: self)
-    }
-    
-    func setListData(){
-        for i in 0...3{
-        let obj = CreateCompitition()
-        switch i {
-        case 0:
-            obj.setData(type: 1, titleStr: "Name your competition", placeHolderStr:"For example: Best Haircut", valueStr: "", pickerArrayList: [])
-        case 1:
-             obj.setData(type: 3, titleStr: "Select start date", placeHolderStr:"Start date", valueStr: "", pickerArrayList: [])
-        case 2:
-           obj.setData(type: 3, titleStr: "Select end date", placeHolderStr:"End date", valueStr: "", pickerArrayList: [])
-        case 3:
-           obj.setData(type: 1, titleStr: "Describe your competition for your friends", placeHolderStr:"This is a description of your competition", valueStr: "", pickerArrayList: [])
-//        case 4:
-//          obj.setData(type: 2, titleStr: "Select competition entries", placeHolderStr:"Select competition entries", valueStr: "Image & Video", pickerArrayList: ["Image & Video"])
-      
-        default:
-            print("default")
-        }
-            
-           createCompArray.append(obj)
 
-        }
-
-        tblCompition.reloadData()
-    }
+    // MARK: - API Method
     
-    @IBAction func buttonImageAction(_ sender: UIButton) {
-        selectedButtonIndex = sender.tag
-        chooseMedia()
-    }
-    
-    
-    
-    
-    @IBAction func saveTapped(_ sender: Any) {
-        if(isValidForm()){
-            UtilityManager.ShowHUD(text: "Please wait...")
-            uploadMedia(imageTag: 1, image: comptitionImage!)
-        //submitAPI()
-        }
+    func getCategoryList(){
         
-    }
-    func isValidForm()-> Bool{
-        dateFormatter.dateFormat = "MM/dd/yyyy"
-
-        if(comptitionImage == nil){
-            self.showErrorAlert(errorMessage: "Please select competiton image")
-            return false
-            
+        if UIApplication.shared.applicationState == .background {
+            return
         }
-    else if(self.createCompArray[0].value?.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
-            self.showErrorAlert(title:"", errorMessage: "Please enter title")
-        return false
-        }
-//        else if(createCompArray[1].value?.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
-//
-//          self.showErrorAlert(title:"", errorMessage: "Please ") // Please enter by text
-//        return false
-//
-//        }
-        else if(self.createCompArray[1].value?.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
-            self.showErrorAlert(title:"", errorMessage: "Please select start date")
-        return false
-
-        }
-        else if(createCompArray[2].value?.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
-         self.showErrorAlert(title:"", errorMessage: "Please select end date")
-        return false
-
-        }
-        else if dateFormatter.date(from: createCompArray[1].value!)?.compare(dateFormatter.date(from: createCompArray[2].value!)!) == .orderedDescending{
-            
-            self.showErrorAlert(title:"", errorMessage: "Start date can't be greater than to end date")
-            return false
-        }
-        else if compareDate(date1: dateFormatter.date(from: createCompArray[1].value!)!, date2: Date()){
-
-       // else if dateFormatter.date(from: createCompArray[1].value!)!.compare(Date()) == .orderedAscending{
-            self.showErrorAlert(title:"", errorMessage: "Start date can't be less than to current date")
-            return false
-
-        }
-        else if compareDate(date1: dateFormatter.date(from: createCompArray[2].value!)!, date2: Date()){
-      //  else if dateFormatter.date(from: createCompArray[2].value!)!.compare(Date()) == .orderedAscending{
-            self.showErrorAlert(title:"", errorMessage: "End date can't be less than to current date")
-            return false
-
-        }
-        else if(createCompArray[3].value?.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
-            self.showErrorAlert(title:"", errorMessage: "Please enter description")
-        return false
-
-        }
-//    else if(createCompArray[4].value?.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
-//        self.showErrorAlert(title:"", errorMessage: "Please select competitons type")
-//        return false
-//
-//        }
-   
-    else
-    {
-        return true
-    }
-}
-    
-    func compareDate(date1:Date, date2:Date) -> Bool {
-        let order = NSCalendar.current.compare(date1, to: date2, toGranularity: .day)
-        switch order {
-        case .orderedAscending:
-            return true
-        default:
-            return false
-        }
-    }
-    
-//    func localToUTC(date:String) -> String {
-//        // 2018-09-24T12:43
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "MM/dd/yyyy"
-//       // dateFormatter.calendar = NSCalendar.current
-//       // dateFormatter.timeZone = TimeZone.current
-//
-//        let dt = dateFormatter.date(from: date)
-//       // dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
-//        dateFormatter.dateFormat = "yyyy-MM-dd\'T\'"
-//
-//        return dateFormatter.string(from: dt!)
-//    } comment by nikhil
-    
-    
-    func localToUTC(date:String) -> String {
-        // 2018-09-24T12:43
-         let dateFormatter = DateFormatter()
-         dateFormatter.dateFormat = "MM/dd/yyyyHH:mm:ss"
-         dateFormatter.calendar = NSCalendar.current
-         dateFormatter.timeZone = TimeZone.current
+        UtilityManager.ShowHUD(text: "Please wait...")
         
-        let dt = dateFormatter.date(from: date)
-        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
-        dateFormatter.dateFormat = "yyyy-MM-dd\'T\'HH:mm:ss"
+        Category.find(queryParams: [:], error: { [weak self] (errorMessage) in
+            DispatchQueue.main.async {
+                UtilityManager.RemoveHUD()
+                
+                self?.showErrorAlert(errorMessage: errorMessage)
+            }
+        }) { [weak self] (competitions) in
+            UtilityManager.RemoveHUD()
+            //                DispatchQueue.main.async {
+            self?.categoryArray = competitions
+            if(competitions.count > 0){
+                var isAllSelecct = true
+                 self!.picker.delegate = self
+                 //self!.picker.dataSource = true
+                self!.picker.reloadAllComponents()
+                
+            }
+            
+            
+            //                    print("self?.savedCategory.count \(self?.savedCategory.count)")
+            //                        print("self?.savedCategory.count \(self?.savedCategory.count)")
+            
+            
+            //                    if(self?.savedCategory.count == self?.categoryArray.count){
+            //                        self?.btnSelectAll .setTitle("Unselect All", for: .normal)
+            //                    }
+            //                    else if(self?.savedCategory == nil || self?.savedCategory.count == 0){
+            //                        self?.btnSelectAll.setTitle("Unselect All", for: .normal)
+            //                    }
+            
+            
+           // self?.tblCategory.reloadData()
+        }
+        //            }
         
-        return dateFormatter.string(from: dt!)
     }
     
     func submitAPI()  {
@@ -196,39 +134,265 @@ class CreateCompititionVC: UIViewController {
     //let logoImageURL = "https://res.cloudinary.com/top-inc/image/upload/v1536164851/xubrdgbpxnxaensfjjfm.jpg"
 //        let date = localToUTC(date:createCompArray[1].value!)
         
-        params["title"] = createCompArray[0].value!
-        params["text"] = createCompArray[3].value!
+        let isPrivate:Bool!
+        if(self.btnCompType[0].currentImage == UIImage(named:"radio_On")){
+            isPrivate = false
+            var type = ""
+            if(self.btnContentType[0].currentImage == UIImage(named:"check") && self.btnContentType[1].currentImage
+                != UIImage(named:"check")){
+                type = "0"
+            }
+            else if(self.btnContentType[1].currentImage == UIImage(named:"check") && self.btnContentType[0].currentImage
+                != UIImage(named:"check"))
+            {
+                type = "1"
+            }
+            else
+            {
+                type = "3"
+            }
+            
+            params["type"] = type
+            params["category"] = savedIdCategory
+            
+            // category (category > Array)
+        }
+        else
+        {
+            isPrivate = true
+            params["type"] = "3"
+        }
+        
+        params["title"] = txtName.text!
+        params["text"] =  txtDescription.text!
         //params["type"] = "\(index!)"
-        params["type"] = "3"
         params["mediaUri"] = comptitionImageURL!
         params["byImageUri"] = ""
-        params["startDate"] = localToUTC(date:createCompArray[1].value! + "00:00:00")
-        params["endDate"] = localToUTC(date:createCompArray[2].value!  +  "23:59:59")
+        params["startDate"] = localToUTC(date:txtStartDate.text! + "00:00:00")
+        params["endDate"] = localToUTC(date:txtEndDate.text!  +  "23:59:59")
         params["byText"] = "Text"
         params["owner"] = (AccountManager.session?.account?._id)!
    
-        PCompitionCreate.find(queryParams: params, error: { [weak self] (errorMessage) in
+        if(isPrivate){
+            
+            PCompitionCreate.find(queryParams: params, error: { (errorMessage) in
                 DispatchQueue.main.async {
                     UtilityManager.RemoveHUD()
-
-                    self?.showErrorAlert(errorMessage: errorMessage)
+                    self.showErrorAlert(errorMessage: errorMessage)
                 }
-            }) { [weak self] (competitions) in
-                    DispatchQueue.main.async {
-                        
-                        UtilityManager.RemoveHUD()
-                    self?.showErrorAlert(title:"Congratulation", errorMessage: "Your Private competiton is created successfully")
-                        self?.navigationController?.popViewController(animated: true)
-    
+            }, completion: {
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    self.showErrorAlert(title:"Congratulation", errorMessage: "Your Private competiton is created successfully")
+                    self.navigationController?.popViewController(animated: true)
+                }
+            })
+        }
+        else
+        {
+            PCompitionCreate.createPublicComp(queryParams: params, error: {  (errorMessage) in
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    self.showErrorAlert(errorMessage: errorMessage)
+                }
+            }, completion: {
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    self.showErrorAlert(title:"Congratulation", errorMessage: "Your competiton is created successfully")
+                    self.navigationController?.popViewController(animated: true)
+                }
+            })
+        }
+        
     }
+    
+    
+    func updateAPI()  {
+        
+        // let index = pickerArr.index(of: createCompArray[4].value!)
+        var params = [String: Any]()
+        
+        //        comptitionImageURL = "https://res.cloudinary.com/top-inc/image/upload/v1536164836/i3mpxnqhbytjx0bjyse3.jpg"
+        
+        //let logoImageURL = "https://res.cloudinary.com/top-inc/image/upload/v1536164851/xubrdgbpxnxaensfjjfm.jpg"
+        //        let date = localToUTC(date:createCompArray[1].value!)
+        
+        
+        let isPrivate:Bool!
+        if(self.btnCompType[0].currentImage == UIImage(named:"radio_On")){
+            isPrivate = false
+            var type = ""
+            if(self.btnContentType[0].currentImage == UIImage(named:"check") && self.btnContentType[1].currentImage
+                != UIImage(named:"check")){
+                type = "0"
+            }
+            else if(self.btnContentType[1].currentImage == UIImage(named:"check") && self.btnContentType[0].currentImage
+                != UIImage(named:"check"))
+            {
+                  type = "1"
+            }
+            else
+            {
+                type = "3"
+            }
+            
+            params["type"] = type
+            params["category"] = savedIdCategory
+
+
+           // category (category > Array)
+        }
+        else
+        {
+            isPrivate = true
+            params["type"] = "3"
+
+        }
+        params["title"] = txtName.text!
+        params["text"] =  txtDescription.text!
+        //params["type"] = "\(index!)"
+        params["mediaUri"] = comptitionImageURL!
+        params["byImageUri"] = ""
+        params["startDate"] = localToUTC(date:txtStartDate.text! + "00:00:00")
+        params["endDate"] = localToUTC(date:txtEndDate.text!  +  "23:59:59")
+        params["byText"] = "Text"
+        params["owner"] = (AccountManager.session?.account?._id)!
+        
+        if(isPrivate){
+            PCompitionCreate.updatePrivateComp(compId: compititionObj._id!, params: params, error: { (errorMessage) in
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    self.showErrorAlert(errorMessage: errorMessage)
+                }
+            }, completion: {
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    self.showErrorAlert(title:"Congratulation", errorMessage: "Your Private competiton is updated successfully")
+                    self.navigationController?.popViewController(animated: true)
+            }})
+        }
+        else
+        {
+            PCompitionCreate.updatePublicComp(compId: compititionObj._id!, queryParams: params, error: { (errorMessage) in
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    self.showErrorAlert(errorMessage: errorMessage)
+                }
+            }, completion: {
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    self.showErrorAlert(title:"Congratulation", errorMessage: "Your competiton is updated successfully")
+                    self.navigationController?.popViewController(animated: true)
+                }
+            })
+        }
+        
     }
     
-    }
-    
+    // MARK: - IBAction Method
+
     @IBAction func backTapped(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
     
+    @IBAction func btnCompTypeAction(_ sender: UIButton) {
+        if((self.navigationItem.title?.contains("Edit"))!){
+            return
+        }
+        
+        if(sender.tag == 0){
+            setPublicData()
+        }
+        else
+        {
+            setPrivateData()
+        }
+    }
+    
+
+    
+    @IBAction func btnContentTypeAction(_ sender: UIButton) {
+        if(sender.currentImage == UIImage(named:"check")){
+            sender.setImage(UIImage(named:"uncheck"), for: .normal)
+        }
+        else
+        {
+            sender.setImage(UIImage(named:"check"), for: .normal)
+        }
+    }
+    
+    @IBAction func btnPickerAction(_ sender: UIButton) {
+        selectedTxtField.resignFirstResponder()
+        if(sender.tag == 102){
+            txtStartDate.becomeFirstResponder()
+        }
+        else  if(sender.tag == 103){
+            txtEndDate.becomeFirstResponder()
+        }
+        else
+        {
+            if let vc = storyboard?.instantiateViewController(withIdentifier: "CategoryVC") as? CategoryVC {
+               vc.currentVC = self
+                vc.savedCategoryObjArray = savedCategory
+                vc.savedCategory = savedIdCategory
+                navigationController?.pushViewController(vc, animated: true)
+//            txtCategory.becomeFirstResponder()
+        }
+    }
+    }
+
+    
+    @IBAction func buttonImageAction(_ sender: UIButton) {
+        // selectedButtonIndex = sender.tag
+        chooseMedia()
+    }
+    
+    @IBAction func saveTapped(_ sender: Any) {
+        if(isValidForm()){
+            UtilityManager.ShowHUD(text: "Please wait...")
+            uploadMedia(imageTag: 1, image: comptitionImage!)
+        }
+        
+    }
+    
+    
+    // MARK: - Custom Method
+    
+    func setData(){
+        if(compititionObj._id != nil && comptitionImage == nil){
+            
+            if let profileImageUri = compititionObj.mediaUri, let uri = URL(string: profileImageUri) {
+                imgCompetition.af_setImage(withURL: uri, placeholderImage:  UIImage(named: "upload"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false, completion: { (image) in
+                    if let image = image.value {
+                        self.comptitionImage = image
+                    }
+                })
+            }
+            else
+            {
+                imgCompetition.image = comptitionImage
+            }
+            
+            txtName.text = compititionObj.title!
+            txtStartDate.text = compititionObj.startDate!.formattedDateOnlyForFullYear()
+            txtEndDate.text = compititionObj.endDate!.formattedDateOnlyForFullYear()
+            txtDescription.text = compititionObj.text!
+            
+        }
+        else
+        {
+            if(comptitionImage != nil){
+                imgCompetition.image = comptitionImage
+            }
+            else{
+                imgCompetition.image = UIImage(named:"upload")
+            }
+            
+            txtStartDate.isUserInteractionEnabled = false
+            txtStartDate.alpha = 0.5
+        }
+    }
+
     func uploadMedia(imageTag:Int, image:UIImage){
         
         if image != nil {
@@ -251,8 +415,16 @@ class CreateCompititionVC: UIViewController {
                            let photoData = photo
                             if(imageTag == 1){
                                 self.comptitionImageURL = (photoData.secure_url?.absoluteString)
-                                self.submitAPI()
-
+                                
+                         
+                                    if(self.compititionObj._id != nil){
+                                        self.updateAPI()
+                                        
+                                    }
+                                    else{
+                                        self.submitAPI()
+                                    }
+                                
                             }
                             
                             
@@ -317,6 +489,7 @@ class CreateCompititionVC: UIViewController {
         present(alertController, animated: true)
 
     }
+    
     @objc func handleDatePicker(){
 //        if(self.selectedTxtField.tag > 200){ // Time
 //            pickerDate.minimumDate = nil
@@ -338,23 +511,23 @@ class CreateCompititionVC: UIViewController {
             dateFormatter.dateFormat = "MM/dd/yyyy"
 
         let strSet = dateFormatter.string(from: pickerDate.date)
-        DispatchQueue.main.async { [unowned self] in
-            let cell = self.tblCompition.cellForRow(at: IndexPath(row:(self.selectedTxtField.tag - 100), section: 0)) as! CommonCell
+//        DispatchQueue.main.async { [unowned self] in
+//            let cell = self.tblCompition.cellForRow(at: IndexPath(row:(self.selectedTxtField.tag - 100), section: 0)) as! CommonCell
             DispatchQueue.main.async {
-                if(self.selectedTxtField.tag == 102){
-                    self.selectedTxtField.text = strSet
+                if(self.selectedTxtField == self.txtStartDate){
+                    self.txtStartDate.text = strSet
                 }
                 else
                 {
-                    self.selectedTxtField.text = strSet
+                    self.txtEndDate.text = strSet
                 }            }
-        }
+      //  }
        // }
     }
    
     func setDatePickerToTextField(_ textField: UITextField) {
       
-        textField.inputView = pickerDate
+    textField.inputView = pickerDate
     if(textField.text?.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
             pickerDate.date = Date()
         } else {
@@ -364,26 +537,30 @@ class CreateCompititionVC: UIViewController {
             let date = dateFormatter.date(from: "\(textTofound1!)")
             pickerDate.date = date!
         
-            
         }
  
         let strSet = dateFormatter.string(from: pickerDate.date)
-        DispatchQueue.main.async { [unowned self] in
-            if(textField.tag == 102){
-                textField.text = strSet
-            }
-            else
-            {
-                textField.text = strSet
-            }
-        }
+        
+        textField.text = strSet
+        
+//        DispatchQueue.main.async { [unowned self] in
+//            if(textField.tag == 102){
+//                textField.text = strSet
+//                self.createCompArray[1].value = strSet
+//
+//            }
+//            else
+//            {
+//                textField.text = strSet
+//                self.createCompArray[2].value = strSet
+//
+//            }
+//        }
+//
+    
     }
 
-    
     func setPickerToTextField(_ textField: UITextField) {
-        if(textField.tag == 4){
-            pickerArr = createCompArray[selectedTxtField.tag].arrayList
-        }
         
         picker.reloadAllComponents()
         textField.inputView = picker
@@ -392,10 +569,9 @@ class CreateCompititionVC: UIViewController {
         
         } else {
             let textTofound = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines)
-//            if(textField.tag == 6){
-        let index1 =  pickerArr.index(of: textTofound!)
-                picker.selectRow(index1!, inComponent: 0, animated: false)
-          //  }
+            let object = categoryArray.filter { $0.name == textTofound}
+        
+        picker.selectRow(categoryArray.firstIndex(of: object.last!)!, inComponent: 0, animated: false)
         
             }
         
@@ -409,6 +585,197 @@ class CreateCompititionVC: UIViewController {
             }
         }
     }
+    
+    func updateListData(){
+        
+        txtName.text =  compititionObj.title!
+        txtStartDate.text =  compititionObj.startDate!.formattedDateOnlyForFullYear()
+        txtEndDate.text =  compititionObj.endDate!.formattedDateOnlyForFullYear()
+        txtDescription.text =  compititionObj.text!
+        if let profileImageUri = compititionObj.mediaUri, let uri = URL(string: profileImageUri) {
+           imgCompetition.af_setImage(withURL: uri, placeholderImage:  UIImage(named: "upload"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false, completion: { (image) in
+                if let image = image.value {
+                    self.comptitionImage = image
+                }
+            })
+        }
+        savedIdCategory =
+        setPrivateData()
+        
+        
+
+    }
+    
+    
+    func setListData(){
+        for i in 0...4{
+            let obj = CreateCompitition()
+            switch i {
+            case 0:
+                obj.setData(type: 1, titleStr: "Name your competition", placeHolderStr:"For example: Best Haircut", valueStr: "", pickerArrayList: [])
+            case 1:
+                obj.setData(type: 3, titleStr: "Select start date", placeHolderStr:"Start date", valueStr: "", pickerArrayList: [])
+            case 2:
+                obj.setData(type: 3, titleStr: "Select end date", placeHolderStr:"End date", valueStr: "", pickerArrayList: [])
+            case 3:
+                obj.setData(type: 1, titleStr: "Describe your competition for your friends", placeHolderStr:"This is a description of your competition", valueStr: "", pickerArrayList: [])
+            case 4:
+                obj.setData(type: 1, titleStr: "Category", placeHolderStr:"Select Category", valueStr: "", pickerArrayList: [])
+                
+                //        case 4:
+                //          obj.setData(type: 2, titleStr: "Select competition entries", placeHolderStr:"Select competition entries", valueStr: "Image & Video", pickerArrayList: ["Image & Video"])
+                
+            default:
+                print("default")
+            }
+            
+            createCompArray.append(obj)
+            
+        }
+        
+        tblCompition.reloadData()
+    }
+    
+    @objc func doneButtonWiithModuleAction(done : UITextField){
+        selectedTxtField.resignFirstResponder()
+    }
+    
+    func isValidForm()-> Bool{
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        
+        if(comptitionImage == nil){
+            self.showErrorAlert(errorMessage: "Please select competiton image")
+            return false
+            
+        }
+        else if(txtName.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
+            self.showErrorAlert(title:"", errorMessage: "Please enter title")
+            return false
+        }
+            //        else if(createCompArray[1].value?.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
+            //
+            //          self.showErrorAlert(title:"", errorMessage: "Please ") // Please enter by text
+            //        return false
+            //
+            //        }
+        else if(txtStartDate.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
+            self.showErrorAlert(title:"", errorMessage: "Please select start date")
+            return false
+            
+        }
+        else if(txtEndDate.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
+            self.showErrorAlert(title:"", errorMessage: "Please select end date")
+            return false
+            
+        }
+        else if dateFormatter.date(from: txtStartDate.text!)?.compare(dateFormatter.date(from: txtEndDate.text!)!) == .orderedDescending{
+            
+            self.showErrorAlert(title:"", errorMessage: "Start date can't be greater than to end date")
+            return false
+        }
+        else if compareDate(date1: dateFormatter.date(from: txtStartDate.text!)!, date2: Date()) && compititionObj._id == nil{
+            
+            // else if dateFormatter.date(from: createCompArray[1].value!)!.compare(Date()) == .orderedAscending{
+            self.showErrorAlert(title:"", errorMessage: "Start date can't be less than to current date")
+            return false
+            
+        }
+        else if compareDate(date1: dateFormatter.date(from: txtEndDate.text!)!, date2: Date()){
+            //  else if dateFormatter.date(from: createCompArray[2].value!)!.compare(Date()) == .orderedAscending{
+            self.showErrorAlert(title:"", errorMessage: "End date can't be less than to current date")
+            return false
+            
+        }
+        else if(txtDescription.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
+            self.showErrorAlert(title:"", errorMessage: "Please enter description")
+            return false
+            
+        }
+            //    else if(createCompArray[4].value?.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
+            //        self.showErrorAlert(title:"", errorMessage: "Please select competitons type")
+            //        return false
+            //
+            //        }
+            
+        else
+        {
+            return true
+        }
+    }
+    
+    func compareDate(date1:Date, date2:Date) -> Bool {
+        let order = NSCalendar.current.compare(date1, to: date2, toGranularity: .day)
+        switch order {
+        case .orderedAscending:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    //    func localToUTC(date:String) -> String {
+    //        // 2018-09-24T12:43
+    //        let dateFormatter = DateFormatter()
+    //        dateFormatter.dateFormat = "MM/dd/yyyy"
+    //       // dateFormatter.calendar = NSCalendar.current
+    //       // dateFormatter.timeZone = TimeZone.current
+    //
+    //        let dt = dateFormatter.date(from: date)
+    //       // dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+    //        dateFormatter.dateFormat = "yyyy-MM-dd\'T\'"
+    //
+    //        return dateFormatter.string(from: dt!)
+    //    } comment by nikhil
+    
+    
+    func localToUTC(date:String) -> String {
+        // 2018-09-24T12:43
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyyHH:mm:ss"
+        dateFormatter.calendar = NSCalendar.current
+        dateFormatter.timeZone = TimeZone.current
+        
+        let dt = dateFormatter.date(from: date)
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        dateFormatter.dateFormat = "yyyy-MM-dd\'T\'HH:mm:ss"
+        
+        return dateFormatter.string(from: dt!)
+    }
+    
+    func setPrivateData(){
+        btnCompType[0].setImage(UIImage(named:"radio_Off"), for: .normal)
+        btnCompType[1].setImage(UIImage(named:"radio_On"), for: .normal)
+        txtCategory.isEnabled = false
+        btnCategory.isEnabled = false
+        
+        btnCategory.backgroundColor = UIColor.lightGray
+        btnCategory.alpha = 0.1
+        txtCategory.alpha = 0.6
+        
+        btnContentType[0].isEnabled = false
+        btnContentType[1].isEnabled = false
+    }
+    
+    func setPublicData(){
+        btnCompType[0].setImage(UIImage(named:"radio_On"), for: .normal)
+        btnCompType[1].setImage(UIImage(named:"radio_Off"), for: .normal)
+        btnCategory.isEnabled = true
+        txtCategory.isEnabled = true
+        btnCategory.backgroundColor = UIColor.clear
+        btnCategory.alpha = 1.0
+        txtCategory.alpha = 1.0
+        btnContentType[0].isEnabled = true
+        btnContentType[1].isEnabled = true
+    }
+    
+    func setCategory(){
+        var nameArray = [String]()
+        for i in 0...savedCategory.count - 1 {
+            nameArray.append(categoryArray[i].name!)
+        }
+        txtCategory.text = nameArray.joined(separator: ",")
+    }
+    
 }
 
 extension CreateCompititionVC :UITableViewDataSource, UITableViewDelegate {
@@ -436,8 +803,6 @@ extension CreateCompititionVC :UITableViewDataSource, UITableViewDelegate {
         default:
             return (tableView.frame.width * 130/580)
         }
-        
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -461,12 +826,30 @@ extension CreateCompititionVC :UITableViewDataSource, UITableViewDelegate {
     
         if(indexPath.row == 0){
             cell.btnCompition.tag = 1
-            
-            if(comptitionImage != nil){
-                cell.btnCompition.setImage(comptitionImage, for: .normal)
+            if(compititionObj._id != nil && comptitionImage == nil){
+                
+                if let profileImageUri = compititionObj.mediaUri, let uri = URL(string: profileImageUri) {
+                    cell.imgCompetition.af_setImage(withURL: uri, placeholderImage:  UIImage(named: "upload"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false, completion: { (image) in
+                        if let image = image.value {
+                            self.comptitionImage = image
+                        }
+                    })
+                }
+                else
+                {
+                     cell.imgCompetition.image = comptitionImage
+                }
             }
-            else{
-            cell.btnCompition.setImage(UIImage(named:"upload"), for: .normal)
+            else
+            {
+                if(comptitionImage != nil){
+                    cell.imgCompetition.image = comptitionImage
+                    //cell.btnCompition.setImage(comptitionImage, for: .normal)
+                }
+                else{
+                     cell.imgCompetition.image = UIImage(named:"upload")
+                //cell.btnCompition.setImage(UIImage(named:"upload"), for: .normal)
+                }
             }
        
             cell.btnCompition.addTarget(self, action:#selector(self.buttonImageAction(_:)), for: .touchUpInside)
@@ -474,14 +857,22 @@ extension CreateCompititionVC :UITableViewDataSource, UITableViewDelegate {
         else if(indexPath.row == 2 || indexPath.row == 3)
         {
             let dict = createCompArray[indexPath.row-1]
+            
             cell.lblTitle.text = dict.title
-            cell.txtDate.placeholder = "Select Date"
+//            cell.txtDate.placeholder = "Select Date"
             //cell.txtTime.placeholder = "Select Time"
 
             cell.txtDate.tag = 100 + indexPath.row
            // cell.txtTime.tag = 200 + indexPath.row
             
             cell.txtDate.delegate = self
+            cell.txtDate.text = dict.value
+            
+            if(indexPath.row == 2 && compititionObj._id != nil){
+                cell.txtDate.isUserInteractionEnabled = false
+                cell.txtDate.alpha = 0.5
+            }
+            
            // cell.txtTime.delegate = self
 
         }
@@ -504,40 +895,24 @@ extension CreateCompititionVC :UITableViewDataSource, UITableViewDelegate {
             {
                 cell.txtField.tintColor = UIColor.black
             }
-            
         }
-       
         
         cell.txtField?.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         return cell
     }
-    
-    
-    
-    
+
 }
 
 extension CreateCompititionVC: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         selectedTxtField = textField
 
-        switch textField.tag {
-        case 102, 103:
+        switch textField {
+        case txtStartDate, txtEndDate:
             dateFormatter.dateFormat = "MM/dd/yyyy"
             pickerDate.datePickerMode = .date
             self.setDatePickerToTextField(textField)
-        case 202, 203:
-            dateFormatter.dateFormat = "hh:mm a"
-            pickerDate.datePickerMode = .time
-            self.setDatePickerToTextField(textField)
-        case 1:
-            self.setDatePickerToTextField(textField)
-        case 2:
-            self.setDatePickerToTextField(textField)
-        case 4:
-            let dict = createCompArray[textField.tag]
-
-            pickerArr = dict.arrayList
+        case txtCategory:
             self.setPickerToTextField(textField)
         default:
             textField.inputView = nil
@@ -547,67 +922,16 @@ extension CreateCompititionVC: UITextFieldDelegate {
         return true
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        //        if(textField.placeholder == "Last Name") {
-//            let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! CustomTableViewCell
-//            DispatchQueue.main.async {
-//                cell.txtField?.placeHolderLabel.textColor = kColor.textFieldActive
-//            }
-//
-//        } else if (textField.tag == 1 ){
-//            let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! CustomTableViewCell
-//            DispatchQueue.main.async {
-//                cell.txtField?.placeHolderLabel.textColor = kColor.textFieldInActive
-//            }
-//        }
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-      //  if(textField.placeholder == "Last Name" && selectedTxtField.tag != 0) {
-//            let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as! CustomTableViewCell
-//            DispatchQueue.main.async {
-//                cell.txtField?.placeHolderLabel.textColor = kColor.textFieldInActive
-//            }
-    //    }
-        
-        if(textField.tag == 6){
-         
-        }
-    }
-    
+ 
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if(textField.tag < 100){
-        createCompArray[textField.tag].value = textField.text
-        textField.resignFirstResponder()
-        }
-        else{
-            guard let cell = textField.superview?.superview as? CommonCell else {
-                return false// or fatalError() or whatever
-            }
-            
-            let indexPath = tblCompition.indexPath(for: cell)
-            var dateTimeStr = ""
-            if(cell.txtDate.text != ""){
-                dateTimeStr = cell.txtDate.text!
-            }
-            
-            switch textField.tag {
-            case 102:  createCompArray[textField.tag - 100 - 1].value = dateTimeStr
-            case 103:  self.createCompArray[textField.tag - 100 - 1].value = dateTimeStr
-            case 201:  createCompArray[textField.tag - 200 - 1].value = dateTimeStr
-            default:  createCompArray[textField.tag - 200 - 1].value = dateTimeStr
-            }
-            textField.resignFirstResponder()
 
-        }
         return true
     }
     
     
     
     @objc func textFieldDidChange(_ txtField: UITextField) {
-        createCompArray[txtField.tag].value = txtField.text
+       // createCompArray[txtField.tag].value = txtField.text
         // set Data into cells
 //        switch txtField.tag {
 //        case 0: // user firstname last name
@@ -627,6 +951,7 @@ extension CreateCompititionVC: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
         
         return true
 //        switch textField.tag {
@@ -676,8 +1001,9 @@ extension CreateCompititionVC: UIImagePickerControllerDelegate, UINavigationCont
         picker.dismiss(animated: true, completion: nil)
         if(selectedButtonIndex == 1){
          comptitionImage  = info[UIImagePickerControllerEditedImage] as? UIImage
+        imgCompetition.image = comptitionImage
         }
-        tblCompition.reloadData()
+//        tblCompition.reloadData()
     }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController){
@@ -691,34 +1017,18 @@ extension CreateCompititionVC: UIPickerViewDataSource, UIPickerViewDelegate{
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerArr.count
+
+        return categoryArray.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch selectedTxtField.tag {
-        case 4: //
-            let dict = createCompArray[selectedTxtField.tag]
-            return dict.arrayList[row]
-//        case 7: // state
-//            let dict = createCompArray[selectedTxtField.tag]
-//            return dict.arrayList[row]
-        default:
-            return ""
-        }
+            let objectList:Category = categoryArray[row]
+            return objectList.name
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        switch selectedTxtField.tag {
-        case 4: // image, video, text
-            createCompArray[selectedTxtField.tag].value = pickerArr[row]
-            selectedTxtField.text = pickerArr[row]
-            
-//        case 7: // featured or not
-//                createCompArray[selectedTxtField.tag].value = pickerArr[row]
-//                selectedTxtField.text = pickerArr[row]
-        default:
-            break
-        }
+            let objectList:Category = categoryArray[row]
+            txtCategory.text = objectList.name
     }
     
 }

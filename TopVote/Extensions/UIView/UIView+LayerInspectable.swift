@@ -84,6 +84,16 @@ extension UIView {
         }
     }
     
+    @IBInspectable
+    var shadowRadius: CGFloat {
+        get {
+            return layer.shadowRadius
+        }
+        set {
+            layer.shadowRadius = newValue
+        }
+    }
+    
     /// shadow opacity of view. defaults nil.
     
     @IBInspectable
@@ -110,15 +120,6 @@ extension UIView {
     
     /// The radius of the shadow applied. defaults nil.
     
-    @IBInspectable
-    var shadowRadius: CGFloat {
-        get {
-            return layer.shadowRadius
-        }
-        set {
-            layer.shadowRadius = newValue
-        }
-    }
     
     /// should the view be rasterized. defaults false.
     

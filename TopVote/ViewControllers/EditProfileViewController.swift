@@ -8,10 +8,12 @@
 
 import UIKit
 import MobileCoreServices
+import MessageUI
+
 //import FPPicker
 //import SDWebImage
 
-class EditProfileViewController: KeyboardScrollViewController {
+class EditProfileViewController: KeyboardScrollViewController, MFMailComposeViewControllerDelegate {
 //class EditProfileViewController: KeyboardScrollViewController, FPPickerControllerDelegate {
 
     @IBOutlet weak var imageView: UIImageView!
@@ -31,7 +33,7 @@ class EditProfileViewController: KeyboardScrollViewController {
         
         if let user = AccountManager.session?.account {
             if let profileImageUri = user.profileImageUri, let uri = URL(string: profileImageUri) {
-                profileImageView?.af_setImage(withURL: uri, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                profileImageView?.af_setImage(withURL: uri, placeholderImage:  UIImage(named: "profile-default-avatar"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: true)
                 btnProfileImage.setImage(nil, for: .normal)
 
             }
@@ -65,7 +67,6 @@ class EditProfileViewController: KeyboardScrollViewController {
                 imagePickerController.navigationBar.tintColor = Constants.appYellowColor
                 imagePickerController.navigationBar.backgroundColor = Constants.appThemeColor
 
-
                 imagePickerController.delegate = self
                 self?.present(imagePickerController, animated: true, completion: nil)
             } else {
@@ -96,10 +97,9 @@ class EditProfileViewController: KeyboardScrollViewController {
     
     @IBAction func logOutTapped(_ sender: AnyObject?) {
 
-    UtilityManager.subscriptionUnsubscriptionNotification(isSubscribe: false)
-
+        UtilityManager.subscriptionUnsubscriptionNotification(isSubscribe: false)
         
-        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
         AccountManager.session?.account?.logout(error: { (errorMessage) in
             DispatchQueue.main.async {
                 self.showErrorAlert(errorMessage: errorMessage)
@@ -113,8 +113,10 @@ class EditProfileViewController: KeyboardScrollViewController {
                 self.dismissToSplash()
             }
         })
+        }
     }
     
+  
     @IBAction func changePasswordTapped(_ sender: AnyObject?) {
         
         let alertController = TVAlertController(title: "Change Password", message: "Please confirm your current password.", preferredStyle: .alert)
@@ -223,7 +225,6 @@ class EditProfileViewController: KeyboardScrollViewController {
 //
 //            navigationController?.pushViewController(vc, animated: true)
 //        }
-        
     }
     @IBAction func save(_ sender: AnyObject) {
 
@@ -243,7 +244,6 @@ class EditProfileViewController: KeyboardScrollViewController {
             user.bio = bioTextView.text
             user.userFollowers = nil
             user.userFollowing = nil
-
 
             user.save(error: { [weak self ](errorMessage) in
                 UtilityManager.RemoveHUD()
@@ -267,6 +267,44 @@ class EditProfileViewController: KeyboardScrollViewController {
         }
     }
     
+    
+    @IBAction func contactUsAction(_ sender: Any) {
+        if MFMailComposeViewController.canSendMail() {
+        let emailTitle = "Topvote"
+        let messageBody = ""
+        let toRecipents = ["support@gettopvote.com"]
+        let mc: MFMailComposeViewController = MFMailComposeViewController()
+        mc.mailComposeDelegate = self
+        mc.setSubject(emailTitle)
+        mc.setMessageBody(messageBody, isHTML: false)
+        mc.setToRecipients(toRecipents)
+        mc.navigationBar .tintColor = Constants.appYellowColor
+
+        self.present(mc, animated: true, completion: nil)
+        }
+        else
+        {
+            print("Mail cancelled")
+
+        }
+        
+    }
+    
+    func mailComposeController(_ controller:MFMailComposeViewController, didFinishWith result:MFMailComposeResult, error:Error?) {
+        switch result {
+        case MFMailComposeResult.cancelled:
+            print("Mail cancelled")
+        case MFMailComposeResult.saved:
+            print("Mail saved")
+        case MFMailComposeResult.sent:
+            print("Mail sent")
+        case MFMailComposeResult.failed:
+            print("Mail sent failure: \(error!.localizedDescription)")
+        default:
+            break
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
     /*
     // MARK: - Navigation
 
@@ -311,7 +349,8 @@ extension EditProfileViewController: UITextFieldDelegate, UITextViewDelegate {
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         picker.dismiss(animated: true, completion: nil)
-        
+        UtilityManager.ShowHUD(text: "Please wait...")
+
         if let mediaType = info[UIImagePickerControllerMediaType] as? String {
             if mediaType == kUTTypeImage as String {
                 if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
@@ -324,15 +363,15 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
                             } catch {
                                 print("Writing image failed!")
                             }
-                            
                             Media.uploadPhoto(imageFileURL, progress: { (progress, completed) in
                                 print("progress: \(progress)  completed: \(completed)")
                             }, error: { (errorMessage) in
                                 print(errorMessage)
                             }, completion: { (photo) in
                                 DispatchQueue.main.async {
+                                    UtilityManager.RemoveHUD()
                                     self.mediaInfo = photo
-                                    self.profileImageView?.af_setImage(withURL: imageFileURL, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                                    self.profileImageView?.af_setImage(withURL: imageFileURL, placeholderImage: UIImage(named: "profile-default-avatar"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
                                 }
                             })
                         }

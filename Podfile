@@ -22,9 +22,10 @@ target 'Topvote' do
  	pod 'Branch'
 	pod 'Fabric'
 	pod 'Crashlytics'
-  	pod 'OneSignal'
+  	pod 'OneSignal', '~> 2.11.0' 
 	pod 'CommonCryptoModule'
-
+	pod 'KochavaTrackeriOS'
+	pod 'PhotoTweaks'
 
 
   use_frameworks!

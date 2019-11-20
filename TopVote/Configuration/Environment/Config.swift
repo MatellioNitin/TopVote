@@ -6,8 +6,10 @@
 
 import Foundation
 
+//DEV
 //private let _enviromentKey = "DEV"
 
+//LIVE
 private let _enviromentKey = "LOCAL"
 
 // The Configuration used throughout application for API specific tasks.

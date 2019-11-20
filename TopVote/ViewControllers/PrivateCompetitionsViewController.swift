@@ -9,7 +9,7 @@ import UIKit
 class HomePrivateViewController: CompetitionsViewController {
     
     override func loadCompetitions() {
-        navigationItem.title = "PRIVATE"
+        navigationItem.title = "CREATE"
 
         super.loadCompetitions()
         
@@ -97,6 +97,9 @@ class PrivateCompetitionsViewController: UIViewController, UITableViewDataSource
      self.navigationController?.pushViewController(vc, animated: true)
     
         }
+        
+        
+        
 //        if let nc = storyboard?.instantiateViewController(withIdentifier: "SubmitIdeaNC") {
 //            self.present(nc, animated: true, completion: nil)
 //        }
@@ -117,7 +120,7 @@ class PrivateCompetitionsViewController: UIViewController, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 280
+        return 350
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -125,10 +128,12 @@ class PrivateCompetitionsViewController: UIViewController, UITableViewDataSource
         if (indexPath.section == 0) {
             let competition = localCompetitions[indexPath.row]
             cell.configureWithCompetition(competition,tabbarIndex:3)
+            
         } else {
             
             let competition = competitions[indexPath.row]
             cell.configureWithCompetition(competition, tabbarIndex:3)
+
            
             
         }

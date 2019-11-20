@@ -16,7 +16,11 @@ class CategoryVC: UIViewController {
     @IBOutlet weak var lblTitle: UILabel!
     var categoryArray = Categorys()
     var savedCategory = NSMutableArray()
+    var savedCategoryObjArray = Categorys()
 
+    var currentVC:CreateCompititionVC!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         if(self.tabBarController?.selectedIndex != 4){
@@ -24,10 +28,28 @@ class CategoryVC: UIViewController {
         }
         self.navigationController?.navigationBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = true
-        savedCategory = NSMutableArray(array: (AccountManager.session?.account?.categories)!)
+        if(currentVC == nil){
+            savedCategory = NSMutableArray(array: (AccountManager.session?.account?.categories)!)
+        }
+        else{
+            savedCategory =  NSMutableArray(array: currentVC.savedIdCategory)
+            savedCategoryObjArray = currentVC.savedCategory
 
+            
+
+        }
+       
+        let kScreenSizeWidthRatio = UIScreen.main.bounds.size.width / 375.00
+        lblTitle.font = lblTitle.font.withSize(19 * kScreenSizeWidthRatio)
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         getCategoryList()
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -53,12 +75,13 @@ class CategoryVC: UIViewController {
                 }
             }) { [weak self] (competitions) in
                     UtilityManager.RemoveHUD()
+//                DispatchQueue.main.async {
                     self?.categoryArray = competitions
                 if(competitions.count > 0){
                     var isAllSelecct = true
                     
-                for i in 0...(self?.categoryArray.count)! - 1 {
-                    if(!((self?.savedCategory.contains(self?.categoryArray[i]._id! as Any))!)){
+                    for i in 0...(competitions.count) - 1 {
+                    if(!((self?.savedCategory.contains(competitions[i]._id! as Any))!)){
                            isAllSelecct = false
                         }
                     
@@ -68,9 +91,10 @@ class CategoryVC: UIViewController {
                          self?.btnSelectAll .setTitle("Unselect All", for: .normal)
                     }
                 }
-            
-                    print("self?.savedCategory.count \(self?.savedCategory.count)")
-                        print("self?.savedCategory.count \(self?.savedCategory.count)")
+                    
+              
+//                    print("self?.savedCategory.count \(self?.savedCategory.count)")
+//                        print("self?.savedCategory.count \(self?.savedCategory.count)")
 
                 
 //                    if(self?.savedCategory.count == self?.categoryArray.count){
@@ -83,8 +107,10 @@ class CategoryVC: UIViewController {
                     
                     self?.tblCategory.reloadData()
                 }
+//            }
 
         }
+    
 //   }
 
     // MARK: - IBAction Method
@@ -102,6 +128,17 @@ class CategoryVC: UIViewController {
             self.showErrorAlert(errorMessage: "Please select atleast one category.")
             return
         }
+        
+        if(self.currentVC != nil){
+            self.currentVC.savedCategory = self.savedCategoryObjArray
+            self.currentVC.savedIdCategory = self.savedCategory
+            self.currentVC.setCategory()
+            
+            self.navigationController?.popViewController(animated: true)
+            
+        }
+        else
+        {
         UtilityManager.ShowHUD(text: "Please wait...")
 
         if let user = AccountManager.session?.account {
@@ -123,8 +160,24 @@ class CategoryVC: UIViewController {
                     UtilityManager.RemoveHUD()
 
                     DispatchQueue.main.async {
+                        for name in self.categoryArray {
+                            if let event = KochavaEvent(eventTypeEnum: .custom)
+                                        {
+                                            //event.nameString = "HuntLogVC_Open"
+                                            if(self.savedCategory.contains(name._id!)){
+                                                event.customEventNameString = "Category - \(name.name!)"
+                                                print("Category - \(name.name!)")
+                                            }
+                            
+                                            KochavaTracker.shared.send(event)
+                                        }
+                            
+//                            KochavaTracker.shared.send(name as! KochavaEvent)
+                        }
+                        
                         AccountManager.session?.account = user
-                       
+                        KochavaTracker.shared.sendEvent(withNameString: "Selected Categories Count", infoDictionary: ["User Name": "Category - \(user.username!) ", "Categories Count": "\(self.savedCategory.count)"])
+                        
                         if self.navigationController?.viewControllers == nil {
                             self.dismiss(animated: true, completion: nil)
                         } else {
@@ -132,6 +185,7 @@ class CategoryVC: UIViewController {
                         }
                     }
             })
+        }
         }
         }
         
@@ -146,13 +200,16 @@ class CategoryVC: UIViewController {
         if(btnSelectAll.titleLabel?.text == "Select All"){
             btnSelectAll .setTitle("Unselect All", for: .normal)
             savedCategory.removeAllObjects()
+            savedCategoryObjArray.removeAll()
             for i in 0...categoryArray.count - 1 {
+                savedCategoryObjArray.append(categoryArray[i])
                 savedCategory.add(categoryArray[i]._id!)
             }
         }
         else{
             btnSelectAll .setTitle("Select All", for: .normal)
             savedCategory.removeAllObjects()
+            savedCategoryObjArray.removeAll()
         }
         tblCategory.reloadData()
     }
@@ -218,10 +275,13 @@ extension CategoryVC:UITableViewDelegate{
         
             let index = savedCategory.index(of: categoryArray[indexPath.row]._id!)
             savedCategory.removeObject(at: index)
+            savedCategoryObjArray.remove(at: index)
             
         }
         else{
         savedCategory.add(categoryArray[indexPath.row]._id!)
+        savedCategoryObjArray.append(categoryArray[indexPath.row])
+
         }
         tblCategory.reloadData()
       //  tableView.reloadRows(at: [indexPath], with: .none)

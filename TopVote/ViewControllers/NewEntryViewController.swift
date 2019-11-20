@@ -18,7 +18,61 @@ protocol NewEntryViewControllerDelegate {
     func didSaveNewEntry(_ entry: Entry)
 }
 
-class NewEntryViewController: VideoPlayerViewController, UINavigationControllerDelegate {
+class NewEntryViewController: VideoPlayerViewController, UINavigationControllerDelegate, PhotoTweaksViewControllerDelegate {
+    
+    func photoTweaksController(_ controller: PhotoTweaksViewController!, didFinishWithCroppedImage croppedImage: UIImage!) {
+      //  controller.navigationController?.popViewController(animated: true)
+        controller.dismiss(animated: true, completion: nil)
+
+        if let pickedImage = croppedImage {
+                    if let fixedImage = pickedImage.fixedOrientation() {
+                        if let data = UIImageJPEGRepresentation(fixedImage, 0.8) {
+
+//                            let dataSizeinKb = getdataSizeinMB(forData: data)
+//                            if(dataSizeinKb > 5){
+//                                self.showErrorAlert(title:"", errorMessage: "Image can't be greater than 5 mb.")
+//                                return
+//                            }
+
+//                            if(self.validationMethod(data: data))!{
+
+                            let temporaryDirectory = NSTemporaryDirectory()
+                            let fileName = UUID().uuidString + ".png"
+                            if let imageFileURL = NSURL.fileURL(withPathComponents: [temporaryDirectory, fileName]) {
+                                do {
+                                    try data.write(to: imageFileURL, options: .atomic)
+                                } catch {
+                                    print("Writing image failed!")
+                                }
+                                // DispatchQueue.main.async {
+                                    UtilityManager.ShowHUD(text: "Please wait...")
+                                //  }
+                                Media.uploadPhoto(imageFileURL, progress: { (progress, completed) in
+                                    print("progress: \(progress)  completed: \(completed)")
+                                }, error: { (errorMessage) in
+                                    print(errorMessage)
+                                }, completion: { (photo) in
+                                    //  DispatchQueue.main.async {
+                                        self.entryMediaInfo = photo
+                                        self.refreshView()
+                                    UtilityManager.RemoveHUD()
+
+                                //    }
+                                })
+                            }
+                        }
+                    //  }
+                    }
+            }
+    }
+    
+    func photoTweaksControllerDidCancel(_ controller: PhotoTweaksViewController!) {
+       // controller.navigationController?.popViewController(animated: true)
+        controller.dismiss(animated: true, completion: nil)
+
+
+    }
+    
 //class NewEntryViewController: VideoPlayerViewController, FPPickerControllerDelegate {
 
     @IBOutlet weak var imageView: UIImageView!
@@ -33,6 +87,10 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
 
     @IBOutlet weak var txtViewDesc: CustomeTPTextView!
 
+    @IBOutlet weak var btnEnterForTextType: TVButton!
+    
+    @IBOutlet weak var btnEnterForMediaType: TVButton!
+    
     var entryMediaInfo: Media? {
         didSet {
             uploadButton.isSelected = (entryMediaInfo != nil)
@@ -44,6 +102,7 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
 
     var isUploading = false
     var isComeFromDeepLink = false
+    var entryUpdate:Entry?
 
     // MARK: - ViewController Method
 
@@ -60,20 +119,60 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
         if(competition?.type == 2){
             scrollViewEntry?.isHidden = true
             txtViewMain.isHidden = false
+            if(entryUpdate?._id != nil){
+                txtViewDesc.text = entryUpdate!.description
+                captionTextField.text = entryUpdate!.title
+                btnEnterForTextType.setTitle("Edit Competition", for: .normal)
+
+            }
             
         }
         else if (isFirstTime) {
             txtViewMain.isHidden = true
             scrollViewEntry?.isHidden = false
-
             isFirstTime = false
-            chooseMedia()
+           // chooseMedia()
+            if(self.entryUpdate?._id != nil){
+                captionTextField.text = entryUpdate!.title
+                uploadButton.isUserInteractionEnabled = false
+                uploadButton.alpha = 0.5
+                setImage()
+                btnEnterForMediaType.setTitle("Edit Competition", for: .normal)
+
+            }
+            else
+            {
+                chooseMedia()
+            }
+            
         }
     }
     
+    func setImage() {
+        imageView.isHidden = true
+        if let entryMediaInfo = entryUpdate, let type = entryUpdate!.mediaType {
+            if type == "IMAGE" {
+                if let imageURL = URL(string: (entryMediaInfo.mediaUri)!)  {
+                    imageView.isHidden = false
+                    imageView?.af_setImage(withURL: imageURL, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                    UtilityManager.RemoveHUD()
+                    mediaView.removePlayer()
+                }
+            }
+            
+            if type == "VIDEO" ||  (type == "IMAGE-VIDEO" && (competition?.mediaUri?.contains(".mov"))!)  {
+                if let url = URL(string: (entryUpdate?.mediaUri)!)  {
+                    imageView.isHidden = true
+                    mediaView.addPlayer(url)
+                    UtilityManager.RemoveHUD()
+                }
+            }
+        }
+    }
+
+ 
     func refreshView() {
         imageView.isHidden = true
-        
         if let entryMediaInfo = entryMediaInfo, let type = entryMediaInfo.type {
             if type == "IMAGE" {
                 if let imageURL = entryMediaInfo.secure_url {
@@ -110,57 +209,126 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
         }
         else{
             UtilityManager.ShowHUD(text: "Please wait...")
-
-            LocationManager.instance.getLocationAndName { (success, location, locationName) -> Void in
+//            if(entryUpdate != nil){
+//
+//
+//            }
+//            else
+//            {
+                LocationManager.instance.getLocationAndName { (success, location, locationName) -> Void in
                 if (success) {
-                    
-                    guard let accountId = AccountManager.session?.account?._id else {
-                        return
-                    }
-                    guard let competitionId = self.competition?._id else {
-                        return
-                    }
-                 
-//                    guard let mediaType = self.entryMediaInfo?.type else {
-//                        return
-//                    }
-                    var newEntry = [
-                        "account": accountId,
-                        "title": "text",
-                        "mediaType": "TEXT",
-                        "locationName": locationName ?? "Not provided",
-                        "text" : self.txtViewDesc.text!
-                        ] as [String : Any]
-                    
-                    if(self.tabBarController?.selectedIndex == 3 ){
-                        newEntry["privateCompetition"] = competitionId
-                    }
-                    else
-                    {
-                        newEntry["competition"] = competitionId
-                    }
-                    
-                    Entry.create(params: newEntry, error: { (errorMessage) in
-                        DispatchQueue.main.async {
-                            UtilityManager.RemoveHUD()
-                            self.showErrorAlert(errorMessage: errorMessage)
-                        }
-                    }, completion: { (entry) in
-                        DispatchQueue.main.async {
-                            UtilityManager.RemoveHUD()
-                            
-                            let _ = self.navigationController?.popViewController(animated: true)
-                            print("Share New Entry \(entry)")
-                            self.delegate?.didSaveNewEntry(entry)
-                        }
-                    })
-                } else {
-                   // UtilityManager.RemoveHUD()
+                    self.enterCompitionMethod(locationName: locationName!)
 
-                    self.showErrorAlert(errorMessage: "Use of your location is required to enter. Please allow access in the settings app")
+                    
+                } else {
+                    
+                    self.enterCompitionMethod(locationName: "")
+                    
+                 //   UtilityManager.RemoveHUD()
+
+                   // self.showErrorAlert(errorMessage: "Use of your location is required to enter. Please allow access in the settings app")
                 }
+           // }
             }
         }
+    }
+//
+//    func locationPopUp() {
+//
+//        let uiAlert = UIAlertController(title: "Location", message: "Topvote works better when your location is enabled", preferredStyle: UIAlertControllerStyle.alert)
+//        self.present(uiAlert, animated: true, completion: nil)
+//
+//        uiAlert.addAction(UIAlertAction(title: "Go to Setting", style: .cancel, handler: { action in
+//
+//            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+//                // If general location settings are enabled then open location settings for the app
+//                UIApplication.shared.openURL(url)
+//            }     }))
+//
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+//
+//        alertController.addAction(okAction)
+//        alertController.addAction(cancelAction)
+//
+//        present(alertController, animated: true, completion: nil)
+//
+//
+//        //
+//        //        uiAlert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { action in
+//        //            exit(0)
+//        //        }))
+//        //
+//    }
+//
+    
+    func locationPopUp(name:String){
+        let alertController = TVAlertController(title: "Location", message: "Topvote works better when your location is enabled", preferredStyle: .alert)
+        
+
+        let okAction = UIAlertAction(title: "Go to Settings", style: .default) { (action) -> Void in
+            
+            if let url = URL(string: UIApplicationOpenSettingsURLString) {
+                // If general location settings are enabled then open location settings for the app
+                UIApplication.shared.openURL(url)
+            }
+            
+        }
+        let cancelAction = UIAlertAction(title: "Continue", style: .cancel) { (action) -> Void in
+            self.enterAPI(locationName: "", name:name)
+        }
+            
+        
+        alertController.addAction(okAction)
+        
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    
+    
+    func enterCompitionMethod(locationName:String = ""){
+        
+        guard let accountId = AccountManager.session?.account?._id else {
+            return
+        }
+        guard let competitionId = self.competition?._id else {
+            return
+        }
+        
+        //                    guard let mediaType = self.entryMediaInfo?.type else {
+        //                        return
+        //                    }
+        var newEntry = [
+            "account": accountId,
+            "title": "text",
+            "mediaType": "TEXT",
+            "locationName": locationName,
+            "text" : self.txtViewDesc.text!
+            ] as [String : Any]
+        
+        if(self.tabBarController?.selectedIndex == 3 ){
+            newEntry["privateCompetition"] = competitionId
+        }
+        else
+        {
+            newEntry["competition"] = competitionId
+        }
+        
+        Entry.create(params: newEntry, error: { (errorMessage) in
+            DispatchQueue.main.async {
+                UtilityManager.RemoveHUD()
+                self.showErrorAlert(errorMessage: errorMessage)
+            }
+        }, completion: { (entry) in
+            DispatchQueue.main.async {
+                UtilityManager.RemoveHUD()
+                
+                let _ = self.navigationController?.popViewController(animated: true)
+                print("Share New Entry \(entry)")
+                self.delegate?.didSaveNewEntry(entry)
+            }
+        })
     }
     
     func chooseMedia() {
@@ -172,7 +340,7 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
         let cameraAction = UIAlertAction(title: "Camera", style: .default) { [weak self] (alertAction) in
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 let imagePickerController = UIImagePickerController()
-                imagePickerController.allowsEditing = true
+                imagePickerController.allowsEditing = false
                 imagePickerController.sourceType = .camera
                 if let mediaTypes = UIImagePickerController.availableMediaTypes(for: .camera) {
                     print("imagePickerController")
@@ -185,7 +353,7 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
                         imagePickerController.mediaTypes = [mediaTypes[0],mediaTypes[1]]
 
                     imagePickerController.videoMaximumDuration = 60
-                        imagePickerController.allowsEditing = true
+                        imagePickerController.allowsEditing = false
                     }
                     else{
                         
@@ -213,7 +381,7 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
         let photoLibraryAction = UIAlertAction(title: ActionTitle, style: .default) { [weak self] (alertAction) in
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 let imagePickerController = UIImagePickerController()
-                imagePickerController.allowsEditing = true
+                imagePickerController.allowsEditing = false
 
                 imagePickerController.sourceType = .photoLibrary
                 if let mediaTypes = UIImagePickerController.availableMediaTypes(for: .photoLibrary) {
@@ -225,12 +393,12 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
                     else if(self?.competition?.type == 3){
                      imagePickerController.mediaTypes = [mediaTypes[0],mediaTypes[1]]
                         imagePickerController.videoMaximumDuration = 60
-                        imagePickerController.allowsEditing = true
+                        imagePickerController.allowsEditing = false
                     }
                     else  {
                         imagePickerController.mediaTypes = [mediaTypes[1]]
                         imagePickerController.videoMaximumDuration = 30
-                        imagePickerController.allowsEditing = true
+                        imagePickerController.allowsEditing = false
                     }
                  
                 }
@@ -250,39 +418,15 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
         alertController.addAction(cancelAction)
         present(alertController, animated: true)
         
-        
-//        let fpController = TVfpPickerController()
-//        fpController.fpdelegate = self
-//        if (MediaType(rawValue: self.competition.type) == MediaType.video) {
-//            fpController.navigationController?.title = "Choose a Video"
-//            fpController.dataTypes = ["video/*"]
-//        } else {
-//            fpController.navigationController?.title = "Choose a Photo"
-//            fpController.dataTypes = ["image/*"]
-//        }
-//        fpController.sourceNames = [FPSourceCamera, FPSourceCameraRoll, FPSourceFacebook, FPSourceInstagram]
-//        fpController.allowsEditing = true
-//        fpController.videoMaximumDuration = 30
-//
-//        present(fpController, animated: true, completion: nil)
+
     }
-    
-//    func fpPickerController(_ pickerController: FPPickerController!, didFinishPickingMediaWith info: FPMediaInfo!) {
-//        pickerController.dismiss(animated: true, completion: nil)
-//
-//        entryMediaInfo = info
-//        refreshView()
-//    }
-//
-//    func fpPickerControllerDidCancel(_ pickerController: FPPickerController!) {
-//        pickerController.dismiss(animated: true, completion: nil)
-//    }
-    
+
     @IBAction func enterCompetitionTapped(_ sender: AnyObject) {
         enter()
     }
 
     func enter() {
+
         guard isUploading == false else {
             return
         }
@@ -292,82 +436,152 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
         if (competition.hasEnded()) {
             self.showAlert(errorMessage: "The competition has ended")
         } else {
-            guard let entryMediaInfo = entryMediaInfo else {
-                self.showErrorAlert(errorMessage: "Upload failed.")
-                return
+            if(entryUpdate?._id == nil){
+            guard let entryMediaInfo = self.entryMediaInfo else {
+                self.showErrorAlert(errorMessage: "Entry can't be blank.")
+                   return
+            }
             }
             if let name = captionTextField.text, name.count > 0 {
                 UtilityManager.ShowHUD(text: "Please wait...")
                 LocationManager.instance.getLocationAndName { (success, location, locationName) -> Void in
                     UtilityManager.RemoveHUD()
                     if (success) {
-                        self.isUploading = true
-                
-                        guard let accountId = AccountManager.session?.account?._id else {
-                            return
-                        }
-                        guard let competitionId = self.competition?._id else {
-                            return
-                        }
-                        guard let mediaURL = entryMediaInfo.secure_url?.absoluteString else {
-                            return
-                        }
-                        guard let mediaType = entryMediaInfo.type else {
-                            return
-                        }
-                        
-                        var newEntry = [
-                            "account": accountId,
-                            "title": name,
-                            "mediaType": mediaType,
-                            "mediaUri": mediaURL,
-                            "locationName": locationName ?? "Not provided"
-                        ] as [String : Any]
-                        
-                        if(self.tabBarController?.selectedIndex == 3 ){
-                           newEntry["privateCompetition"] = competitionId
-                        }
-                        else
-                        {
-                            newEntry["competition"] = competitionId
-                        }
-                        
-                        
-                        if let thumbnail = entryMediaInfo.thumbnail?.absoluteString {
-                            newEntry["mediaUriThumbnail"] = thumbnail
-                        }
-                
-                        Entry.create(params: newEntry, error: { (errorMessage) in
-                            DispatchQueue.main.async {
-                                self.showErrorAlert(errorMessage: errorMessage)
-                            }
-                        }, completion: { (entry) in
-                            DispatchQueue.main.async {
-                                self.isUploading = false
-                                if(self.isComeFromDeepLink){
-                                      self.showErrorAlert(title:"Congratulation", errorMessage: "Your Entry has been submited successfully.")
-                                self.navigationController?.popToRootViewController(animated: true)
-                                    
-                                }
-                                else{
-                                
-                                let _ = self.navigationController?.popViewController(animated: true)
-                                if(entry.competition?.autoApprove == 1){
-                                    print("New Entry \(entry)")
-                                self.delegate?.didSaveNewEntry(entry)
-                                }
-                                }
-                            }
-                        })
+                        self.enterAPI(locationName: locationName!, name:name)
+                       
                     } else {
-                        self.showErrorAlert(errorMessage: "Use of your location is required to enter. Please allow access in the settings app")
+                        
+                        self.locationPopUp(name:name)
+                        
+                        // self.showErrorAlert(errorMessage: "Use of your location is required to enter. Please allow access in the settings app")
                     }
                 }
             } else {
-                self.showErrorAlert(errorMessage: "Please input a title!")
+                
+                self.showErrorAlert(errorMessage: "Please enter a caption!")
             }
         }
     }
+    
+    func enterAPI(locationName:String, name:String){
+        
+        UtilityManager.ShowHUD(text: "Please wait...")
+        self.isUploading = true
+        guard let accountId = AccountManager.session?.account?._id else {
+            return
+        }
+        guard let competitionId = self.competition?._id else {
+            return
+        }
+        
+     
+        if(entryUpdate?._id == nil){
+            guard (entryMediaInfo!.secure_url?.absoluteString) != nil else {
+                return
+            }
+            guard entryMediaInfo!.type != nil else {
+                return
+            }
+        }
+        else{
+            guard entryUpdate!.mediaUri != nil else {
+                return
+            }
+            guard entryUpdate!.mediaType != nil else {
+                return
+            }
+        }
+        var newEntry = [
+            "account": accountId,
+            "title": name,
+            "mediaType": entryUpdate?._id == nil ? self.entryMediaInfo!.type! : entryUpdate!.mediaType!,
+            "mediaUri": entryUpdate?._id  == nil ? entryMediaInfo!.secure_url?.absoluteString : entryUpdate!.mediaUri! ,
+            "locationName": locationName
+            ] as [String : Any]
+        
+        if(self.tabBarController?.selectedIndex == 3 ){
+            newEntry["privateCompetition"] = competitionId
+        }
+        else
+        {
+            newEntry["competition"] = competitionId
+        }
+        if(entryUpdate?._id == nil){
+                if let thumbnail = entryMediaInfo!.thumbnail?.absoluteString {
+                    newEntry["mediaUriThumbnail"] = thumbnail
+                }
+        }
+        else{
+            if let thumbnail = entryUpdate!.mediaUriThumbnail {
+                newEntry["mediaUriThumbnail"] = thumbnail
+            }
+           // newEntry["id"] = competitionId
+
+        }
+        if(entryUpdate?._id != nil){
+
+            Entry.updateEntry(entryId:(entryUpdate?._id)!, params: newEntry, error: { (errorMessage) in
+                DispatchQueue.main.async {
+                    self.showErrorAlert(errorMessage: errorMessage)
+                }
+            }, completion: { () in
+                DispatchQueue.main.async {
+                    self.isUploading = false
+                    
+                    if let username = AccountManager.session?.account?.username {
+                        KochavaTracker.shared.sendEvent(withNameString: "Submitted in competition", infoDictionary: ["User Name": "\(username)", "Competition Name": "\(name)"])
+                    }
+                    
+                    if(self.isComeFromDeepLink){
+                        self.showErrorAlert(title:"Congratulation", errorMessage: "Your Entry has been submited successfully.")
+                        self.navigationController?.popToRootViewController(animated: true)
+                        
+                        
+                    }
+                    else{
+                        
+                        let _ = self.navigationController?.popViewController(animated: true)
+                      
+                    }
+                }
+            })
+            
+        }
+        
+        else
+        {
+        
+        Entry.create(params: newEntry, error: { (errorMessage) in
+            DispatchQueue.main.async {
+                self.showErrorAlert(errorMessage: errorMessage)
+            }
+        }, completion: { (entry) in
+            DispatchQueue.main.async {
+                self.isUploading = false
+                
+                if let username = AccountManager.session?.account?.username {
+                    KochavaTracker.shared.sendEvent(withNameString: "Submitted in competition", infoDictionary: ["User Name": "\(username)", "Competition Name": "\(name)"])
+                }
+                
+                if(self.isComeFromDeepLink){
+                    self.showErrorAlert(title:"Congratulation", errorMessage: "Your Entry has been submited successfully.")
+                    self.navigationController?.popToRootViewController(animated: true)
+                }
+                else{
+                    
+                    let _ = self.navigationController?.popViewController(animated: true)
+                    if(entry.competition?.autoApprove == 1){
+                        print("New Entry \(entry)")
+                        self.delegate?.didSaveNewEntry(entry)
+                    }
+                }
+            }
+        })
+    
+        }
+    }
+    
+    
     
     func getdataSizeinMB(forData data:Data) -> Double {
         let imageSize: Int = data.count
@@ -375,6 +589,16 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
         let sizeinMB =  sizeinKB / 1024.0
         return sizeinMB
     }
+    
+    @IBAction func btnRulesAction(_ sender: Any) {
+        let storyboard:UIStoryboard = UIStoryboard(name: "Login", bundle: nil)
+
+        if let vc = storyboard.instantiateViewController(withIdentifier: "WebViewVC") as? WebViewVC {
+            vc.isLogin = true
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
     
 //
 //    func cropVideo(sourceURL1: NSURL, statTime:Float, endTime:Float)
@@ -458,44 +682,23 @@ extension NewEntryViewController: UITextFieldDelegate {
         enter()
         return true
     }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    
+        guard let textFieldText = textField.text,
+            let rangeOfTextToReplace = Range(range, in: textFieldText) else {
+                return false
+        }
+        let substringToReplace = textFieldText[rangeOfTextToReplace]
+        let count = textFieldText.count - substringToReplace.count + string.count
+        return count <= 120
+        
+    }
+    
 }
+
 extension NewEntryViewController: UITextViewDelegate {
     
-//    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-//        if action == #selector(select(_:))
-//        {
-//            return true
-//        } else {
-//            return false
-//   //     }
-//    }
-//
-//    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool{
-//        if action == #selector(UIResponderStandardEditActions.paste(_:)) {
-//            return false
-//        }
-//        return super.canPerformAction(action, withSender: sender)
-//    }
-//
-    
-//    override public func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-////        if action == #selector(copy(_:)) || action == #selector(paste(_:) || action == #selector(cut(_:)) {
-////            return false
-////        }
-//
-//        if(action == #selector(UIResponderStandardEditActions.cut(_:)) || action == #selector(UIResponderStandardEditActions.copy(_:)) || action == #selector(UIResponderStandardEditActions.paste(_:))){
-//            return false
-//        }
-//
-//        return true
-//    }
-//    func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
-//        if action == #selector(UIResponderStandardEditActions.paste(_:)) {
-//            return false
-//        }
-//
-//        return super.canPerformAction(action, withSender: sender)
-//    }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
@@ -564,88 +767,62 @@ extension NewEntryViewController: UIImagePickerControllerDelegate {
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        picker.dismiss(animated: true, completion: nil)
+       // picker.dismiss(animated: true, completion: nil)
         
         if let mediaType = info[UIImagePickerControllerMediaType] as? String {
             if mediaType == kUTTypeImage as String {
-                if let pickedImage = info[UIImagePickerControllerEditedImage] as? UIImage {
-                    if let fixedImage = pickedImage.fixedOrientation() {
-                        if let data = UIImageJPEGRepresentation(fixedImage, 0.8) {
-                            
-//                            let dataSizeinKb = getdataSizeinMB(forData: data)
-//                            if(dataSizeinKb > 5){
-//                                self.showErrorAlert(title:"", errorMessage: "Image can't be greater than 5 mb.")
-//                                return
-//                            }
-                            
-//                            if(self.validationMethod(data: data))!{
-
-                            let temporaryDirectory = NSTemporaryDirectory()
-                            let fileName = UUID().uuidString + ".png"
-                            if let imageFileURL = NSURL.fileURL(withPathComponents: [temporaryDirectory, fileName]) {
-                                do {
-                                    try data.write(to: imageFileURL, options: .atomic)
-                                } catch {
-                                    print("Writing image failed!")
-                                }
-                                DispatchQueue.main.async {
-                                    UtilityManager.ShowHUD(text: "Please wait...")
-                                }
-                                Media.uploadPhoto(imageFileURL, progress: { (progress, completed) in
-                                    print("progress: \(progress)  completed: \(completed)")
-                                }, error: { (errorMessage) in
-                                    print(errorMessage)
-                                }, completion: { (photo) in
-                                    DispatchQueue.main.async {
-                                        // UtilityManager.RemoveHUD()
-                                        self.entryMediaInfo = photo
-                                        self.refreshView()
-                                    }
-                                })
-                            }
-                        }
-                  //  }
-                  }
-                }
+                
+                let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+                let photoTweaksViewController = PhotoTweaksViewController(image: image)
+                photoTweaksViewController?.delegate = self
+               // photoTweaksViewController?.autoSaveToLibray = true
+               // photoTweaksViewController?.maxRotationAngle = CGFloat(M_PI_4)
+                picker.pushViewController(photoTweaksViewController!, animated: true)
+              
             } else if mediaType == kUTTypeMovie as String {
                 if let url = info[UIImagePickerControllerMediaURL] as? URL {
                     var playerItem = AVPlayerItem(url: url)
                     var duration: CMTime = playerItem.duration
                     var seconds: Float = Float(CMTimeGetSeconds(duration))
-                    
-                   
+
+
 
                     let videoData: Data = NSData(contentsOf: url as URL)! as Data
-                    
+
 //                    let dataSizeinKb = getdataSizeinMB(forData: videoData)
 //                    if(dataSizeinKb > 5){
 //                        self.showErrorAlert(title:"", errorMessage: "Video can't be greater than 5 mb.")
 //                        return
 //                    }
-                    
+
                  //   if(self.validationMethod(data: videoData))!{
-                        
-                        DispatchQueue.main.async {
+
+                      //  DispatchQueue.main.async {
                             UtilityManager.ShowHUD(text: "Please wait...")
-                            
-                    }
-                    
+
+                   // }
+
                     Media.uploadVideo(url, progress: { (progress, completed) in
                         print("progress: \(progress)  completed: \(completed)")
                     }, error: { (errorMessage) in
+                        picker.dismiss(animated: true, completion: nil)
                         print(errorMessage)
                     }, completion: { (video) in
-                        DispatchQueue.main.async {
-                           //UtilityManager.RemoveHUD()
+                    //    DispatchQueue.main.async {
+                            print("progress: Done" )
+                            picker.dismiss(animated: true, completion: nil)
                             self.entryMediaInfo = video
                             self.refreshView()
-                        }
+                          UtilityManager.RemoveHUD()
+                      //  }
                     })
                  }
              //  }
-             
+
            }
          }
+        
+        
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController){

@@ -3,11 +3,11 @@
 //  Topvote
 //
 //  Copyright (c) 2018 Top, Inc. All rights reserved.
-//
 
 import UIKit
 
-class HomeViewController: CompetitionsViewController {
+class HomeViewController: CompetitionsViewController, UITabBarControllerDelegate {
+    
     
     override func loadCompetitions() {
         super.loadCompetitions()
@@ -23,8 +23,13 @@ class HomeViewController: CompetitionsViewController {
         }) { [weak self] (competitions) in
             DispatchQueue.main.async {
                 self?.competitions = competitions
-                self?.tableView.reloadData()
+               // DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+               // }
                 self?.refreshControl.endRefreshing()
+                self?.tabBarController!.delegate = self
+
+                
 
             }
         }
@@ -42,6 +47,10 @@ class HomeViewController: CompetitionsViewController {
 //        }
     }
     
+    
+    
+    
+    
     override func openCompetition(_ competition: Competition) {
         if(competition.sType == "poll"){
             self.performSegue(withIdentifier: "toPoll", sender: competition)
@@ -57,6 +66,29 @@ class HomeViewController: CompetitionsViewController {
         }
     }
     
+    // MARK: - TabBar Deligate
+    
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if(item.tag == 1) {
+            // Code for item 1
+        } else if(item.tag == 2) {
+            // Code for item 2
+        }
+    }
+    
+    func tabBar(_ tabBar: UITabBar, willBeginCustomizing items: [UITabBarItem]){
+        
+    
+    }
+    
+    // UITabBarControllerDelegate
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if(self.tabBarController?.selectedIndex == 0 && self.competitions.count > 0){
+            let indexPath = IndexPath(row: 0, section: 1)
+                self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+        }
+        print("Selected view controller")
+    }
 }
 
 class HallOfFameViewController: CompetitionsViewController {
@@ -76,7 +108,9 @@ class HallOfFameViewController: CompetitionsViewController {
         }) { [weak self] (competitions) in
             DispatchQueue.main.async {
                 self?.competitions = competitions
-                self?.tableView.reloadData()
+                //DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+             //   }
                 self?.refreshControl.endRefreshing()
 
             }
@@ -110,7 +144,7 @@ class HallOfFameViewController: CompetitionsViewController {
 
 }
 
-class CompetitionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PollSurveyDelegate {
+class CompetitionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, PollSurveyDelegate{
         
     var competitions = Competitions()
     var localCompetitions = Competitions()
@@ -129,7 +163,6 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
         
         self.refreshControl.tintColor = UIColor(red:80.0/255.0, green:54.0/255.0, blue:89.0/255.0, alpha:1.0)
         
-        
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
         } else {
@@ -140,6 +173,9 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
         
 //        tableView.estimatedRowHeight = 100;
 //        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        self.tableView.estimatedRowHeight = 100;
+        self.tableView.estimatedSectionHeaderHeight = 100;
         
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.topItem?.title = ""
@@ -162,6 +198,17 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
     @objc func loadCompetitions() {
     }
 
+    
+  
+    @IBAction func editAction(_ sender: UIButton) {
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "CreateCompititionVC") as? CreateCompititionVC {
+            let competition = competitions[sender.tag]
+            vc.compititionObj = competition
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+
+    }
+    
     @IBAction func shareAction(_ sender: UIButton) {
         let competition = competitions[sender.tag]
         
@@ -190,7 +237,14 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
 //            self.present(self.activityVC!, animated: true, completion: nil)
 //        }
     }
-    
+    @IBAction func btnRulesAction(_ sender: Any) {
+        let storyboard:UIStoryboard = UIStoryboard(name: "Login", bundle: nil)
+        
+        if let vc = storyboard.instantiateViewController(withIdentifier: "WebViewVC") as? WebViewVC {
+            vc.isLogin = true
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
     
     
     @IBAction func competitionSuggestionTapped(_ sender: AnyObject) {
@@ -246,6 +300,9 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     
+
+
+    
     // MARK: - Table view data source
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -278,6 +335,7 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
             }
 
         }
+        return UITableViewAutomaticDimension
         return 280
     }
     
@@ -300,6 +358,8 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
          
            // return UITableViewAutomaticDimension
         }
+        return UITableViewAutomaticDimension
+
         return 280
     }
     
@@ -321,11 +381,22 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
             cell.configureWithCompetition(competition, tabbarIndex:(self.tabBarController?.selectedIndex)!)
             if(self.tabBarController?.selectedIndex == 3 && AccountManager.session!.account!._id! == competition.ownerId){
             cell.btnShare.isHidden = false
+            cell.btnEdit.isHidden = false
             cell.btnShare.tag = indexPath.row
+            cell.btnEdit.tag = indexPath.row
+            
             cell.btnShare.addTarget(self, action:#selector(self.shareAction(_:)), for: .touchUpInside)
+            cell.btnEdit.addTarget(self, action:#selector(self.editAction(_:)), for: .touchUpInside)
+            cell.lblTitleTrailing.constant = 90
+                cell.titleLabel.layoutIfNeeded()
+                
             }
             else
             {
+                cell.lblTitleTrailing.constant = 10
+                cell.titleLabel.layoutIfNeeded()
+
+                cell.btnEdit.isHidden = true
                 cell.btnShare.isHidden = true
             }
         }
@@ -360,6 +431,7 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
         }
         else if (segue.identifier == "toPoll"), let vc = segue.destination as? PollVC {
             vc.pollId = (sender as! Competition)._id!
+            vc.Id = (sender as! Competition)._id!
             vc.delegate = self
         }
         else if (segue.identifier == "toSurvey"), let vc = segue.destination as? SurveyVC {

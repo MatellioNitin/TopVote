@@ -30,6 +30,9 @@ let screenBounds = UIScreen.main.bounds
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSSubscriptionObserver {
     
+    enum VersionError: Error {
+        case invalidResponse, invalidBundleInfo
+    }
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -80,12 +83,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
 //        #endif
         
         // appGUIDString
+//        let appGUIDString: String
+//        #if DEBUG
+//        appGUIDString = "kohurley-test-app-nwkqi"
+//        #else
+//        appGUIDString = "kohurley-test-app-nwkqi"
+//        #endif
+        
         let appGUIDString: String
         #if DEBUG
-        appGUIDString = "aa05480b-965c-4f54-a3ea-f89f96b02161"
+        appGUIDString = "kotopvote-ios-tbhv"
         #else
-        appGUIDString = "aa05480b-965c-4f54-a3ea-f89f96b02161"
+        appGUIDString = "kotopvote-ios-tbhv"
         #endif
+        
+        KochavaTracker.shared.configure(withParametersDictionary: [kKVAParamAppGUIDStringKey: appGUIDString], delegate: nil)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        
+            if let username = AccountManager.session?.account?.username {
+                KochavaTracker.shared.sendEvent(withNameString: "Session Starts", infoDictionary: ["User Name": "\(username)"])
+            }
+        }
+
         
         // parametersDictionary
 //        let parametersDictionary: [AnyHashable: Any] = [
@@ -94,16 +114,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
 //        ]
         
         // KochavaTracker.shared
-       // KochavaTracker.shared.configure(withParametersDictionary: parametersDictionary, delegate: nil)
+//        KochavaTracker.shared.configure(withParametersDictionary: parametersDictionary, delegate: nil)
 
         
-        // KochavaTracker.shared.configure(withParametersDictionary: [kKVAParamAppGUIDStringKey: "aa05480b-965c-4f54-a3ea-f89f96b02161"], delegate: nil)
+//         KochavaTracker.shared.configure(withParametersDictionary: [kKVAParamAppGUIDStringKey: "aa05480b-965c-4f54-a3ea-f89f96b02161"], delegate: nil)
         
 //        // parametersDictionary
 //        var parametersDictionary: [AnyHashable: Any] = [:]
 //        #if DEBUG
 //        parametersDictionary[kKVAParamLogLevelEnumKey] = kKVALogLevelEnumTrace
 //        #endif
+        
 //        parametersDictionary[kKVAParamAppGUIDStringKey] = "aa05480b-965c-4f54-a3ea-f89f96b02161"
 //
 //        // KochavaTracker.shared
@@ -186,48 +207,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
             print("launchURL = \(notification?.payload.launchURL ?? "None")")
             print("content_available = \(notification?.payload.contentAvailable ?? false)")
         }
-        let notificationOpenedBlock: OSHandleNotificationActionBlock = { result in
-            // This block gets called when the user reacts to a notification received
-            let payload: OSNotificationPayload? = result?.notification.payload
-            
-            print("Message = \(payload!.body)")
-            print("badge number = \(payload?.badge ?? 0)")
-            print("notification sound = \(payload?.sound ?? "None")")
-            
-            if let additionalData = result!.notification.payload!.additionalData {
-                print("additionalData = \(additionalData)")
-                
-                
-                if let actionSelected = payload?.actionButtons {
-                    print("actionSelected = \(actionSelected)")
-                }
-                
-                // DEEP LINK from action buttons
-                if let actionID = result?.action.actionID {
-                    
-                    // For presenting a ViewController from push notification action button
-                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let instantiateRedViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "RedViewControllerID") as UIViewController
-                    let instantiatedGreenViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "GreenViewControllerID") as UIViewController
-                    self.window = UIWindow(frame: UIScreen.main.bounds)
-                    
-                    print("actionID = \(actionID)")
-                    
-                    if actionID == "id2" {
-                        print("do something when button 2 is pressed")
-                        self.window?.rootViewController = instantiateRedViewController
-                        self.window?.makeKeyAndVisible()
-                        
-                        
-                    } else if actionID == "id1" {
-                        print("do something when button 1 is pressed")
-                        self.window?.rootViewController = instantiatedGreenViewController
-                        self.window?.makeKeyAndVisible()
-                        
-                    }
-                }
-            }
-        }
+//
+//        let notificationOpenedBlock: OSHandleNotificationActionBlock = { result in
+//            // This block gets called when the user reacts to a notification received
+//            let payload: OSNotificationPayload? = result?.notification.payload
+//
+//            print("Message = \(payload!.body)")
+//            print("badge number = \(payload?.badge ?? 0)")
+//            print("notification sound = \(payload?.sound ?? "None")")
+//
+//            if let additionalData = result!.notification.payload!.additionalData {
+//                print("additionalData = \(additionalData)")
+//
+//
+//                if let actionSelected = payload?.actionButtons {
+//                    print("actionSelected = \(actionSelected)")
+//                }
+//
+//                // DEEP LINK from action buttons
+//                if let actionID = result?.action.actionID {
+//
+//                    // For presenting a ViewController from push notification action button
+//                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//                    let instantiateRedViewController : UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "RedViewControllerID") as UIViewController
+//                    let instantiatedGreenViewController: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: "GreenViewControllerID") as UIViewController
+//                    self.window = UIWindow(frame: UIScreen.main.bounds)
+//
+//                    print("actionID = \(actionID)")
+//
+//                    if actionID == "id2" {
+//                        print("do something when button 2 is pressed")
+//                        self.window?.rootViewController = instantiateRedViewController
+//                        self.window?.makeKeyAndVisible()
+//
+//
+//                    } else if actionID == "id1" {
+//                        print("do something when button 1 is pressed")
+//                        self.window?.rootViewController = instantiatedGreenViewController
+//                        self.window?.makeKeyAndVisible()
+//
+//                    }
+//                }
+//            }
+//        }
 
         
         
@@ -359,15 +381,96 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
             }
             tbvc.selectedIndex = 0
         }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+
+        if(launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] != nil){
+            
+            if let remoteNotification = launchOptions?[.remoteNotification] as?  [AnyHashable : Any] {
+                // Do what you want to happen when a remote notification is tapped.
+//                let aTag = remoteNotification["a" as String] as? [String:AnyObject]
+                let apsDict = remoteNotification["aps"] as! NSDictionary
+                
+                
+                if(remoteNotification["custom" as String]  != nil  && (remoteNotification["custom" as String] as? NSDictionary)!["a" as String]  != nil){
+
+                let custom = remoteNotification["custom" as String]  as? NSDictionary
+                let aTag = custom!.object(forKey: "a") as? NSDictionary
+                
+                print(aTag!)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    
+                    let nav = (self.window?.rootViewController?.visibleViewController as? UINavigationController)
+                    
+                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    
+                    if(aTag!.object(forKey: "type") as! Int == 2){
+                        let controller = (self.window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
+                        
+                        print(controller!)
+                        if(controller?.tabBarController != nil){
+                            controller?.tabBarController?.selectedIndex = 4
+                        }
+                        
+                    }
+                
+                    else if(aTag!.object(forKey: "type") as! Int == 1){
+                        if let vc = mainStoryboard.instantiateViewController(withIdentifier: "entriesVC") as? CompetitionEntriesViewController {
+                            // check same link click again
+                            if(nav!.viewControllers.last? .isKind(of: CompetitionEntriesViewController.self))!{
+                                let vc1 = nav!.viewControllers.last as! CompetitionEntriesViewController
+                                if(vc1.idEntry != aTag!.object(forKey: "_id") as! String){
+                                    vc.isComeFromDeepUrl = true
+                                    vc.idEntry = aTag!.object(forKey: "_id")as! String
+                                    nav!.pushViewController(vc, animated: true)
+                                }
+                            }
+                            else{
+                                vc.isComeFromDeepUrl = true
+                                vc.idEntry =  aTag!.object(forKey: "_id") as! String
+                                nav!.pushViewController(vc, animated: true)
+                            }
+                        }
+                        
+                        
+                        //    let controller = (window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
+                        
+                        //                            print(controller!)
+                    }
+                    
+                    
+                    
+                    
+                }
+            }
+           
+                else if(apsDict.object(forKey: "alert")  != nil){
+                    print("Notification \(apsDict)")
+                    if (apsDict.object(forKey: "alert") as? String) != nil
+                    {
+                        let controller = (self.window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
+                        
+                        controller?.showAlert(title: "Topvote", confirmTitle: "ok", errorMessage: apsDict.object(forKey: "alert") as! String, actions: nil, confirmCompletion: nil, completion: nil)
+                        
+                        
+                        // controller?.showAlert(title: "Topvote", confirmTitle: "Ok", errorMessage: apsDict.object(forKey: "alert") as! String, actions: nil, confirmCompletion: nil, completion: nil)
+                    }
+                }
+                
+        }
         
-//        if let recentVoteData = UserDefaults.standard.object(forKey: "KEY_RECENT_VOTE_DATA") as? Data {
+            }
+
+        }
+            
+            //        if let recentVoteData = UserDefaults.standard.object(forKey: "KEY_RECENT_VOTE_DATA") as? Data {
 //            PFVote.recentVotes = (NSKeyedUnarchiver.unarchiveObject(with: recentVoteData) as? [NSVote]) ?? []
 //        }
 //        if let recentIdeaVoteData = UserDefaults.standard.object(forKey: "KEY_RECENT_IDEA_VOTE_DATA") as? Data {
 //            PFIdeaVote.recentIdeaVotes = (NSKeyedUnarchiver.unarchiveObject(with: recentIdeaVoteData) as? [NSVote]) ?? []
 //        }
         Fabric.with([Crashlytics.self])
-        
+        checkNotificationOnOrNot()
+        checkUpdateVersion()
         return true
     }
     
@@ -388,14 +491,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
 //                    }
 //                    else if(vc1.pollId == params["pollId"] as! String && !(vc1.isDeepLinkClick)){
                         vc1.isDeepLinkClick = true
-                        vc1.pollId = params["id"] as! String
+                        vc1.Id = params["id"] as! String
+                        vc1.pollId = params["pollId"] as! String
+
                         vc1.viewWillAppear(false)
                     
                   //      nav.pushViewController(vc, animated: true)
                    // }
                 }
                 else{
-                    vc.pollId = params["id"] as! String
+                    vc.pollId = params["pollId"] as! String
+                    vc.Id = params["id"] as! String
+
                     vc.isDeepLinkClick = true
                     nav.pushViewController(vc, animated: true)
                 }
@@ -565,8 +672,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
         if let wd = UIApplication.shared.delegate?.window {
             var vc = wd!.rootViewController
             if(vc is UINavigationController){
-//                vc = (vc as! UINavigationController).?visibleViewController
-//                print(vc)
+
 
             }
             
@@ -574,23 +680,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
                 (vc as! SplashViewController).locationOn()
             }
         }
-        
-//        print(self.window?.currentViewController)
-//        if (self.window?.currentViewController is SplashViewController){
-//        (self.window?.currentViewController as! SplashViewController).locationOn()
-//
-//        }
-      
+
+
+        checkUpdateVersion()
+
         checkP2P_isOn()
       
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
     
+    func checkUpdateVersion(){
+        //        DispatchQueue.global().async {
+        do {
+            let update = try self.isUpdateAvailable()
+            // let controller = (self.window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
+            if(update){
+            let alertController = TVAlertController(title: "TOPVOTE", message: "New version of application is available.\nPlease update your application.", preferredStyle: .alert)
+            let url = URL(string: Constants.itunesLink)!
+            let updateAction = UIAlertAction(title: "Update Now", style: .default) { (action) -> Void in
+                if UIApplication.shared.canOpenURL(url) {
+                    if #available(iOS 10.0, *) {
+                        UIApplication.shared.open(url, options: [:], completionHandler: { (success) in
+                            
+                        })
+                    } else {
+                        UIApplication.shared.openURL(url)
+                    }
+                }
+            }
+            
+            alertController.addAction(updateAction)
+            alertController.showOnTop()
+            
+            }
+            // show alert
+            
+        } catch {
+            print(error)
+        }
+        //        }
+    }
     func applicationDidBecomeActive(_ application: UIApplication) {
        // FBSDKAppEvents.activateApp()
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the applicationhttp was previously in the background, optionally refresh the user interface.
         UIApplication.shared.applicationIconBadgeNumber = 0
     }
+    
     
     func branchHandling(launchOptions: [UIApplicationLaunchOptionsKey: Any]?){
         let branch: Branch = Branch.getInstance()
@@ -664,8 +799,73 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
         }
         
     }
-    // MARK: * Custome Method
 
+    func isUpdateAvailable() throws -> Bool {
+        guard let info = Bundle.main.infoDictionary,
+            let currentVersion = info["CFBundleShortVersionString"] as? String,
+            let identifier = info["CFBundleIdentifier"] as? String,
+            let url = URL(string: "http://itunes.apple.com/lookup?bundleId=\(identifier)") else {
+                throw VersionError.invalidBundleInfo
+        }
+        let data = try Data(contentsOf: url)
+        guard let json = try JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as? [String: Any] else {
+            throw VersionError.invalidResponse
+        }
+        if let result = (json["results"] as? [Any])?.first as? [String: Any], let version = result["version"] as? String {
+            return Float(version)! > Float(currentVersion)!
+        }
+        throw VersionError.invalidResponse
+    }
+    
+    // MARK: * Custome Method
+    func checkNotificationOnOrNot(){
+        
+        let current = UNUserNotificationCenter.current()
+        current.getNotificationSettings(completionHandler: { (settings) in
+            if settings.authorizationStatus == .notDetermined {
+                // Notification permission has not been asked yet, go for it!
+            } else if settings.authorizationStatus == .denied {
+                if((UserDefaults.standard.object(forKey: "NotificationEnableDontShow") == nil) || ((UserDefaults.standard.object(forKey: "NotificationEnableDontShow") as! String) != "1")){
+                    self.showNotificationPopup()
+                }
+                // Notification permission was previously denied, go to settings & privacy to re-enable
+            } else if settings.authorizationStatus == .authorized {
+                // Notification permission was already granted
+            }
+        })
+    }
+    
+    func showNotificationPopup(){
+        DispatchQueue.main.async {
+
+        let alertController = TVAlertController(title: "TOPVOTE", message: "", preferredStyle: .alert)
+        
+        let okAction = UIAlertAction(title: "Enable Notification", style: .default) { (action) -> Void in
+            
+            guard let settingsUrl = URL(string: UIApplicationOpenSettingsURLString) else {
+                return
+            }
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                })
+            }
+        }
+        let dontShowAction = UIAlertAction(title: "Dont Show Again", style: .default) { (action) -> Void in
+            UserDefaults.standard.set("1", forKey: "NotificationEnableDontShow")
+            UserDefaults.standard.synchronize()
+
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(okAction)
+        alertController.addAction(dontShowAction)
+        alertController.addAction(cancelAction)
+        alertController.showOnTop()
+        }
+//        present(alertController, animated: true, completion: nil)
+    }
+    
     func checkP2P_isOn(){
         if((AccountManager.session) != nil){
             
@@ -805,7 +1005,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
     
     func registerNotification(){
         if Account.isAuthenticated {
-            
             let params: [String: Any] = [
                 "model": UIDevice.current.model,
                 "platform": "iOS",
@@ -826,8 +1025,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
                     //NotificationCenter.default.post(name: .AccountSubscribedNotifications, object: nil)
                 }
             })
-       
-        
         }
     }
 }
@@ -835,24 +1032,94 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
 // MARK: - UNUserNotificationCenterDelegate
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    
+     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void)
+    {
+//    }
+//
+//
+//
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         if((AccountManager.session) == nil){
             return
         }
         else
         {
-            let userInfo = response.notification.request.content.userInfo as NSDictionary
-            let apsDict = userInfo.value(forKey: "aps") as! NSDictionary
+                print(response.notification.request.content.userInfo)
+            
+                let userInfo =  response.notification.request.content.userInfo as NSDictionary
+                if(userInfo.value(forKey: "aps") != nil && (userInfo.object(forKey: "aps") as? NSDictionary) != nil){
+                    
+                let apsDict = userInfo.value(forKey: "aps") as! NSDictionary
 
-            
-            print("Notification \(userInfo)")
-        
-             let controller = (window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
-            
-            controller?.showAlert(title: "Topvote", confirmTitle: "Ok", errorMessage: apsDict.object(forKey: "alert") as! String, actions: nil, confirmCompletion: nil, completion: nil)
+                    if(userInfo.object(forKey: "custom")  != nil && (userInfo.object(forKey: "custom") as? NSDictionary)! .object(forKey: "a")  != nil){
+                    let nav = (self.window?.rootViewController?.visibleViewController as? UINavigationController)
+                    
+                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+
+                    let custom = userInfo.object(forKey: "custom") as? NSDictionary
+                    let aTag = custom!.object(forKey: "a") as? NSDictionary
+                        
+                    print(aTag!)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+
+                    if(aTag!.object(forKey: "type") as! Int == 2){
+                        let controller = (self.window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
+
+                        print(controller!)
+                        if(controller?.tabBarController != nil){
+                            controller?.tabBarController?.selectedIndex = 4
+                        }
+
+                    }
+                    else if(aTag!.object(forKey: "type") as! Int == 1){
+                        if let vc = mainStoryboard.instantiateViewController(withIdentifier: "entriesVC") as? CompetitionEntriesViewController {
+                            // check same link click again
+                            if(nav!.viewControllers.last? .isKind(of: CompetitionEntriesViewController.self))!{
+                                let vc1 = nav!.viewControllers.last as! CompetitionEntriesViewController
+                                if(vc1.idEntry != aTag!.object(forKey: "_id") as! String){
+                                    vc.isComeFromDeepUrl = true
+                                    vc.idEntry = aTag!.object(forKey: "_id")as! String
+                                    nav!.pushViewController(vc, animated: true)
+                                }
+                            }
+                            else{
+                                vc.isComeFromDeepUrl = true
+                                vc.idEntry =  aTag!.object(forKey: "_id") as! String
+                                nav!.pushViewController(vc, animated: true)
+                            }
+                        }
+                        
+                        
+                    //    let controller = (window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
+
+//                            print(controller!)
+                    }
+                        
+                    }
+                
             }
-        
+               
+                else if(apsDict.object(forKey: "alert")  != nil){
+                        print("Notification \(userInfo)")
+                        if (apsDict.object(forKey: "alert") as? String) != nil
+                        {
+                            let controller = (self.window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
+                        
+                            controller?.showAlert(title: "Topvote", confirmTitle: "ok", errorMessage: apsDict.object(forKey: "alert") as! String, actions: nil, confirmCompletion: nil, completion: nil)
+
+                            
+                       // controller?.showAlert(title: "Topvote", confirmTitle: "Ok", errorMessage: apsDict.object(forKey: "alert") as! String, actions: nil, confirmCompletion: nil, completion: nil)
+                        }
+                    }
+             
+            }
+       
+            
+        }
     }
+   
+    
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
@@ -862,14 +1129,37 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         else
         {
             let userInfo = notification.request.content.userInfo as NSDictionary
+            print(notification.request.content.userInfo)
+            completionHandler([.alert, .badge, .sound])
+            
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+//
+//                let controller = (self.window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
+//
+//              //  controller?.showAlert(title: "Topvote", confirmTitle: "ok", errorMessage:"Check", actions: nil, confirmCompletion: nil, completion: nil)
+//
+//            }
+          
+         /*   if(userInfo.value(forKey: "aps") != nil && (userInfo.object(forKey: "aps") as? NSDictionary) != nil){
+                
             let apsDict = userInfo.value(forKey: "aps") as! NSDictionary
+                
+            if(apsDict.object(forKey: "alert")  != nil)  {
+                if (apsDict.object(forKey: "alert") as? String) != nil
+              {
+                print("Notification \(userInfo)")
+                let controller = (window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
+                print("Notification controller \(controller)")
 
+                controller?.showAlert(title: "Topvote", confirmTitle: "Ok", errorMessage: apsDict.object(forKey: "alert") as! String, actions: nil, confirmCompletion: nil, completion: nil)
+                }
+            }
+             }
+
+           */
             
-            print("Notification \(userInfo)")
-            
-            let controller = (window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
-            
-            controller?.showAlert(title: "Topvote", confirmTitle: "Ok", errorMessage: apsDict.object(forKey: "alert") as! String, actions: nil, confirmCompletion: nil, completion: nil)
+     
+        
         }
     }
 }

@@ -81,6 +81,7 @@ class UtilityManager: NSObject {
         print("subscriptionUnsubscriptionNotification::error::\(errorMessage)")
         }, completion: nil)
     }
+    
 }
 
 extension UIView {

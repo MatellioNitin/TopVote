@@ -32,6 +32,38 @@ class PollTBCell: UITableViewCell {
     @IBOutlet weak var viewImg: MediaView!
     @IBOutlet weak var imgPollView: UIImageView!
     @IBOutlet weak var btnVolume: UIButton!
+    
+    
+    @IBOutlet weak var imgOption: UIImageView!
+    
+    @IBOutlet weak var progressView: UIProgressView!
+    
+    @IBOutlet weak var viewProgress: UIView!
+    
+    @IBOutlet weak var widthProgress: NSLayoutConstraint!
+    
+    @IBOutlet weak var lblProgressCount: UILabel!
+    
+    @IBOutlet weak var imgPlay: UIImageView!
+    
+    @IBOutlet weak var viewPollContent: UIView!
+    
+    
+    @IBOutlet weak var lblLeading: NSLayoutConstraint!
+    
+    @IBOutlet weak var viewLiveResultHeader: UIView!
+    @IBOutlet weak var viewMiddleProgressBG: UIView!
+    
+    @IBOutlet weak var viewMiddleProgressBGBottom: UIView!
+    @IBOutlet weak var viewProgressCountOuter: GradientView!
+    @IBOutlet weak var viewProgressCountInner: GradientView!
+    @IBOutlet weak var lblPostName: UILabel!
+    @IBOutlet weak var viewProgressOuter: GradientView!
+    @IBOutlet weak var viewProgressInner: GradientView!
+    
+    @IBOutlet weak var btnPollCount: UIButton!
+    
+    
     var delegate: PollCellDelegate?
     //var selected:String?
    // var entry: Options?
@@ -43,7 +75,21 @@ class PollTBCell: UITableViewCell {
         let tapGR2 = UITapGestureRecognizer(target: self, action: #selector(PollTBCell.playMediaTapped))
         tapGR2.numberOfTapsRequired = 1
         viewImg.addGestureRecognizer(tapGR2)
+            
+
+            
         }
+        
+      
+       
+//
+//        let voteDoubleTap1 = UITapGestureRecognizer(target: self, action: #selector(self.voteButtonClicked(_:)))
+//        voteDoubleTap1.numberOfTapsRequired = 2
+//        imgPollView?.addGestureRecognizer(voteDoubleTap1)
+//
+//        let voteDoubleTap2 = UITapGestureRecognizer(target: self, action: #selector(self.voteButtonClicked(_:)))
+//        voteDoubleTap2.numberOfTapsRequired = 2
+//        lblOptionText?.addGestureRecognizer(voteDoubleTap2)
         
 //        if(btnVote != nil){
 //        let voteGR = UILongPressGestureRecognizer(target: self, action: #selector(PollTBCell.voteButtonTapped(_:)))
@@ -104,9 +150,9 @@ class PollTBCell: UITableViewCell {
     
     func toggleVolume() {
         if (viewImg.player?.volume != 0) {
-            
-            btnVolume?.setImage(UIImage(named:"soundOff"), for: .normal)
             viewImg.player?.volume = 0
+            btnVolume?.setImage(UIImage(named:"soundOff"), for: .normal)
+           
             
         } else {
             
@@ -182,11 +228,12 @@ class PollTBCell: UITableViewCell {
 //        }
 //    }
 //
-    
+      
     @IBAction func voteButtonClicked(_ sender: AnyObject?) {
 //        guard let entry = entry else {
 //            return
 //        }
+        
         self.delegate?.voteEntry(index:(sender?.tag)!)
 
 //        if(entry.selected != ""){
@@ -203,4 +250,31 @@ class PollTBCell: UITableViewCell {
         
         
     }
+    
+//    @IBAction func voteDoubleTapClicked(_ sender: AnyObject?) {
+//        //        guard let entry = entry else {
+//        //            return
+//        //        }
+//
+//        self.delegate?.voteEntry(index:(sender?.tag)!)
+//
+//                if(entry.selected != ""){
+//                    // self.voteButton?.isEnabled = false
+//                    self.delegate?.voteEntry(index:(sender?.tag)!)
+//
+//                    self.delegate?.voteEntry(self, entry:entry)
+//
+//                }
+//                else
+//                {
+//                    self.delegate?.voteEntry(self, entry:entry)
+//
+//                }
+//
+//
+//
+//    }
+    
+    
+    
 }

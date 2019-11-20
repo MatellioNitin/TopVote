@@ -34,7 +34,19 @@ class MediaView: UIView {
         playerLayer = AVPlayerLayer(player: player)
         playerLayer!.videoGravity = AVLayerVideoGravity.resizeAspectFill
         playerLayer!.frame = bounds
-        player?.volume = 0.0
+//        player?.seek(to: kCMTimeZero)
+
+//        player?.volume = .greatestFiniteMagnitude
+        player?.isMuted = true
+        
+        do {
+//            try  AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, mode: AVAudioSessionModeMoviePlayback, options: [.mixWithOthers])
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, with: .defaultToSpeaker)
+              try AVAudioSession.sharedInstance().setActive(true)
+        }
+        catch {
+            // report for an error
+        }
         layer.insertSublayer(playerLayer!, at: 0)
     }
     
@@ -51,7 +63,7 @@ class MediaView: UIView {
     
     func startPlaying() {
         self.player?.seek(to: kCMTimeZero)
-        self.player?.play()
+        player?.play()
     }
     
 }

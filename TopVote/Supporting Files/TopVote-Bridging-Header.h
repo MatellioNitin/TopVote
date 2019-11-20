@@ -11,5 +11,7 @@
 #define Super_Super_Bridging_Headers_j_h
 
 #import "UIScrollView+VGParallaxHeader.h"
+#import "KochavaTracker.h"
+#import "PhotoTweaksViewController.h"
 
 #endif

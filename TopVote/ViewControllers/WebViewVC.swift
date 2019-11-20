@@ -14,14 +14,27 @@ class WebViewVC: UIViewController {
     //@IBOutlet weak var webBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var viewWeb: UIWebView!
     
-    let termsAndConditionURL = "http://13.57.238.187:3000/terms-of-service"
+    @IBOutlet weak var lblTitle: UILabel!
+    var isLogin:Bool = false
+    let termsAndConditionURL = "http://admin.gettopvote.com/terms-of-service"
+    let rulesURL = "http://admin.gettopvote.com/rules"
+
     //MARK: ViewController Method
     override func viewDidLoad() {
         super.viewDidLoad()
         
         UtilityManager.ShowHUD(text: "Please wait...", view:self.viewWeb)
-
-           let url = URL (string:termsAndConditionURL)!
+        var url:URL!
+        if(isLogin){
+            self.navigationController?.navigationBar.isHidden = true
+             url = URL (string:rulesURL)!
+            lblTitle.text = "VIEW RULES"
+        }
+        else
+        {
+             url = URL (string:termsAndConditionURL)!
+             lblTitle.text = "TERMS OF SERVICE"
+        }
             let requestObj = URLRequest(url: url)
             self.viewWeb.loadRequest(requestObj)
 
@@ -35,6 +48,14 @@ class WebViewVC: UIViewController {
     override func viewWillLayoutSubviews() {
         
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if(isLogin){
+            self.navigationController?.navigationBar.isHidden = false
+        }
+    }
+    
     
     
     override func didReceiveMemoryWarning() {

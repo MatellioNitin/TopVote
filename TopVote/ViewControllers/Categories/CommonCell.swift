@@ -17,6 +17,8 @@ class CommonCell: UITableViewCell {
     
     @IBOutlet weak var btnCompition: UIButton!
     
+    @IBOutlet weak var imgCompetition: UIImageView!
+    
     @IBOutlet weak var lblCompition: UILabel!
     
     @IBOutlet weak var txtField: CustomUITextField!

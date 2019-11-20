@@ -34,7 +34,6 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
     
      func locationOn() {
         print("viewDidLayoutSubviews")
-        
         if AccountManager.fetchLastSession(), let currentAccount = AccountManager.session?.account {
       
             (UIApplication.shared.delegate as? AppDelegate)?.registerForRemoteNotification()
@@ -43,7 +42,7 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
             
             LocationManager.instance.getLocationAndName { (success, location, locationName) -> Void in
                 if (success) {
-                    //                        user.location = PFGeoPoint(location: location)
+                //  user.location = PFGeoPoint(location: location)
                     currentAccount.locationName = locationName
                     currentAccount.userFollowing = nil
                     currentAccount.userFollowers = nil
@@ -70,7 +69,6 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
                     else
                     {
                         self.animateToApp()
-
                     }
                 }
             }
@@ -99,10 +97,10 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
 //                    }
 //                })
 //            } else {
-//                //
+////
                 (UIApplication.shared.delegate as? AppDelegate)?.registerForRemoteNotification()
-//                //
-                setupProfileTabBarImage()
+////
+               // setupProfileTabBarImage()
 //                //
                 LocationManager.instance.getLocationAndName { (success, location, locationName) -> Void in
                     if (success) {
@@ -116,20 +114,16 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
                             }
                         })
                     } else {
-                        
-                        
-                       // self.presentSettings()
-                        
+                        // self.presentSettings()
                         //self.showAlert(title: "Oops!", confirmTitle: "Settings", errorMessage: "Use of your location is required to use the app. Please allow access in the settings app", actions: nil, confirmCompletion: nil, completion: {
-                            
                         //})
                         self.activityIndicatorView.stopAnimating()
                         self.activityIndicatorView.isHidden = true
                         if !CLLocationManager.locationServicesEnabled(){
-                            self.locationPopUp()
+                           // self.locationPopUp()
                         }
                             
-                        else if (currentAccount.locationName != nil){
+                         if (currentAccount.locationName != nil){
                             self.animateToApp()
                         }
                         else
@@ -230,7 +224,7 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
     
     @objc func setupProfileTabBarImage() {
         if let profileImageUri = AccountManager.session?.account?.profileImageUri, let uri = URL(string: profileImageUri) {
-            imageView.af_setImage(withURL: uri, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false, completion: { (image) in
+            imageView.af_setImage(withURL: uri, placeholderImage:  UIImage(named: "profile-default-avatar"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false, completion: { (image) in
                 if let image = image.value {
                     self.setProfileTabBarImage(image)
                 }
@@ -240,15 +234,21 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
     
     func setupProfileTabBarImage(_ tbvc: UITabBarController) {
         if let profileImageUri = AccountManager.session?.account?.profileImageUri, let uri = URL(string: profileImageUri) {
-            imageView.af_setImage(withURL: uri, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false, completion: { (image) in
+            imageView.af_setImage(withURL: uri, placeholderImage:  UIImage(named: "profile-default-avatar"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false, completion: { (image) in
                 if let image = image.value {
                     self.setProfileTabBarImage(tbvc, image:image)
+                }
+                else
+                {
+                    self.setProfileTabBarImage(tbvc, image:UIImage(named: "profile-default-avatar")!)
+
                 }
             })
         }
     }
     
     func setProfileTabBarImage(_ tbvc: UITabBarController, image: UIImage) {
+        
         UIGraphicsBeginImageContextWithOptions(imageView.bounds.size, false, 0)
         imageView.drawHierarchy(in: imageView.bounds, afterScreenUpdates: true)
         var image = UIGraphicsGetImageFromCurrentImageContext()
@@ -258,25 +258,44 @@ class SplashViewController: UIViewController, CLLocationManagerDelegate {
 
         for vc in tbvc.childViewControllers {
             if let vc = vc as? UINavigationController {
-                if vc.viewControllers.first is MyProfileViewController {
-                    vc.tabBarItem = UITabBarItem(title: "Profile", image: image, selectedImage: image)
+        if vc.viewControllers.first is MyProfileViewController {
+                vc.tabBarItem = UITabBarItem(title: "Profile", image: image, selectedImage: image)
 
-    if((AccountManager.session?.account?.categories)!.count == 0){
             let nav = vc.tabBarController?.viewControllers![0] as! UINavigationController
+            
+       
+            
+//    if(AccountManager.session?.account!.isSkipedControllerShow == nil || AccountManager.session?.account!.isSkipedControllerShow == true){
+        
+//        AccountManager.session?.account!.isSkipedControllerShow = false
+//        AccountManager.saveSession()
 
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+        if(AccountManager.session?.account!.bio == nil){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.0001) {
+            if let bioVC = tbvc.storyboard?.instantiateViewController(withIdentifier: "SignUpBioVC") {
+               (bioVC as! SignUpBioVC).tbvc = tbvc
+               nav.viewControllers.first?.present(bioVC, animated: false, completion: nil)
+            }
+        }
+    }
+        
+    else if((AccountManager.session?.account?.categories)!.count == 0){
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.0001) {
+
             if let categoryVC = tbvc.storyboard?.instantiateViewController(withIdentifier: "CategoryVC") {
                 nav.viewControllers.first?.present(categoryVC, animated: false, completion: nil)
-            }
-         }
-
-        
-                    }
-        }
+//            }
+//         }
+//
+//
+       }
+    }
     }
        print("LOGIN")
         
     }
+  
+        }
     }
     
     func setProfileTabBarImage(_ image: UIImage) {

@@ -88,8 +88,9 @@ class UserTableViewCell: UITableViewCell {
     
     func configureWithUser(_ user: Account) {
         self.user = user
+        userImageView.image = UIImage(named: "profile-default-avatar")
         if let profileImageUri = user.profileImageUri, let uri = URL(string: profileImageUri) {
-            userImageView?.af_setImage(withURL: uri, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+            userImageView?.af_setImage(withURL: uri, placeholderImage:  UIImage(named: "profile-default-avatar"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
         }
         nameLabel.text = user.username
     }

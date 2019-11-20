@@ -13,12 +13,14 @@ class InstagramLoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&response_type=token&scope=%@&DEBUG=True", arguments: [API.INSTAGRAM_AUTHURL,API.INSTAGRAM_CLIENT_ID,API.INSTAGRAM_REDIRECT_URI, API.INSTAGRAM_SCOPE])
         let urlRequest = URLRequest.init(url: URL.init(string: authURL)!)
        // instaWebView.navigationDelegate=self
         //instaWebView.load(urlRequest)
         instaGramWebView.delegate = self
         instaGramWebView.loadRequest(urlRequest)
+
         // Do any additional setup after loading the view.
     }
     @IBAction func close(){
@@ -34,12 +36,15 @@ class InstagramLoginViewController: UIViewController {
         }
         return true
     }
+    
     func handleAuth(authToken: String) {
         API.INSTAGRAM_ACCESS_TOKEN = authToken
         print("Instagram authentication token ==", authToken)
         getUserInfo { (data, status) in
             DispatchQueue.main.async {
                 self.selectionBlock(data, status)
+                UtilityManager.RemoveHUD()
+
                 self.dismiss(animated: true, completion: nil)
             }
         }
@@ -50,6 +55,7 @@ class InstagramLoginViewController: UIViewController {
 //
 //        }
     }
+    
     func getUserInfo(completion: @escaping ((_ dataRes: Dictionary<String,AnyObject>,_ status:Bool) -> Void)){
         let url = String(format: "%@%@", arguments: [API.INSTAGRAM_USER_INFO,API.INSTAGRAM_ACCESS_TOKEN])
         var request = URLRequest(url: URL(string: url)!)

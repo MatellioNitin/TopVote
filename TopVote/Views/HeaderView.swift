@@ -54,10 +54,11 @@ class ProfileHeaderView: UIView {
 //        for view in subviews {
 //            view.backgroundColor = Style.barTintColor
 //        }
-        
+       // imageView?.image = UIImage(named: "profile-default-avatar")
+
         if let user = user {
             if let profileImageUri = user.profileImageUri, let uri = URL(string: profileImageUri) {
-                imageView?.af_setImage(withURL: uri, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                imageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "profile-default-avatar") , imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: true)
             } else {
                 imageView?.image = UIImage(named: "profile-default-avatar")
             }
@@ -65,8 +66,8 @@ class ProfileHeaderView: UIView {
             followersButton.titleLabel?.textAlignment = .center
             followingButton.titleLabel?.textAlignment = .center
             
-            
             nameLabel.text = user.name
+            
             if(nameLabel.text == nil || nameLabel.text == ""){
                 nameLabel.text = user.username
             }
@@ -74,10 +75,17 @@ class ProfileHeaderView: UIView {
                 nameLabel.text = "Amazing Voter"
             }
             
-            
          //   nameLabel.text = user.name ?? user.username ?? "Amazing Voter"
             bioLabel.text = user.bio
-            locationLabel.text = user.locationName
+            
+            if(user.locationName == nil || user.locationName == ""){
+               locationLabel.text = "N/A"
+            }
+            else
+            {
+                locationLabel.text = user.locationName
+            }
+            
            // locationLabel.sizeToFit()
             followersButton.setTitle("\(user.userFollowers?.count ?? 0)", for: UIControlState())
             followingButton.setTitle("\(user.userFollowing?.count ?? 0)", for: UIControlState())

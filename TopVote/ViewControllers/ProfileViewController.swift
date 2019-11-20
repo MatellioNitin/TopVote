@@ -24,6 +24,13 @@ class YourProfileViewController: ProfileViewController {
         super.refreshProfile()
     }
     
+     func getProfileData() {
+        //super.refreshProfile()
+        
+        
+        
+    }
+    
 //    func incrementProfileVisits() {
 ////        if let userId = user?.objectId {
 ////            PFCloud.callFunction(inBackground: "incrementProfileViews", withParameters: ["userId": userId], block: { (object, error) -> Void in
@@ -103,7 +110,7 @@ class MyProfileViewController: ProfileViewController {
         navigationItem.rightBarButtonItem = editButton
         
      
-        let categoryButton = UIBarButtonItem(title: "Category", style: .plain, target: self, action: #selector(MyProfileViewController.categoryVC))
+        let categoryButton = UIBarButtonItem(title: "Categories", style: .plain, target: self, action: #selector(MyProfileViewController.categoryVC))
         navigationItem.leftBarButtonItem = categoryButton
         
     }
@@ -116,7 +123,7 @@ class MyProfileViewController: ProfileViewController {
         super.viewWillAppear(animated)
         
         UtilityManager.ShowHUD(text: "Please wait...")
-
+        navigationItem.title = "PROFILE"
         AccountManager.session?.account?.me(error: { (errorMessage) in
             self.showErrorAlert(errorMessage: errorMessage)
         }, completion: {
@@ -222,16 +229,59 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
        // getProfileAPI()
+            analytics()
          }
     
-    func getProfileAPI(){
+    func analytics()
+    {
+            // KochavaTracker.shared.sendEvent(withNameString: "HuntLogVC_Open", infoDictionary: ["User": "\(getNSUserDefaults(key: userDefault.D_UserName))"])
+            
+//            if let event = KochavaEvent(eventTypeEnum: .view) {
+//                event.nameString = "Gold Token"
+//                event.infoString = "push recieved"
+//                KochavaTracker.shared.send(event)
+//            }
+//            KochavaTracker.shared.sendIdentityLink(with:  [
+//                "User ID": "123456789",
+//                "Login": "ljenkins"
+//                ])
+//
+//
+//            let event = KochavaEvent.init(customWithEventNameString: "name")
+//            KochavaTracker.shared.send(event!)
+//            KochavaTracker.shared.sendEvent(withNameString: "Player Defeated", infoString: nil)
+//            KochavaTracker.shared.sendEvent(withNameString: "Player Defeated", infoString: "Angry Ogre")
+//            KochavaTracker.shared.sendEvent(withNameString: "Player Defeated", infoDictionary: ["enemy": "Angry Ogre"])
+//
+//            if let event = KochavaEvent(eventTypeEnum: .custom)
+//            {
+//                //event.nameString = "HuntLogVC_Open"
+//                event.customEventNameString = "ProfileVC_Open"
+//                event.infoString = "ProfileVC_Open "
+//
+//                KochavaTracker.shared.send(event)
+//            }
+    }
+    
+    
+    
+    func getProfileAPI(id:String = ""){
         let currentUser = AccountManager.session?.account
         //, let user = user, currentUser._id != user._id {
         if self.tabBarController?.selectedIndex != 3
         {
+            var userId = ""
+            if(id == ""){
+               userId = (user?._id)!
+            }
+            else{
+                userId = id
+
+            }
+            
             UtilityManager.ShowHUD(text: "Please wait...")
             
-            Account.getOtherProfile(accountId: (user?._id)!, error: { (errorMessage) in
+            Account.getOtherProfile(accountId: userId, error: { (errorMessage) in
                 UtilityManager.RemoveHUD()
                 
                 self.showErrorAlert(errorMessage: errorMessage)
@@ -453,7 +503,11 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
             print(entry)
 
             cell.configureWithEntry(entry, compact: true, isComeFromProfile:true,selectedTab:4)
+            
             cell.delegate = self
+            cell.btnEntryInProfile.tag = indexPath.row
+            
+            cell.btnEntryInProfile.addTarget(self, action:#selector(self.didSelectButtonAction(_:)), for: .touchUpInside)
             
             return cell
         } else if (profileType == .awards) {
@@ -499,31 +553,46 @@ class ProfileViewController: UserEntriesViewController, HeaderViewDelegate, Prof
         }
         return UITableViewAutomaticDimension
     }
-
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        //var entry: PFEntry?
-        var entry: Entry?
-       
-
-        if (profileType == .entries) {
-            //entry = entries[indexPath.row]
-        } else if (profileType == .awards) {
-            entry = awardedEntries[indexPath.row]
-        }
+    @IBAction func didSelectButtonAction(_ sender: UIButton) {
+        didSelectMethod(index: sender.tag)
+    }
+    func didSelectMethod(index:Int) {
         
-        if let currentUser = AccountManager.session?.account, currentUser._id == entry?.account?._id {
-        if let entry = entry {
-            if let giftCardURL = entry.competition?.giftCardURL {
-                if let link = URL(string: giftCardURL) {
-                    UIApplication.shared.open(link)
+        var entry: Entry?
+        if (profileType == .entries) {
+            entry = entries[index]
+            
+            if let vc = storyboard?.instantiateViewController(withIdentifier: "entriesVC") as? CompetitionEntriesViewController {
+                vc.isComeFromDeepUrl = true
+                vc.idEntry = (entry!._id)!
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
+        } else if (profileType == .awards) {
+            entry = awardedEntries[index]
+            if let currentUser = AccountManager.session?.account, currentUser._id == entry?.account?._id {
+                if let entry = entry {
+                    if  entry.rank == 1{
+                    if let giftCardURL = entry.competition?.giftCardURL {
+                        if let link = URL(string: giftCardURL) {
+                            UIApplication.shared.open(link)
+                        }
+                    }
+                    }
                 }
             }
+            
         }
         
-        }
+    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
+        didSelectMethod(index: indexPath.row)
+        
+        //var entry: PFEntry?
+    
+ 
 //        if let entry = entry {
 //            if let vc = storyboard?.instantiateViewController(withIdentifier: "UserCompetitionEntriesVC") as? UserCompetitionEntriesViewController {
 //                //vc.user = user

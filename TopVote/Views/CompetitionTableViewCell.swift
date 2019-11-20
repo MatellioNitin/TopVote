@@ -18,7 +18,10 @@ class CompetitionTableViewCell: UITableViewCell {
     @IBOutlet weak var bgImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var lblPrivate: UILabel!
+    @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnShare: UIButton!
+    
     @IBOutlet weak var typeImageView: UIImageView!
     @IBOutlet weak var byTextLabel: UILabel!
 
@@ -40,7 +43,8 @@ class CompetitionTableViewCell: UITableViewCell {
     
     @IBOutlet weak var txtImageHeight: NSLayoutConstraint!
 
-
+    @IBOutlet weak var lblTitleTrailing: NSLayoutConstraint!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -80,10 +84,15 @@ class CompetitionTableViewCell: UITableViewCell {
         }
         
         var byImage:String = ""
+        lblPrivate.isHidden = true
         if(competition.byImageUri != nil){
         if(tabbarIndex == 3){
             byImage = competition.profileImage!
             byTextLabel.text = competition.ownerName
+            if(competition.cType == "private"){
+            lblPrivate.isHidden = false
+            }
+
 
         }
         else{
@@ -92,7 +101,7 @@ class CompetitionTableViewCell: UITableViewCell {
         }
         
         if let url = URL(string: byImage) {
-            byImageView.af_setImage(withURL: url, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+            byImageView.af_setImage(withURL: url, placeholderImage: UIImage(named: "profile-default-avatar"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: true)
         }
 
         var imageName = ""
@@ -108,7 +117,7 @@ class CompetitionTableViewCell: UITableViewCell {
             case 0 : imageName = "icon-camera"
             case 1 : imageName = "icon-video"
             case 3 : imageName = "image-video"
-
+                
             default : imageName = "text"
             }
             
@@ -127,7 +136,7 @@ class CompetitionTableViewCell: UITableViewCell {
         if hasEnded {
             if entryMediaType == "VIDEO" {
                 if let entryMediaUrl = competition.winner?.mediaUriThumbnail, let url = URL(string: entryMediaUrl) {
-                    bgImageView.af_setImage(withURL: url, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                    bgImageView.af_setImage(withURL: url, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: true)
                 }
             } else {
                 
@@ -140,7 +149,7 @@ class CompetitionTableViewCell: UITableViewCell {
                 if(tabbarIndex == 2 && competition.winner?.mediaType == "IMAGE"){
                     // Winner
                     if let entryMediaUrl = competition.winner?.mediaUri, let url = URL(string: entryMediaUrl) {
-                        bgImageView.af_setImage(withURL: url, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                        bgImageView.af_setImage(withURL: url, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: true)
                     }
                 }
                 else if(tabbarIndex == 2 && competition.winner?.mediaType == "TEXT"){
@@ -170,13 +179,13 @@ class CompetitionTableViewCell: UITableViewCell {
                 }
                 else{
                     if let entryMediaUrl = competition.mediaUri, let url = URL(string: entryMediaUrl) {
-                        bgImageView.af_setImage(withURL: url, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                        bgImageView.af_setImage(withURL: url, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: true)
                     }
                 }
             }
         } else {
             if let mediaUrl = competition.mediaUri, let url = URL(string: mediaUrl) {
-                bgImageView.af_setImage(withURL: url, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                bgImageView.af_setImage(withURL: url, placeholderImage: nil, imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: true)
             }
         }
         

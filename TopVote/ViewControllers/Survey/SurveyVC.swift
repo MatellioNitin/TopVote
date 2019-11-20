@@ -222,6 +222,10 @@ class SurveyVC: UIViewController {
                 //print("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")
                 if (success) {
                     activityViewController.navigationController?.navigationBar.tintColor = Constants.appYellowColor
+                activityViewController.navigationController?.navigationBar.backgroundColor = Constants.appThemeColor
+
+                    
+                    
                     
                     //                entry.incrementKey("numberShares", byAmount: 1)
                     //                entry.saveInBackground()

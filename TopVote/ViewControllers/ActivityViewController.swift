@@ -138,7 +138,7 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
         filter()
     }
     
-    @IBAction func getProfileAction(_ sender: UIButton) {
+    @IBAction func getProfileAction(_ sender: AnyObject) {
         
         let activity = filteredActivities[sender.tag]
         if let nc = storyboard?.instantiateViewController(withIdentifier: "YourProfileNC") as? UINavigationController {
@@ -147,6 +147,17 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
                 self.present(nc, animated: true, completion: nil)
                         }
             }
+    }
+    
+    @IBAction func getOtherProfileAction(_ sender: AnyObject) {
+        
+        let activity = filteredActivities[sender.tag]
+        if let nc = storyboard?.instantiateViewController(withIdentifier: "YourProfileNC") as? UINavigationController {
+            if let vc = nc.childViewControllers.first as? YourProfileViewController {
+                vc.user = activity.entry?.account
+                self.present(nc, animated: true, completion: nil)
+            }
+        }
     }
     
     
@@ -190,6 +201,89 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
         self.tableView.reloadData()
     }
 
+    //  Method used for check Learn more word click or not
+    @objc func textTapped(_ recognizer: UITapGestureRecognizer) {
+//        let lblText: UILabel? = (recognizer.view as? UILabel)
+//        let activity = filteredActivities[lblText!.tag]
+//        let tapString = activity.getTapString()
+//        let tapLocationForSection = recognizer.location(in: tableView)
+//
+//        //using the tapLocation, we retrieve the corresponding indexPath
+//        let indexPath = tableView.indexPathForRow(at: tapLocationForSection)
+//
+//        if(lblText?.text?.contains("\(tapString)"))!{
+//            getProfileAction(lblText!)
+//        }
+//        else{
+//            return
+//        }
+        
+        
+        
+        let lblText: UILabel? = (recognizer.view as? UILabel)
+        let readMoreRange:NSRange
+        let secondUserRange:NSRange
+
+        let tapLocationForSection = recognizer.location(in: tableView)
+        
+        let activity = filteredActivities[lblText!.tag]
+        let tapString = activity.getTapString()
+        let tapOtherUserString = activity.getTapOtherUserString()
+
+        //using the tapLocation, we retrieve the corresponding indexPath
+        let indexPath = tableView.indexPathForRow(at: tapLocationForSection)
+        
+      if(lblText?.text?.contains("\(tapString)"))!{
+            readMoreRange = (lblText?.text as NSString!).range(of: "\(tapString)")
+        }
+        else{
+            return
+        }
+        
+        if(tapOtherUserString != "" && (lblText?.text?.contains("\(tapOtherUserString)"))!){
+            secondUserRange = (lblText?.text as NSString!).range(of: "\(tapOtherUserString)")
+        }
+        else{
+            return
+        }
+        let tapLocation: CGPoint =  recognizer.location(in: lblText)
+        // init text storage
+        let textStorage = NSTextStorage(attributedString: (lblText?.attributedText)!)
+        let layoutManager = NSLayoutManager()
+        textStorage.addLayoutManager(layoutManager)
+        let textContainer = NSTextContainer(size: CGSize(width: CGFloat((lblText?.frame.size.width)!), height: CGFloat((lblText?.frame.size.height)! + 500)))
+        textContainer.lineFragmentPadding = 0
+        textContainer.maximumNumberOfLines = (lblText?.numberOfLines)!
+        textContainer.lineBreakMode = (lblText?.lineBreakMode)!
+        layoutManager.addTextContainer(textContainer)
+        let characterIndex: Int = layoutManager.characterIndex(for: tapLocation, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        
+        if characterIndex >= (readMoreRange.location) && characterIndex <= (readMoreRange.location) + (readMoreRange.length) {
+            getProfileAction(lblText!)
+        }
+        else if characterIndex >= (secondUserRange.location) && characterIndex <= (secondUserRange.location) + (secondUserRange.length) {
+            getOtherProfileAction(lblText!)
+        }
+        else
+        {
+            if let vc = storyboard?.instantiateViewController(withIdentifier: "entriesVC") as? CompetitionEntriesViewController {
+                
+                vc.isComeFromDeepUrl = true
+                vc.idEntry = (activity.entry?._id)!
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
+        }
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    
     // MARK: - Table view data source
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -209,12 +303,24 @@ class ActivityViewController: UIViewController, UITableViewDelegate, UITableView
 
         
         if let profileImageUri = activity.account?.profileImageUri, let uri = URL(string: profileImageUri) {
-            cell.userImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+            cell.userImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "profile-default-avatar"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
         } else {
             cell.userImageView?.image = UIImage(named: "profile-default-avatar")
         }
+        
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.textTapped))
+        cell.activityTextLabel.removeGestureRecognizer(tap)
+        cell.activityTextLabel.tag = indexPath.row
+        cell.activityTextLabel.addGestureRecognizer(tap)
+        cell.activityTextLabel.isUserInteractionEnabled = true
+
+        
         return cell
     }
+    
+    
+    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
      

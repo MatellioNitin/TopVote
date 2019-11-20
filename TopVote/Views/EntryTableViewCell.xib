@@ -89,7 +89,7 @@
                                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" id="y0i-xO-tIa"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" red="0.26274509800000001" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="djh-Tl-jEb">
@@ -125,6 +125,7 @@
                                             <constraint firstAttribute="width" constant="26" id="L9Y-c3-oA1"/>
                                             <constraint firstAttribute="height" constant="26" id="YhT-KA-vHQ"/>
                                         </constraints>
+                                        <color key="tintColor" red="0.26274509800000001" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
                                         <state key="normal" image="button-icon-star"/>
                                         <state key="selected" image="button-icon-star-select"/>

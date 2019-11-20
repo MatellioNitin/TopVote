@@ -43,7 +43,12 @@ class AwardedEntryTableViewCell: UITableViewCell {
         self.entry = entry
         entryAwardImageView.image = entry.awardImage
 
-        competitionLabel.text = entry.competition?.title
+        if(entry.competition == nil){
+            competitionLabel.text = entry.privateCompetition?.title
+        }
+        else{
+            competitionLabel.text = entry.competition?.title
+        }
         if let rank = entry.rank {
             if (rank == 1) {
                 awardLabel.text = "1st place"

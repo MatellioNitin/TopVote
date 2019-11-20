@@ -134,7 +134,7 @@ class EntryViewController: VideoPlayerViewController {
             
             
             if let profileImageUri = entry.account?.profileImageUri, let uri = URL(string: profileImageUri) {
-                userImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                userImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "profile-default-avatar"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
             }
             
             

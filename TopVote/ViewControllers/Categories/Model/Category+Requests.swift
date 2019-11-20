@@ -3,7 +3,6 @@
 //  iOS Foundation
 //
 //  Copyright © 2017 Top, Inc. All rights reserved.
-//
 
 import Foundation
 

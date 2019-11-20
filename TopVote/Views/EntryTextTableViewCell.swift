@@ -16,6 +16,9 @@ protocol EntryTextTableViewCellDelegate {
     func showUser(_ user: Account)
     func shareEntry(_ entry: Entry)
     func voteEntry(_ cell: EntryTextTableViewCell, entry: Entry, isUnVote:Bool)
+    func voteEntryDoubleTap(_ cell: EntryTextTableViewCell, entry: Entry, isUnVote:Bool)
+
+
     func commentEntry(_ entry: Entry)
     func moreEntry(_ entry: Entry)
 }
@@ -52,6 +55,8 @@ class EntryTextTableViewCell: UITableViewCell {
     
     var entry: Entry?
     
+    var status: Int = 0
+
     override func awakeFromNib() {
         super.awakeFromNib()
         selectionStyle = .none
@@ -67,6 +72,10 @@ class EntryTextTableViewCell: UITableViewCell {
         let tapLabelGR = UITapGestureRecognizer(target: self, action: #selector(EntryTextTableViewCell.showProfileTapped))
         tapLabelGR.numberOfTapsRequired = 1
         userNameLabel?.addGestureRecognizer(tapLabelGR)
+        
+        let voteTextDoubleTap = UITapGestureRecognizer(target: self, action: #selector(EntryTableViewCell.voteDoubleTapped))
+        voteTextDoubleTap.numberOfTapsRequired = 2
+        textTypeLabel?.addGestureRecognizer(voteTextDoubleTap)
 
 //        let tapGR2 = UITapGestureRecognizer(target: self, action: #selector(EntryTextTableViewCell.playMediaTapped))
       //  tapGR2.numberOfTapsRequired = 1
@@ -77,6 +86,7 @@ class EntryTextTableViewCell: UITableViewCell {
      //   entryImageView?.addGestureRecognizer(voteGR)
         
      //   NotificationCenter.default.addObserver(self,  selector: #selector(EntryTextTableViewCell.playerItemDidReachEnd(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+        
     }
     
     deinit {
@@ -110,6 +120,7 @@ class EntryTextTableViewCell: UITableViewCell {
         self.entry = entry
         if(self.entry?.mediaType == "TEXT"){
             textTypeLabel?.text = self.entry?.text
+            textTypeLabel?.isUserInteractionEnabled = true
         }
        // else if let mediaType = entry.mediaType {
 //            if let mediaUri = entry.mediaUri, let uri = URL(string: mediaUri) {
@@ -124,7 +135,7 @@ class EntryTextTableViewCell: UITableViewCell {
 //            }
 
             if let profileImageUri = entry.account?.profileImageUri, let uri = URL(string: profileImageUri) {
-                userImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
+                userImageView?.af_setImage(withURL: uri, placeholderImage: UIImage(named: "profile-default-avatar"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: false)
             } else {
                 userImageView?.image = UIImage(named: "profile-default-avatar")
             }
@@ -132,7 +143,7 @@ class EntryTextTableViewCell: UITableViewCell {
         
         
         userNameLabel?.text = entry.account?.username ?? entry.account?.name
-        locationLabel?.text = entry.locationName ?? "Not provided"
+        locationLabel?.text = entry.locationName ?? ""
         if let date = entry.createdAt {
             if (compact) {
                 timeLabel?.text = date.timeAgo
@@ -214,6 +225,30 @@ class EntryTextTableViewCell: UITableViewCell {
 //    @objc func playMediaTapped() {
 //      //  self.delegate?.playMedia(self)
 //    }
+    
+    
+    
+    @objc func voteDoubleTapped() {
+        
+        if(status != 0){
+        
+        guard let entry = entry else {
+            return
+        }
+        //        if (sender.state == UIGestureRecognizerState.began) {
+        
+        if(entry.hasVoted != true){
+            // self.voteButton?.isEnabled = false
+            self.delegate?.voteEntryDoubleTap(self, entry:entry, isUnVote:false)
+        }
+        else
+        {
+            //  self.delegate?.voteEntryDoubleTap(self, entry:entry, isUnVote:true)
+        }
+        // }
+        }
+    }
+    
     
     @objc func showProfileTapped() {
         guard let entry = entry else {

@@ -23,10 +23,11 @@ class EmailSignUpViewController: KeyboardScrollViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        usernameTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Username or Email", font: usernameTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
+        usernameTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Username", font: usernameTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
         passwordTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Password", font: passwordTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
         passwordConfirmTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Confirm Password", font: usernameTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
         emailTextField.attributedPlaceholder = StyleGuide.attributtedText(text: "Email", font: passwordTextField.font!, textColor: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
+        
     }
     
     @IBAction func backTapped(_ sender: AnyObject) {
@@ -108,7 +109,11 @@ class EmailSignUpViewController: KeyboardScrollViewController {
                 self.showErrorAlert(errorMessage: errorMessage)
             }
         }) { (account) in
+//            account.isSkipedControllerShow = true
             AccountManager.session?.account = account
+            AccountManager.saveSession()
+
+//            AccountManager.session?.account!.isSkipedControllerShow = true
             UtilityManager.RemoveHUD()
 
             DispatchQueue.main.async {

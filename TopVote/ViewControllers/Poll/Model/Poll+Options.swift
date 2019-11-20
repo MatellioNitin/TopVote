@@ -22,7 +22,23 @@ extension Poll {
 
         var type: Int?
 
+        var count: Int?
+        
+        var progress: Float?
 
 
+
+    }
+}
+extension Poll {
+    struct PollCount: ModelGenerator {
+        // MARK: * Properties
+        
+        var _id: String?
+        
+        var count: Int?
+        
+        
+        
     }
 }

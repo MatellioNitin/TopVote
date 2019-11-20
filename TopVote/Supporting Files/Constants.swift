@@ -32,7 +32,7 @@ class Constants: NSObject {
         }
         
     }
-    
+     
     static let itunesLink = "https://itunes.apple.com/us/app/Topvote/id1364988858?mt=8"
     
     static let server: Server = .local

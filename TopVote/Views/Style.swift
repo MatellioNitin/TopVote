@@ -285,26 +285,44 @@ class TVAlertController: UIAlertController {
 //}
 
 extension UIColor {
-    
-    convenience init(hex: String) {
-        var r: CGFloat = 1
-        var g: CGFloat = 1
-        var b: CGFloat = 1
-        let a: CGFloat = 1
-        if hex.hasPrefix("#") {
-            let start = hex.index(hex.startIndex, offsetBy: 1)
-            let hexColor = hex.substring(from: start)
-            if hexColor.characters.count == 6 {
-                let scanner = Scanner(string: hexColor)
-                var hexNumber: UInt32 = 0
-                if scanner.scanHexInt32(&hexNumber) {
-                    r = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
-                    g = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
-                    b = CGFloat(hexNumber & 0x000000ff) / 255
-                }
+        convenience init(hex: String) {
+            let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+            var int = UInt32()
+            Scanner(string: hex).scanHexInt32(&int)
+            let a, r, g, b: UInt32
+            switch hex.characters.count {
+            case 3: // RGB (12-bit)
+                (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+            case 6: // RGB (24-bit)
+                (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+            case 8: // ARGB (32-bit)
+                (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+            default:
+                (a, r, g, b) = (255, 0, 0, 0)
             }
+            self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
         }
-        self.init(red: r, green: g, blue: b, alpha: a)
-    }
     
+//
+//    convenience init(hex: String) {
+//        var r: CGFloat = 1
+//        var g: CGFloat = 1
+//        var b: CGFloat = 1
+//        let a: CGFloat = 1
+//        if hex.hasPrefix("#") {
+//            let start = hex.index(hex.startIndex, offsetBy: 1)
+//            let hexColor = hex.substring(from: start)
+//            if hexColor.characters.count == 6 {
+//                let scanner = Scanner(string: hexColor)
+//                var hexNumber: UInt32 = 0
+//                if scanner.scanHexInt32(&hexNumber) {
+//                    r = CGFloat((hexNumber & 0x00ff0000) >> 16) / 255
+//                    g = CGFloat((hexNumber & 0x0000ff00) >> 8) / 255
+//                    b = CGFloat(hexNumber & 0x000000ff) / 255
+//                }
+//            }
+//        }
+//        self.init(red: r, green: g, blue: b, alpha: a)
+//    }
+//
 }

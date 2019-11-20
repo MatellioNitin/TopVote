@@ -20,10 +20,18 @@ class UserCompetitionEntriesViewController: EntriesViewController {
         super.viewDidLoad()
         
         
-        if let competition = competition {
-            navigationItem.title = competition.title?.uppercased()
-            textLabel?.text = competition.text
-        }
+//        if let competition = competition {
+//            navigationItem.title = competition.title?.uppercased()
+//            textLabel?.text = competition.text
+//            if let username = AccountManager.session?.account?.username {
+//
+//
+//                KochavaTracker.shared.sendEvent(withNameString: "Viewed Competition", infoDictionary: ["User Name": "\(username)", "Competition Name": "\(competition.text!)"])
+//            }
+//
+//
+//
+//        }
         self.navigationController?.navigationBar.topItem?.title = ""
     }
     
@@ -42,7 +50,9 @@ class UserEntriesViewController: EntriesViewController {
     override func entriesQuery(type: Int) {
         if let user1 = user {
             let queryParams = [
-                "account": user1._id ?? ""
+                "account": user1._id ?? "", "hideGiftURL" : "1"
+                
+
             ]
             user1.entries(queryParams: queryParams, error: { [weak self] (errorMessage) in
                 DispatchQueue.main.async {
@@ -68,16 +78,53 @@ class UserEntriesViewController: EntriesViewController {
 
 class CompetitionEntriesViewController: EntriesViewController {
     
+//    @IBOutlet weak var viewSound: UIView!
     var competition : Competition?
     var compID : String!
+
+//    var player: AVPlayer?
+//    var playerLayer: AVPlayerLayer?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let competition = competition {
+            navigationItem.title = competition.title?.uppercased()
+            textLabel?.text = competition.text
+            if let username = AccountManager.session?.account?.username {
+                
+                
+                KochavaTracker.shared.sendEvent(withNameString: "Viewed Competition", infoDictionary: ["User Name": "\(username)", "Competition Name": "\(competition.title!)"])
+            }
+            
+            
+            
+        }
+        
+        
        // textLabel?.text = competition?.text
         self.navigationController?.navigationBar.topItem?.title = ""
-
-        textLabel?.sizeToFit()
         
-       
+        
+//        player = AVPlayer(url: URL(string:
+//            "http://clips.vorwaerts-gmbh.de/VfE_html5.mp4")!)
+//        playerLayer = AVPlayerLayer(player: player)
+//        playerLayer!.videoGravity = AVLayerVideoGravity.resizeAspectFill
+//        playerLayer?.frame = viewSound.bounds
+//        do {
+//            //            try  AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, mode: AVAudioSessionModeMoviePlayback, options: [.mixWithOthers])
+//            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, with: .defaultToSpeaker)
+//            try AVAudioSession.sharedInstance().setActive(true)
+//        }
+//        catch {
+//            // report for an error
+//        }
+//        player?.play()
+//        textLabel?.sizeToFit()
+//        self.player?.seek(to: kCMTimeZero)
+//        viewSound.layer.insertSublayer(playerLayer!, at: 0)
+//        viewSound.isHidden = true
         
         // textLabel?.backgroundColor = UIColor.red
         //        if(!isComeFromDeepUrl!){
@@ -86,8 +133,33 @@ class CompetitionEntriesViewController: EntriesViewController {
         
     }
     
+//    func addPlayer(_ url: URL) {
+//
+//        player = AVPlayer(url: url)
+//        playerLayer = AVPlayerLayer(player: player)
+//        playerLayer!.videoGravity = AVLayerVideoGravity.resizeAspectFill
+//        player?.isMuted = true
+//
+//        do {
+//            //            try  AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, mode: AVAudioSessionModeMoviePlayback, options: [.mixWithOthers])
+//            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, with: .defaultToSpeaker)
+//            try AVAudioSession.sharedInstance().setActive(true)
+//        }
+//        catch {
+//            // report for an error
+//        }
+//
+//
+//    }
+//
+//    @IBAction func btnVolume(_ sender: Any) {
+//        player?.isMuted =  !(player?.isMuted)!
+//    }
+    
+    
     override func viewWillAppear(_ animated: Bool){
         super.viewWillAppear(animated)
+    
         if(isComeFromDeepUrl!){
             //compID = idEntry
         }
@@ -117,7 +189,14 @@ class CompetitionEntriesViewController: EntriesViewController {
             UtilityManager.RemoveHUD()
             self.navigationItem.rightBarButtonItem = nil
             
-            let competeButton = UIBarButtonItem(title: "Compete", style:UIBarButtonItemStyle.plain, target: self, action: #selector(CompetitionEntriesViewController.toNewEntry))
+            let competeButton = UIBarButtonItem(image: UIImage(named: "competeButton"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(CompetitionEntriesViewController.toNewEntry))
+//        self.navigationItem.rightBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font :font], for: .normal)
+            
+           // UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: font], for: .normal)
+            
+           // appearance().setTitleTextAttributes([NSAttributedStringKey.font: font], for: .normal)
+
+            
             self.navigationItem.rightBarButtonItem = competeButton
             
             if(!flag.participated!){
@@ -132,7 +211,7 @@ class CompetitionEntriesViewController: EntriesViewController {
                     else
                     {
                         if(!self.isPopUpShow){
-                            self.isPopUpShow = true
+                            self.isPopUpShow = false
 //                            self.showErrorAlert(errorMessage: "You can no longer enter because you are  already submitted entry for this competition.")
                     }
 
@@ -153,7 +232,7 @@ class CompetitionEntriesViewController: EntriesViewController {
                     }
                     else
                     {
-                        self.isPopUpShow = true
+                        self.isPopUpShow = false
                     }
                        // self.showErrorAlert(errorMessage: "You can no longer enter because you are  already submitted entry for this competition.")
                   //  }
@@ -165,15 +244,16 @@ class CompetitionEntriesViewController: EntriesViewController {
             else
             {
                // if(!self.isPopUpShow){
-                    self.isPopUpShow = true
+                    self.isPopUpShow = false
                // self.showErrorAlert(errorMessage: "You can no longer enter because you are  already submitted entry for this competition.")
              //   }
             }
             
-            if(self.tabBarController?.selectedIndex == 2){
+            if(self.tabBarController?.selectedIndex == 2 || (self.entries.count == 1 && self.entries[0].competition?.status != 0)){
                 self.isPopUpShow = false
                 self.navigationItem.rightBarButtonItem = nil
             }
+         
         }
     }
     
@@ -322,6 +402,7 @@ class CompetitionEntriesViewController: EntriesViewController {
                     else{
                         self.navigationItem.title = self.entries[0].competition?.title?.uppercased()
                         
+                        
                         self.getCompeteStatus(id:self.entries[0].competition?._id)
                         
                         self.textLabel?.text = self.entries[0].competition?.text
@@ -346,12 +427,16 @@ class CompetitionEntriesViewController: EntriesViewController {
         print("prepare1")
         if (segue.identifier == "toNewEntry") {
             if let vc = segue.destination as? NewEntryViewController {
+                
                 if(isComeFromDeepUrl)!{
                     vc.competition = entries[0].competition
                     vc.isComeFromDeepLink = isComeFromDeepUrl!
                 }
                 else
                 {
+                    if(entryUpdate != nil){
+                        vc.entryUpdate = entryUpdate
+                    }
                     vc.competition = competition
                 }
                 vc.delegate = self
@@ -380,7 +465,8 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
 
 
     @IBOutlet weak var segmentedControl: UISegmentedControl?
-    
+    var entryUpdate = Entry()
+
     var entries = Entries() {
         didSet {
             selectedEntry = nil
@@ -405,7 +491,6 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.tableView.delegate = nil
         if(isComeFromDeepUrl)!{
             refreshControl.addTarget(self, action: #selector(EntriesViewController.loadSingleEntry), for: UIControlEvents.valueChanged)
@@ -416,6 +501,9 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
         }
         print(self.navigationController?.navigationBar.titleTextAttributes!)
 
+  
+        
+        
         if(self.tabBarController?.selectedIndex == 2 || isComeFromDeepUrl!){
             //Hall Of Fame
             heightSegmentBar?.constant = 0.0
@@ -574,6 +662,7 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
             let entry = entries[indexPath.section-1]
             if(entry.mediaType == "TEXT"){
                 let cell = tableView.dequeueReusableCell(withIdentifier: "EntryTextTableViewCell", for: indexPath) as! EntryTextTableViewCell
+                
                 cell.configureWithEntry(entry, compact: false)
                 cell.delegate = self as EntryTextTableViewCellDelegate
                 
@@ -598,6 +687,34 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
                     print("shareButtn1")
                 }
                 
+                if(self.entries[0].competition != nil){
+
+                if (self.entries.count == 1 && self.entries[0].competition?.status != 0){
+                    cell.voteButton?.isUserInteractionEnabled = false
+                    cell.shareButton?.isHidden = true
+                    cell.moreButton?.isHidden = true
+                    cell.status = (self.entries[0].competition?.status)!
+                    if(entry.mediaType == "TEXT"){
+                        cell.textTypeLabel?.isUserInteractionEnabled = false
+                    }
+                }
+                }
+               else if(self.entries[0].privateCompetition != nil)
+                {
+                    if (self.entries.count == 1 && self.entries[0].privateCompetition?.status != 0){
+                        cell.voteButton?.isUserInteractionEnabled = false
+                        cell.shareButton?.isHidden = true
+                        cell.moreButton?.isHidden = true
+                        cell.status = (self.entries[0].privateCompetition?.status)!
+                        if(entry.mediaType == "TEXT"){
+                            cell.textTypeLabel?.isUserInteractionEnabled = false
+                        }
+                       
+                    }
+                    
+                }
+                
+                
                 return cell
                 
             }
@@ -621,8 +738,17 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
                 NSLog("configureWithEntry\(entry)")
                 NSLog("configureWithEntry\(tabBarController?.selectedIndex)")
                 NSLog("configureWithEntry\(isVideoMuted)")
+                var selectedIndex = 0
+                if(self.tabBarController == nil){
+                    selectedIndex = 1
+                }
+                else
+                {
+                     selectedIndex = (tabBarController?.selectedIndex)!
 
-                cell.configureWithEntry(entry, compact: false,selectedTab:(tabBarController?.selectedIndex)!, isVideoMuted:isVideoMuted)
+                }
+                
+                cell.configureWithEntry(entry, compact: false,selectedTab:selectedIndex, isVideoMuted:isVideoMuted)
                 if(tabBarController?.selectedIndex == 2){
                     cell.voteButtonWidth?.constant = 0
                     cell.voteButtonLeading? .constant = 0
@@ -632,9 +758,10 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
                     cell.commentLeading? .constant = 0
                     cell.commentButton?.layoutSubviews()
                     cell.commentButton?.isHidden = true
+                  //  cell.status = 1
                 }
                     
-                else if(tabBarController?.selectedIndex == 3 || tabBarController?.selectedIndex == 2){
+                else if(selectedIndex == 3 || selectedIndex == 2){
                     // For p2p
                     cell.shareButton?.isHidden = true
                     print("shareButtn2")
@@ -651,12 +778,57 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
                     print("shareButtn4")
                 }
                 
+                if(self.entries[0].competition != nil){
+                
+                    if (self.entries.count >= 1 && self.entries[0].competition?.status != 0){
+                    cell.status = (self.entries[0].competition?.status)!
+
+                    cell.voteButton?.isUserInteractionEnabled = false
+                    cell.shareButton?.isHidden = true
+                    cell.moreButton?.isHidden = true
+                    
+                    if(entry.mediaType! == "TEXT"){
+                        cell.textTypeLabel?.isUserInteractionEnabled = false
+                    }
+                    else if entry.mediaType! == "IMAGE" {
+                         cell.entryImageView?.isUserInteractionEnabled = false
+                    }
+                    else if entry.mediaType! == "VIDEO" || entry.mediaType! == "IMAGE-VIDEO" {
+                        cell.mediaView?.isUserInteractionEnabled = false
+                    }
+                }
+                }
+                else if(self.entries[0].privateCompetition != nil)
+                {
+                    if (self.entries.count >= 1 && self.entries[0].privateCompetition?.status != 0){
+                        cell.status = (self.entries[0].privateCompetition?.status)!
+                        
+                        cell.voteButton?.isUserInteractionEnabled = false
+                        cell.shareButton?.isHidden = true
+                        cell.moreButton?.isHidden = true
+                        
+                        if(entry.mediaType! == "TEXT"){
+                            cell.textTypeLabel?.isUserInteractionEnabled = false
+                        }
+                        else if entry.mediaType! == "IMAGE" {
+                            cell.entryImageView?.isUserInteractionEnabled = false
+                        }
+                        else if entry.mediaType! == "VIDEO" || entry.mediaType! == "IMAGE-VIDEO" {
+                            cell.mediaView?.isUserInteractionEnabled = false
+                        }
+                    }
+                    
+                }
                 
                 
                 cell.delegate = self
+           
                 return cell
                 
             }
+            
+            
+            
         } else {
             
             if (indexPath.row != tableView.numberOfRows(inSection: indexPath.section) - 1 ) {
@@ -707,6 +879,8 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
             if(entry.mediaType == "TEXT"){
                 return UITableViewAutomaticDimension
             }
+          //  return UITableViewAutomaticDimension
+
             return 450
         }
         return UITableViewAutomaticDimension
@@ -761,7 +935,6 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
                         tapButton?.addTarget(self, action:#selector(self.linkTapAction(_:)), for: .touchUpInside)
 
                     }
-                   
                     
                     var myMutableString = NSMutableAttributedString()
                     myMutableString = NSMutableAttributedString(string: (textView?.text!)!)
@@ -782,9 +955,6 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
                     textView?.attributedText = myMutableString
                     textView?.textAlignment = .center
                   //  textView?.font = UIFont.systemFont(ofSize: 16)
-
-
-
             }
             else
             {
@@ -831,7 +1001,6 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
                     cell.stopMedia()
                 }
             }
-            
         }
     }
     
@@ -841,11 +1010,136 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
                 vc.entry = sender as? Entry
             }
         }
+//        else if (segue.identifier == "toNewEntry") {
+//            if let vc = segue.destination as? NewEntryViewController {
+//                vc.entry = sender as? Entry
+//            }
+//        }
     }
 }
 
 
 extension EntriesViewController: EntryTableViewCellDelegate,EntryTextTableViewCellDelegate {
+    func voteEntryDoubleTap(_ cell: EntryTextTableViewCell, entry: Entry, isUnVote: Bool) {
+        if(isUnVote){
+            UtilityManager.ShowHUD(text: "Please wait...")
+            
+            entry.vote(numberOfVotes: 1, error: { (errorMessage) in
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    
+                    self.showErrorAlert(errorMessage: errorMessage)
+                }
+            }, completion: {
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    
+                    cell.refreshVotes()
+                }
+            })
+        }
+        else
+        {
+            
+            //            let alertController = TVAlertController(title: "Vote", message: entry.subTitle, preferredStyle: .actionSheet)
+            //            let voteAction = UIAlertAction(title: "Vote", style: .default, handler: { (action) -> Void in
+            UtilityManager.ShowHUD(text: "Please wait...")
+            entry.vote(numberOfVotes: 1, error: { (errorMessage) in
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    
+                    self.showErrorAlert(errorMessage: errorMessage)
+                }
+            }, completion: {
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    
+                    cell.refreshVotes()
+                }
+            })
+            
+            //            let sVoteAction = UIAlertAction(title: "Topvote (worth 2 votes)", style: .default, handler: { (action) -> Void in
+            //                entry.vote(numberOfVotes: 2, error: { (errorMessage) in
+            //                    DispatchQueue.main.async {
+            //                        self.showErrorAlert(errorMessage: errorMessage)
+            //                    }
+            //                }, completion: {
+            //                    DispatchQueue.main.async {
+            //                        cell.refreshVotes()
+            //                    }
+            //                })
+            //            })
+            //            alertController.addAction(voteAction)
+            //            alertController.addAction(sVoteAction)
+            //            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
+            //                cell.refreshVotes()
+            //            })
+            //            alertController.addAction(cancelAction)
+            //            present(alertController, animated: true, completion: nil)
+        }
+        
+    }
+    
+    func voteEntryDoubleTap(_ cell: EntryTableViewCell, entry: Entry, isUnVote: Bool) {
+        if(isUnVote){
+            UtilityManager.ShowHUD(text: "Please wait...")
+            
+            entry.vote(numberOfVotes: 1, error: { (errorMessage) in
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    
+                    self.showErrorAlert(errorMessage: errorMessage)
+                }
+            }, completion: {
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    
+                    cell.refreshVotes()
+                }
+            })
+        }
+        else
+        {
+            
+            //            let alertController = TVAlertController(title: "Vote", message: entry.subTitle, preferredStyle: .actionSheet)
+            //            let voteAction = UIAlertAction(title: "Vote", style: .default, handler: { (action) -> Void in
+            UtilityManager.ShowHUD(text: "Please wait...")
+            entry.vote(numberOfVotes: 1, error: { (errorMessage) in
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    
+                    self.showErrorAlert(errorMessage: errorMessage)
+                }
+            }, completion: {
+                DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    
+                    cell.refreshVotes()
+                }
+            })
+            
+            //            let sVoteAction = UIAlertAction(title: "Topvote (worth 2 votes)", style: .default, handler: { (action) -> Void in
+            //                entry.vote(numberOfVotes: 2, error: { (errorMessage) in
+            //                    DispatchQueue.main.async {
+            //                        self.showErrorAlert(errorMessage: errorMessage)
+            //                    }
+            //                }, completion: {
+            //                    DispatchQueue.main.async {
+            //                        cell.refreshVotes()
+            //                    }
+            //                })
+            //            })
+            //            alertController.addAction(voteAction)
+            //            alertController.addAction(sVoteAction)
+            //            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) -> Void in
+            //                cell.refreshVotes()
+            //            })
+            //            alertController.addAction(cancelAction)
+            //            present(alertController, animated: true, completion: nil)
+        }
+        
+    }
+    
     
     func voteEntry(_ cell: EntryTextTableViewCell, entry: Entry, isUnVote:Bool) {
         
@@ -907,6 +1201,12 @@ extension EntriesViewController: EntryTableViewCellDelegate,EntryTextTableViewCe
     }
 }
    
+//    func voteEntryDoubleTap(_ cell: EntryTextTableViewCell, entry: Entry, isUnVote:Bool) {
+//        
+//   
+//    }
+    
+    
     func showUser(_ user: Account) {
         if let accountId = user._id {
             Account.findOne(accountId: accountId, error: { (errorMessage) in
@@ -1036,12 +1336,14 @@ extension EntriesViewController: EntryTableViewCellDelegate,EntryTextTableViewCe
 
             entry.vote(numberOfVotes: 1, error: { (errorMessage) in
                 DispatchQueue.main.async {
+                    
                     UtilityManager.RemoveHUD()
 
                     self.showErrorAlert(errorMessage: errorMessage)
                 }
             }, completion: {
                 DispatchQueue.main.async {
+                   
                     UtilityManager.RemoveHUD()
 
                     cell.refreshVotes()
@@ -1063,18 +1365,30 @@ extension EntriesViewController: EntryTableViewCellDelegate,EntryTextTableViewCe
             }, completion: {
                 DispatchQueue.main.async {
                     UtilityManager.RemoveHUD()
-
+                    
+                    if let username = AccountManager.session?.account?.username {
+                        KochavaTracker.shared.sendEvent(withNameString: "Voted in competition", infoDictionary: ["User Name": "\(username)", "Competition Name": "\(entry.title!)"])
+                    }
+                    
                     cell.refreshVotes()
                 }
             })
         })
         let sVoteAction = UIAlertAction(title: "Topvote (worth 2 votes)", style: .default, handler: { (action) -> Void in
+            UtilityManager.ShowHUD(text: "Please wait...")
+
             entry.vote(numberOfVotes: 2, error: { (errorMessage) in
                 DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+
                     self.showErrorAlert(errorMessage: errorMessage)
                 }
             }, completion: {
                 DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
+                    if let username = AccountManager.session?.account?.username {
+                        KochavaTracker.shared.sendEvent(withNameString: "Voted in competition", infoDictionary: ["User Name": "\(username)", "Competition Name": "\(entry.title!)"])
+                    }
                     cell.refreshVotes()
                 }
             })
@@ -1094,6 +1408,11 @@ extension EntriesViewController: EntryTableViewCellDelegate,EntryTextTableViewCe
             return
         }
        
+        
+        if let username = AccountManager.session?.account?.username {
+            KochavaTracker.shared.sendEvent(withNameString: "Competition Shared", infoDictionary: ["User Name": "\(username)", "Competition Name": "\(entry.title!)"])
+        }
+        
         var textToShare = ""
         if(entry.competition?.shareText == nil || entry.competition?.shareText == ""){
             textToShare = ""
@@ -1127,9 +1446,16 @@ extension EntriesViewController: EntryTableViewCellDelegate,EntryTextTableViewCe
     func moreEntry(_ entry: Entry) {
         let alertController = TVAlertController(title: "More", message: entry.subTitle, preferredStyle: .actionSheet)
         if (entry.isAuthor()) {
+            let editAction = UIAlertAction(title: "Edit", style: .destructive) { (action) -> Void in
+                self.entryUpdate = entry
+                self.performSegue(withIdentifier: "toNewEntry", sender: nil)
+            }
+            
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { (action) -> Void in
                 self.destroyEntry(entry)
             }
+            
+            alertController.addAction(editAction)
             alertController.addAction(deleteAction)
         } else {
             let reportAction = UIAlertAction(title: "Report", style: .destructive) { (action) -> Void in
@@ -1156,6 +1482,10 @@ extension EntriesViewController: EntryTableViewCellDelegate,EntryTextTableViewCe
                 self.present(alertController, animated: true, completion: nil)
             }
         }
+    }
+    
+    func editEntry(_ entry: Entry) {
+        performSegue(withIdentifier: "toNewEntry", sender: nil)
     }
     
     func destroyEntry(_ entry: Entry) {
