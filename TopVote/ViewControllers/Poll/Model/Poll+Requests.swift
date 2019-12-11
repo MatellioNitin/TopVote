@@ -32,7 +32,21 @@ extension Poll {
             result.handleResponseData(completion: { (errorMessage, data, token) in
                 if let value = data {
                     let pollObj: Poll = Poll.create(data: value)!
-                  //  let pollObj: Poll = Poll.models(data: value)
+                  // let pollObj: Poll = Poll.models(data: value)
+                    completion(pollObj)
+                } else if let errorMessage = errorMessage {
+                    error(errorMessage)
+                }
+            })
+        }
+    }
+    
+    static func getUsersPoll(pollID: String, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ poll: Poll) -> Void) {
+        Poll.provider.request(Poll.API.getUsersPoll(getPollId: pollID)) { result in
+            result.handleResponseData(completion: { (errorMessage, data, token) in
+                if let value = data {
+                    let pollObj: Poll = Poll.create(data: value)!
+                    // let pollObj: Poll = Poll.models(data: value)
                     completion(pollObj)
                 } else if let errorMessage = errorMessage {
                     error(errorMessage)

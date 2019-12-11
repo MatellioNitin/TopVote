@@ -126,6 +126,7 @@ class MyProfileViewController: ProfileViewController {
         navigationItem.title = "PROFILE"
         AccountManager.session?.account?.me(error: { (errorMessage) in
             self.showErrorAlert(errorMessage: errorMessage)
+              UtilityManager.RemoveHUD()
         }, completion: {
             DispatchQueue.main.async {
                 self.user = AccountManager.session?.account
@@ -134,6 +135,8 @@ class MyProfileViewController: ProfileViewController {
                 UtilityManager.RemoveHUD()
             }
         })
+    
+    
     }
 
     @objc func editProfile() {

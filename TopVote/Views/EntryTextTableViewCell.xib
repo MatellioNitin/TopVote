@@ -120,12 +120,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iHy-qL-dTb" userLabel="More">
-                                        <rect key="frame" x="268" y="95" width="24" height="12"/>
+                                        <rect key="frame" x="247" y="95" width="45" height="20"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="24" id="CWY-y6-569"/>
-                                            <constraint firstAttribute="height" constant="12" id="pix-1S-9KH"/>
+                                            <constraint firstAttribute="width" constant="45" id="CWY-y6-569"/>
+                                            <constraint firstAttribute="height" constant="20" id="pix-1S-9KH"/>
                                         </constraints>
                                         <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
+                                        <inset key="imageEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" image="button-icon-dots">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>

@@ -48,9 +48,6 @@ class HomeViewController: CompetitionsViewController, UITabBarControllerDelegate
     }
     
     
-    
-    
-    
     override func openCompetition(_ competition: Competition) {
         if(competition.sType == "poll"){
             self.performSegue(withIdentifier: "toPoll", sender: competition)
@@ -201,12 +198,28 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
     
   
     @IBAction func editAction(_ sender: UIButton) {
-        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "CreateCompititionVC") as? CreateCompititionVC {
+        if(competitions.count > 0){
+            if(competitions[sender.tag].sType != "poll"){
+                if let vc = self.storyboard?.instantiateViewController(withIdentifier: "CreateCompititionVC") as? CreateCompititionVC {
+                    let competition = competitions[sender.tag]
+                    vc.compititionObj = competition
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        }
+       
+        
+
+    }
+    
+    @IBAction func editPollAction(_ sender: UIButton) {
+        if(competitions[sender.tag].sType == "poll"){
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: "CreatePollVC") as? CreatePollVC {
             let competition = competitions[sender.tag]
-            vc.compititionObj = competition
+            vc.objComp = competition
             self.navigationController?.pushViewController(vc, animated: true)
         }
-
+        }
     }
     
     @IBAction func shareAction(_ sender: UIButton) {
@@ -214,13 +227,13 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
         
       // let shareText = competition.shareText!
         let shareText = ""
+        if(competition.deepUrl != nil){
         let text = competition.deepUrl!
-
         let textShare = [ shareText, text ]
         let activityViewController = UIActivityViewController(activityItems: textShare , applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)
-        
+        }
         
         
         
@@ -260,6 +273,20 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
         }
         }
     }
+    
+    @IBAction func pollTapped(_ sender: AnyObject){
+        if(self.tabBarController?.selectedIndex == 3 ){
+            if let vc = self.storyboard?.instantiateViewController(withIdentifier: "CreatePollVC") as? CreatePollVC {
+                self.navigationController?.pushViewController(vc, animated: true)
+                
+            }
+        }
+        
+        
+    }
+    
+    
+    
    
     func didSavePollSurvey(text: String, link: String, pollOrSurvey:String) {
         
@@ -384,9 +411,27 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
             cell.btnEdit.isHidden = false
             cell.btnShare.tag = indexPath.row
             cell.btnEdit.tag = indexPath.row
-            
+            if(competition.isPrivate != 1){
+                    cell.btnShare.isHidden = true
+            }
+            else if(competition.isPrivate == 1 && competition.status == 1){
+                            cell.btnShare.isHidden = true
+                            cell.btnEdit.isHidden = true
+                            cell.timeView.isHidden = true
+                            cell.timeRemainingLabel.isHidden = true
+
+            }
+                
             cell.btnShare.addTarget(self, action:#selector(self.shareAction(_:)), for: .touchUpInside)
-            cell.btnEdit.addTarget(self, action:#selector(self.editAction(_:)), for: .touchUpInside)
+                
+                
+            if(competition.sType == "poll"){
+                cell.btnEdit.addTarget(self, action:#selector(self.editPollAction(_:)), for: .touchUpInside)
+            }
+            else
+            {
+                cell.btnEdit.addTarget(self, action:#selector(self.editAction(_:)), for: .touchUpInside)
+            }
             cell.lblTitleTrailing.constant = 90
                 cell.titleLabel.layoutIfNeeded()
                 
@@ -432,8 +477,16 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
         else if (segue.identifier == "toPoll"), let vc = segue.destination as? PollVC {
             vc.pollId = (sender as! Competition)._id!
             vc.Id = (sender as! Competition)._id!
+            vc.isUserPoll = 0
             vc.delegate = self
         }
+        else if (segue.identifier == "toPrivatePoll"), let vc = segue.destination as? PollVC {
+            vc.pollId = (sender as! Competition)._id!
+            vc.isUserPoll = (sender as! Competition).isPrivate!
+            vc.Id = (sender as! Competition)._id!
+            vc.delegate = self
+        }
+            
         else if (segue.identifier == "toSurvey"), let vc = segue.destination as? SurveyVC {
             vc.surveyId = (sender as! Competition)._id!
             vc.delegate = self

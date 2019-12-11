@@ -14,7 +14,7 @@ extension AppKeychain {
     /// - Returns: AccountClass instance.
     
     func fetchSession(_ id: String) -> AccountManager.Session? {
-       // return nil
+        //return nil
 
         if !sessions.isEmpty {
             let filtered = sessions.filter({
@@ -34,6 +34,7 @@ extension AppKeychain {
     /// - Returns: AccountClass instance.
     
     func fetchLastActiveSession() -> AccountManager.Session? {
+        
         if let session = store.lastSession {
             return session
         }

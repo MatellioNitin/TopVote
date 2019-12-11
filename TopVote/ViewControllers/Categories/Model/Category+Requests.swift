@@ -35,6 +35,20 @@ extension Category {
         }
     }
 
+    static func deepLinkPrivatePoll(deepLink: String, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ competitions: PCompitionCreates) -> Void) {
+        Category.provider.request(Category.API.deepLinkPrivatePoll(deepLinkId: deepLink)) { result in
+            result.handleResponseData(completion: { (errorMessage, data, token) in
+                if let value = data {
+                    let privateCompitionCreate:PCompitionCreates = PCompitionCreate.models(data: value)
+                    completion(privateCompitionCreate)
+                } else if let errorMessage = errorMessage {
+                    error(errorMessage)
+                }
+            })
+        }
+    }
+
+    
     static func p2pCheck(error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ flag: Flag) -> Void) {
         Category.provider.request(Category.API.p2pCheck()) { result in
             result.handleResponseData(completion: { (errorMessage, data, token) in

@@ -41,13 +41,22 @@ class CommonCell: UITableViewCell {
     @IBOutlet weak var imgView: UIImageView!
     @IBOutlet weak var btnSubmit: UIButton! // SubmitCell
     
-    
     // SURVEY
     @IBOutlet weak var lblSurveyTitle1: UILabel!
     @IBOutlet weak var lblSurveyTitle2: UILabel!
 
+    @IBOutlet weak var btnDelete: UIButton!
+    @IBOutlet weak var txtSelect: CustomUITextField!
+    @IBOutlet weak var btnSelect: UIButton!
+    @IBOutlet weak var btnTitle: UIButton!
+
+    @IBOutlet weak var txtImageTrailing: NSLayoutConstraint!
     
+    @IBOutlet weak var imgOption: UIImageView!
+    @IBOutlet weak var txtOption: CustomUITextField!
+    @IBOutlet weak var txtDescription: CustomUITextField!
     
+    @IBOutlet weak var btnImageTap: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

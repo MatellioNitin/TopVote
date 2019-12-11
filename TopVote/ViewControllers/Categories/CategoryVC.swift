@@ -19,21 +19,30 @@ class CategoryVC: UIViewController {
     var savedCategoryObjArray = Categorys()
 
     var currentVC:CreateCompititionVC!
-    
+    var currentPollVC:CreatePollVC!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if(self.tabBarController?.selectedIndex != 4){
+        if(self.tabBarController?.selectedIndex != 3 && self.tabBarController?.selectedIndex != 4){
             btnBack.isHidden = true
         }
         self.navigationController?.navigationBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = true
-        if(currentVC == nil){
+        if(currentVC == nil && currentPollVC == nil){
             savedCategory = NSMutableArray(array: (AccountManager.session?.account?.categories)!)
         }
         else{
-            savedCategory =  NSMutableArray(array: currentVC.savedIdCategory)
-            savedCategoryObjArray = currentVC.savedCategory
+            if(currentVC != nil){
+                savedCategory =  NSMutableArray(array: currentVC.savedIdCategory)
+                savedCategoryObjArray = currentVC.savedCategory
+            }
+            else
+            {
+                savedCategory =  NSMutableArray(array: currentPollVC.savedIdCategory)
+                savedCategoryObjArray = currentPollVC.savedCategory
+            }
+      
 
             
 
@@ -133,9 +142,13 @@ class CategoryVC: UIViewController {
             self.currentVC.savedCategory = self.savedCategoryObjArray
             self.currentVC.savedIdCategory = self.savedCategory
             self.currentVC.setCategory()
-            
             self.navigationController?.popViewController(animated: true)
-            
+        }
+        else if(self.currentPollVC != nil){
+            self.currentPollVC.savedCategory = self.savedCategoryObjArray
+            self.currentPollVC.savedIdCategory = self.savedCategory
+            self.currentPollVC.setCategory()
+            self.navigationController?.popViewController(animated: true)
         }
         else
         {
@@ -218,6 +231,7 @@ class CategoryVC: UIViewController {
 
        // let foundIds = categoryArray.filter { $0.isSelect == true }.map { $0._id }
     }
+   
 }
 
 
@@ -242,7 +256,6 @@ extension CategoryVC : UITableViewDataSource
 
      
         cell.lblCategoryName.text = objectList.name
-      
         if (savedCategory.contains(objectList._id!)){
             cell.imgCheck.image = UIImage(named:"check")
         }
@@ -256,7 +269,8 @@ extension CategoryVC : UITableViewDataSource
         cell.viewShadow.layer.shadowOpacity = 1
         cell.viewShadow.layer.shadowOffset = CGSize.zero
         cell.viewShadow.layer.shadowRadius = 2
-
+        
+       
         return cell
     }
 

@@ -14,6 +14,8 @@ extension Poll {
     enum API {
         case getPollDeepLink(getPollId: String)
         case getPoll(getPollId: String)
+        case getUsersPoll(getPollId: String)
+
         case getPollleaderboardDetail(getPollId: String)
         case setPoll(queryParams: [String: Any]?)
 
@@ -30,6 +32,9 @@ extension Poll.API: TargetType {
             return "/polls/\(getPollId)/deeplink"
         case let .getPoll(getPollId):
             return "/polls/\(getPollId)"
+        case let .getUsersPoll(getPollId):
+            return "/users-polls/\(getPollId)"
+            
         case let .getPollleaderboardDetail(getPollId):
             return "/polls/\(getPollId)/result"
         case .setPoll(_):
@@ -78,7 +83,7 @@ extension Poll.API: TargetType {
         case let .setPoll(queryParams):
             return .requestParameters(parameters: queryParams!, encoding: JSONEncoding.default)
 
-        case .getPoll, .getPollDeepLink, .getPollleaderboardDetail:
+        case .getPoll, .getUsersPoll, .getPollDeepLink, .getPollleaderboardDetail:
             return .requestPlain
       
         }

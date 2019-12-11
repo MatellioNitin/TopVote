@@ -1726,7 +1726,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = topvote_debug;
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/raj/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/cgt-jod-mac-nitinr/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -1763,7 +1763,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/raj/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/cgt-jod-mac-nitinr/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				SYMROOT = build;
@@ -1858,7 +1858,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = topvote_debug;
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/raj/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/cgt-jod-mac-nitinr/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -1953,7 +1953,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/raj/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/cgt-jod-mac-nitinr/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -2043,7 +2043,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = TopVote_AppStore;
 				REEXPORTED_LIBRARY_PATHS = "";
 				SWIFT_INCLUDE_PATHS = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/raj/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/cgt-jod-mac-nitinr/Desktop/Topvote/TopVote/Supporting Files/TopVote-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 				SYMROOT = build;

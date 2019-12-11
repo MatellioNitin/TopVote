@@ -29,6 +29,8 @@ final class Competition: Model {
     
     var text: String?
     
+     var description: String?
+    
     var mediaUri: String?
 
     var byText: String?
@@ -62,9 +64,9 @@ final class Competition: Model {
     var shareText: String?
     
     var autoApprove: Int? = 0
-    var cType: String? = ""
-
-
+    var isPrivate: Int?
+    
+    var category:[String]? = [String]()
     
 
     /// The provider closure used by `moya` for default authorization headers used in requests against the api.
@@ -94,7 +96,7 @@ final class Competition: Model {
     // MARK: * Instant methods
     
     func hasEnded() -> Bool {
-        return status != 0
+        return status == 1
     }
     
     func timeRemainingString() -> String {

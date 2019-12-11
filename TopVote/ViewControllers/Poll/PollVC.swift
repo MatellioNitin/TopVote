@@ -25,11 +25,12 @@ class PollVC: UIViewController, PollCellDelegate {
     var Id = ""
     var delegate: PollSurveyDelegate?
     var isVideoMuted = true
+    var isUserPoll = 1
+
     var selectedIndexPath:IndexPath? = nil
     var totalProgressCount = 0
     var selectedDoubleTapIndexPath:IndexPath? = nil
     var gradientLayer: CAGradientLayer!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -116,6 +117,48 @@ class PollVC: UIViewController, PollCellDelegate {
             if UIApplication.shared.applicationState == .background {
                 return
             }
+        if(isUserPoll == 1){
+            Poll.getUsersPoll(pollID: pollId, error: { [weak self] (errorMessage) in
+                //  DispatchQueue.main.async {
+                
+                UtilityManager.RemoveHUD()
+                self?.navigationController?.popViewController(animated: true)
+                self?.showErrorAlert(errorMessage: errorMessage)
+                
+                // }
+            }) { [weak self] (polls) in
+                //                    DispatchQueue.main.async {
+                print(polls)
+                
+                UtilityManager.RemoveHUD()
+                self?.objPoll = polls
+                self!.deepUrlLink = polls.deepUrl!
+                self?.navigationItem.title = polls.title
+                
+                if(self?.objPoll.selected != nil && self?.objPoll.selected != ""){
+                    self?.selectId = (self?.objPoll.selected)!
+                    if(!(self?.isDeepLinkClick)!){
+                        let button1 = UIBarButtonItem(image: UIImage(named: "shareOnNav"), style: .plain, target: self, action:#selector(self?.shareClick))
+                        self?.navigationItem.rightBarButtonItem  = button1
+                        
+                    }
+                }
+                else
+                {
+                    self?.selectId  = ""
+                    self!.navigationItem.rightBarButtonItem = nil
+                    
+                }
+                self!.fillLeaderBoardData()
+                print("get Poll success")
+                // DispatchQueue.main.async {
+                self?.tblPoll.reloadData()
+                // }
+                //                }
+            }
+        }
+        else
+        {
                 Poll.getPoll(pollID: pollId, error: { [weak self] (errorMessage) in
                   //  DispatchQueue.main.async {
 
@@ -155,6 +198,8 @@ class PollVC: UIViewController, PollCellDelegate {
 //                }
             }
         }
+    
+    }
 
     func getleaderboardData(){
         
@@ -656,7 +701,7 @@ extension PollVC : UITableViewDataSource
                 cell.btnVote.tag = indexPath.row
                 
                
-                if((self.objPoll.selected)! == dict._id!){
+                if(self.objPoll.selected != nil && (self.objPoll.selected)! == dict._id!){
                     cell.lblOptionText.isUserInteractionEnabled = false
                     cell.lblText.isUserInteractionEnabled = false
                     selectedIndexPath = indexPath
@@ -695,7 +740,7 @@ extension PollVC : UITableViewDataSource
                 cell.lblOptionText.text = dict.optionText
                 cell.lblOptionText.isUserInteractionEnabled = true
                 
-                if((self.objPoll.selected)! == dict._id!){
+                if(self.objPoll.selected != nil && (self.objPoll.selected)! == dict._id!){
                     selectedIndexPath = indexPath
                     cell.imgPollView.removeGestureRecognizer(tapImageGR)
                     cell.btnVote .setImage(UIImage(named:"button-icon-star-select"), for: .normal)
@@ -720,8 +765,7 @@ extension PollVC : UITableViewDataSource
                         cell.imgPollView.af_setImage(withURL: uri, placeholderImage: UIImage(named: "loading"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: true)
                     }
                     cell.imgPollView.tag = indexPath.row
-
-
+                    cell.btnVolume?.isHidden = true
                 }
                 else
                 {
@@ -829,7 +873,9 @@ extension PollVC : UITableViewDataSource
                     cell.widthProgress.constant = CGFloat(Int((progressWidth  * Float(intProgress)!) / 100))
                 }
                 
-                cell.viewMiddleProgressBG.layoutIfNeeded()
+                
+             
+
                 if(indexPath.row == 1){
                     print("progress \(dict.progress!)")
                 }
@@ -840,13 +886,18 @@ extension PollVC : UITableViewDataSource
                 cell.widthProgress.constant = 0
                // cell.progressView.progress =  0
             }
-
+            if(cell.widthProgress.constant > cell.viewMiddleProgressBG.frame.width){
+                    
+            }
             cell.lblProgressCount.attributedText =  self.setAttributedString(allString: cell.lblProgressCount!.text! as NSString, boldString: "%")
                 
            // gradientLayer = CAGradientLayer()
           //  gradientLayer.frame = cell.viewProgressInner.bounds
 
             cell.viewProgressInner.cornerRadius = cell.viewProgressOuter.frame.height/2
+                
+            cell.viewMiddleProgressBG.layoutIfNeeded()
+            cell.viewMiddleProgressBG.clipsToBounds = true
                 
             switch (indexPath.row-1) % 5{
             case 0:

@@ -47,7 +47,8 @@ final class Poll: Model {
     var isFilled:Bool? = false
     
     var pollCount: [PollCount]? = []
-
+    
+    var isPrivate: Int? 
 
 
     

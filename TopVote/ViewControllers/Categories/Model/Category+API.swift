@@ -15,6 +15,7 @@ extension Category {
         
         
         case deepLink(deepLinkId: String)
+        case deepLinkPrivatePoll(deepLinkId: String)
 
         case index(queryParams: [String: Any]?)
         
@@ -32,6 +33,8 @@ extension Category.API: TargetType {
         switch self {
         case let .deepLink(deepLinkIds):
             return "/pvt-competitions/add-user/\(deepLinkIds)"
+        case let .deepLinkPrivatePoll(deepLinkIds):
+            return "/users-polls/add-user/\(deepLinkIds)"
         case .index(_):
             return "/categories"
         case .p2pCheck:
@@ -83,7 +86,7 @@ extension Category.API: TargetType {
                 return .requestParameters(parameters: queryParams, encoding: URLEncoding.default)
             }
             return .requestPlain
-        case .deepLink, .p2pCheck:
+        case .deepLink, .p2pCheck, .deepLinkPrivatePoll:
             return .requestPlain
         case .show:
             return .requestPlain

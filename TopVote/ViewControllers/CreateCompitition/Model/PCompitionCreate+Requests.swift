@@ -51,6 +51,44 @@ extension PCompitionCreate {
         }
     }
     
+    static func createPoll(queryParams: [String: Any]?, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping () -> Void) {
+        PCompitionCreate.provider.request(PCompitionCreate.API.userPollCreate(queryParams: queryParams)) { result in
+            result.handleResponseData(completion: { (errorMessage, data, token) in
+                if let errorMessage = errorMessage {
+                    error(errorMessage)
+                }
+                else{
+                    completion()
+                }
+                //                if let value = data {
+                //                    let competitions:Competitions = Competition.models(data: value)
+                //                    completion(competitions)
+                //                } else if let errorMessage = errorMessage {
+                //                    error(errorMessage)
+                //                }
+            })
+        }
+    }
+    
+    static func updatePoll(pollId: String, queryParams: [String: Any]?, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping () -> Void) {
+        PCompitionCreate.provider.request(PCompitionCreate.API.updatePoll(queryParams: queryParams, pollId: pollId)) { result in result.handleResponseData(completion: { (errorMessage, _, _) in
+            
+            if let errorMessage = errorMessage {
+                error(errorMessage)
+            }
+            else{
+                completion()
+            }
+            
+            //            if let value = data {
+            //                let privateCompitionCreate:PCompitionCreate = PCompitionCreate.create(data: value)!
+            //                completion([privateCompitionCreate])
+            //            } else if let errorMessage = errorMessage {
+            //                error(errorMessage)
+            //            }
+        })
+        }
+    }
     // Update Method
     static func updatePrivateComp(compId: String, params: [String: Any], error: @escaping (_ errorMessage: String) -> Void, completion: @escaping () -> Void) {
         

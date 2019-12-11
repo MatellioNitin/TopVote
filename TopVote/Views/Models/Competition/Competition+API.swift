@@ -14,6 +14,8 @@ extension Competition {
     enum API {
         case indexHall(queryParams: [String: Any]?)
         case index(queryParams: [String: Any]?)
+        case privatePoll(queryParams: [String: Any]?)
+        
         case privateCompetition(queryParams: [String: Any]?)
         case show(competitionId: String)
     }
@@ -32,6 +34,9 @@ extension Competition.API: TargetType {
                 return "/competitions/completed"
         case .index(_):
             return "/competitions/all"
+        case .privatePoll(_):
+            return "/users-polls/all"
+            
         //case .privateCompetition(_):
         //    return "/pvt-competitions/my-competitions"
         case .privateCompetition(_):
@@ -59,6 +64,8 @@ extension Competition.API: TargetType {
         case let .indexHall(queryParams):
             return queryParams ?? [String: Any]()
         case let .index(queryParams):
+            return queryParams ?? [String: Any]()
+        case let .privatePoll(queryParams):
             return queryParams ?? [String: Any]()
         case let .privateCompetition(queryParams):
             return queryParams ?? [String: Any]()
@@ -89,7 +96,12 @@ extension Competition.API: TargetType {
             } else {
                 return JSONEncoding.default
             }
-            
+        case let .privatePoll(queryParams):
+            if queryParams != nil {
+                return URLEncoding.default
+            } else {
+                return JSONEncoding.default
+            }
             
         default:
             return JSONEncoding.default
@@ -113,7 +125,11 @@ extension Competition.API: TargetType {
                 return .requestParameters(parameters: queryParams, encoding: URLEncoding.default)
             }
             return .requestPlain
-            
+        case let .privatePoll(queryParams):
+            if let queryParams = queryParams {
+                return .requestParameters(parameters: queryParams, encoding: URLEncoding.default)
+            }
+            return .requestPlain
 //        case  .privateCompetition:
 //            return .requestPlain
         case .show:

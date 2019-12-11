@@ -495,21 +495,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
                         vc1.pollId = params["pollId"] as! String
 
                         vc1.viewWillAppear(false)
-                    
                   //      nav.pushViewController(vc, animated: true)
                    // }
                 }
                 else{
                     vc.pollId = params["pollId"] as! String
                     vc.Id = params["id"] as! String
-
                     vc.isDeepLinkClick = true
                     nav.pushViewController(vc, animated: true)
                 }
-                
             }
-
         }
+            
         else if(params["type"] != nil && params["type"] as! String == "survey"){
             if let vc = mainStoryboard.instantiateViewController(withIdentifier: "SurveyVC") as? SurveyVC {
                 // check same link click again
@@ -566,6 +563,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
                 }
             }
             
+        }
+        else if(params["type"] != nil && params["type"] as! String == "privatePoll"){
+            deppLinkPrivatePollAPI(key:strUrlRef)
         }
         else
         {
@@ -919,6 +919,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
  
 //                    self?.categoryArray = competitions
 //                    self?.tblCategory.reloadData()
+                }
+            }
+        }
+    }
+    
+    func deppLinkPrivatePollAPI(key:String){
+        if((AccountManager.session) != nil){
+            
+            let controller = (window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
+            
+            Category.deepLinkPrivatePoll(deepLink: key, error: { [weak self] (errorMessage) in
+                DispatchQueue.main.async {
+                    
+                    controller?.showErrorAlert(errorMessage: errorMessage)
+                }
+            }) { [weak self] (deeplinkObj) in
+                DispatchQueue.main.async {
+                    print("deep link success \(deeplinkObj)")
+                    controller?.showErrorAlert(title:"", errorMessage: deeplinkObj[0].message!)
+                    
+                    //                    self?.categoryArray = competitions
+                    //                    self?.tblCategory.reloadData()
                 }
             }
         }

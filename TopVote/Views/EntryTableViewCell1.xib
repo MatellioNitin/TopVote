@@ -64,7 +64,7 @@
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9h8-yf-Vru" customClass="MediaView" customModule="Topvote" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="56" width="300" height="300"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qc0-Qb-1xa">
+                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qc0-Qb-1xa">
                                                 <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                                 <gestureRecognizers/>
                                                 <constraints>

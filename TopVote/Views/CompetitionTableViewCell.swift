@@ -19,6 +19,8 @@ class CompetitionTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var lblPrivate: UILabel!
+    @IBOutlet weak var lblEnded: UILabel!
+
     @IBOutlet weak var btnEdit: UIButton!
     @IBOutlet weak var btnShare: UIButton!
     
@@ -77,6 +79,7 @@ class CompetitionTableViewCell: UITableViewCell {
     func configureWithCompetition(_ competition: Competition, tabbarIndex:Int) {
         titleLabel.text = competition.title?.uppercased()
         byTextLabel.text = competition.byText
+        lblEnded.isHidden = true
         //byTextLabel.sizeToFit()
         
         if let winnerProfileURL                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      = competition.winner?.account?.profileImageUri, let url = URL(string: winnerProfileURL) {
@@ -85,27 +88,33 @@ class CompetitionTableViewCell: UITableViewCell {
         
         var byImage:String = ""
         lblPrivate.isHidden = true
+        
         if(competition.byImageUri != nil){
         if(tabbarIndex == 3){
             byImage = competition.profileImage!
             byTextLabel.text = competition.ownerName
-            if(competition.cType == "private"){
+            btnShare.isHidden = true
+            lblEnded.isHidden = true
+
+            if(competition.isPrivate == 1){
             lblPrivate.isHidden = false
+            btnShare.isHidden = false
+                if(competition.status == 1){
+                    lblEnded.isHidden = false
+
+                }
             }
-
-
         }
         else{
             byImage = competition.byImageUri!
+            lblEnded.isHidden = true
         }
         }
-        
         if let url = URL(string: byImage) {
             byImageView.af_setImage(withURL: url, placeholderImage: UIImage(named: "profile-default-avatar"), imageTransition: .crossDissolve(0.30), runImageTransitionIfCached: true)
         }
-
-        var imageName = ""
         
+        var imageName = ""
         switch competition.sType {
         case "poll"? : imageName = "poll"
         case "survey"? : imageName = "survey"

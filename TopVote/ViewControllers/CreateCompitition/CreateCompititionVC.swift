@@ -98,9 +98,14 @@ class CreateCompititionVC: UIViewController {
             self?.categoryArray = competitions
             if(competitions.count > 0){
                 var isAllSelecct = true
-                 self!.picker.delegate = self
+                
+                if(self!.compititionObj._id != nil && self!.compititionObj.isPrivate == 0 ){
+                    self!.fillCategoryObjectInArrayt()
+                    self!.setCategory()
+                }
+                 //self!.picker.delegate = self
                  //self!.picker.dataSource = true
-                self!.picker.reloadAllComponents()
+                //self!.picker.reloadAllComponents()
                 
             }
             
@@ -170,7 +175,9 @@ class CreateCompititionVC: UIViewController {
         params["byImageUri"] = ""
         params["startDate"] = localToUTC(date:txtStartDate.text! + "00:00:00")
         params["endDate"] = localToUTC(date:txtEndDate.text!  +  "23:59:59")
-        params["byText"] = "Text"
+        if let user = AccountManager.session?.account {
+        params["byText"] = user.displayUserName
+        }
         params["owner"] = (AccountManager.session?.account?._id)!
    
         if(isPrivate){
@@ -219,6 +226,7 @@ class CreateCompititionVC: UIViewController {
         
         
         let isPrivate:Bool!
+       // 1 = Video, 2 = Image, 0 = Text
         if(self.btnCompType[0].currentImage == UIImage(named:"radio_On")){
             isPrivate = false
             var type = ""
@@ -229,7 +237,7 @@ class CreateCompititionVC: UIViewController {
             else if(self.btnContentType[1].currentImage == UIImage(named:"check") && self.btnContentType[0].currentImage
                 != UIImage(named:"check"))
             {
-                  type = "1"
+                type = "1"
             }
             else
             {
@@ -255,7 +263,9 @@ class CreateCompititionVC: UIViewController {
         params["byImageUri"] = ""
         params["startDate"] = localToUTC(date:txtStartDate.text! + "00:00:00")
         params["endDate"] = localToUTC(date:txtEndDate.text!  +  "23:59:59")
-        params["byText"] = "Text"
+        if let user = AccountManager.session?.account {
+            params["byText"] = user.displayUserName
+        }
         params["owner"] = (AccountManager.session?.account?._id)!
         
         if(isPrivate){
@@ -300,7 +310,7 @@ class CreateCompititionVC: UIViewController {
             return
         }
         
-        if(sender.tag == 0){
+        if(sender == btnCompType[0]){
             setPublicData()
         }
         else
@@ -599,8 +609,46 @@ class CreateCompititionVC: UIViewController {
                 }
             })
         }
-        savedIdCategory =
-        setPrivateData()
+        
+        if(compititionObj.isPrivate == 0){
+            
+            btnCompType[0].setImage(UIImage(named:"radio_On"), for: .normal)
+            btnCompType[1].setImage(UIImage(named:"radio_Off"), for: .normal)
+            
+            setPublicData()
+            
+            
+            
+        }
+        else
+        {
+            setPrivateData()
+            btnCompType[0].setImage(UIImage(named:"radio_Off"), for: .normal)
+            btnCompType[1].setImage(UIImage(named:"radio_On"), for: .normal)
+        }
+        
+        if(compititionObj.type == 0){
+            self.btnContentType[0].setImage(UIImage(named:"check"), for: .normal)
+            self.btnContentType[1].setImage(UIImage(named:"uncheck"), for: .normal)
+        }
+        else if(compititionObj.type == 1){
+            self.btnContentType[1].setImage(UIImage(named:"check"), for: .normal)
+            self.btnContentType[0].setImage(UIImage(named:"uncheck"), for: .normal)
+            
+        }
+//        else if(compititionObj.type == 2){
+//            self.btnContentType[0].setImage(UIImage(named:"check"), for: .normal)
+//            self.btnContentType[1].setImage(UIImage(named:"uncheck"), for: .normal)
+//
+//        }
+        else{
+            //if(compititionObj.type == 3){
+            self.btnContentType[0].setImage(UIImage(named:"check"), for: .normal)
+            self.btnContentType[1].setImage(UIImage(named:"check"), for: .normal)
+        }
+        
+       // savedIdCategory =
+      
         
         
 
@@ -649,7 +697,7 @@ class CreateCompititionVC: UIViewController {
             
         }
         else if(txtName.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
-            self.showErrorAlert(title:"", errorMessage: "Please enter title")
+            self.showErrorAlert(title:"", errorMessage: "Please enter name of competition.")
             return false
         }
             //        else if(createCompArray[1].value?.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
@@ -659,12 +707,12 @@ class CreateCompititionVC: UIViewController {
             //
             //        }
         else if(txtStartDate.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
-            self.showErrorAlert(title:"", errorMessage: "Please select start date")
+            self.showErrorAlert(title:"", errorMessage: "Please select start date of competition.")
             return false
             
         }
         else if(txtEndDate.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
-            self.showErrorAlert(title:"", errorMessage: "Please select end date")
+            self.showErrorAlert(title:"", errorMessage: "Please select end date of competition.")
             return false
             
         }
@@ -686,11 +734,22 @@ class CreateCompititionVC: UIViewController {
             return false
             
         }
-        else if(txtDescription.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
-            self.showErrorAlert(title:"", errorMessage: "Please enter description")
+       else if(self.btnCompType[0].currentImage == UIImage(named:"radio_On") && self.btnContentType[0].currentImage == UIImage(named:"uncheck") && self.btnContentType[1].currentImage
+            == UIImage(named:"uncheck")){
+            self.showErrorAlert(title:"", errorMessage: "Please select content type.")
             return false
-            
         }
+            
+//        else if(txtDescription.text!.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
+//            self.showErrorAlert(title:"", errorMessage: "Please enter description of competition.")
+//            return false
+//
+//        }
+//        else if(categoryArray.count == 0){
+//            self.showErrorAlert(title:"", errorMessage: "Please select atlease one category.")
+//            return false
+//            
+//        }
             //    else if(createCompArray[4].value?.trimmingCharacters(in: .whitespacesAndNewlines) == ""){
             //        self.showErrorAlert(title:"", errorMessage: "Please select competitons type")
             //        return false
@@ -766,16 +825,35 @@ class CreateCompititionVC: UIViewController {
         txtCategory.alpha = 1.0
         btnContentType[0].isEnabled = true
         btnContentType[1].isEnabled = true
+        
+        if(compititionObj.category != nil && compititionObj.category!.count > 0){
+            savedIdCategory = NSMutableArray(array: compititionObj.category!)
+        if(categoryArray.count != 0){
+            fillCategoryObjectInArrayt()
+            setCategory()
+        }
+        }
+     
+       
+    }
+    func fillCategoryObjectInArrayt(){
+        for i in 0...categoryArray.count - 1 {
+            if(savedIdCategory.contains(categoryArray[i]._id!)){
+                savedCategory.append(categoryArray[i])
+            }
+        }
     }
     
     func setCategory(){
+        if(savedCategory.count != 0){
         var nameArray = [String]()
         for i in 0...savedCategory.count - 1 {
-            nameArray.append(categoryArray[i].name!)
+            let index = categoryArray.index(of: savedCategory[i])
+            nameArray.append(categoryArray[index!].name!)
         }
-        txtCategory.text = nameArray.joined(separator: ",")
+        txtCategory.text = nameArray.joined(separator: ", ")
     }
-    
+    }
 }
 
 extension CreateCompititionVC :UITableViewDataSource, UITableViewDelegate {
@@ -898,6 +976,7 @@ extension CreateCompititionVC :UITableViewDataSource, UITableViewDelegate {
         }
         
         cell.txtField?.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        
         return cell
     }
 

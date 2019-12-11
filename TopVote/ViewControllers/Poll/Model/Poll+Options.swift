@@ -30,6 +30,7 @@ extension Poll {
 
     }
 }
+
 extension Poll {
     struct PollCount: ModelGenerator {
         // MARK: * Properties

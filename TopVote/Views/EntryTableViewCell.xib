@@ -64,7 +64,7 @@
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9h8-yf-Vru" customClass="MediaView" customModule="Topvote" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="56" width="300" height="300"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qc0-Qb-1xa">
+                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qc0-Qb-1xa">
                                                 <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
                                                 <gestureRecognizers/>
                                                 <constraints>
@@ -172,12 +172,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iHy-qL-dTb" userLabel="More">
-                                        <rect key="frame" x="268" y="370" width="24" height="12"/>
+                                        <rect key="frame" x="252" y="366" width="40" height="20"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="24" id="CWY-y6-569"/>
-                                            <constraint firstAttribute="height" constant="12" id="pix-1S-9KH"/>
+                                            <constraint firstAttribute="width" constant="40" id="CWY-y6-569"/>
+                                            <constraint firstAttribute="height" constant="20" id="pix-1S-9KH"/>
                                         </constraints>
                                         <inset key="contentEdgeInsets" minX="2" minY="2" maxX="2" maxY="2"/>
+                                        <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" image="button-icon-dots">
                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -202,7 +203,7 @@
                                     <constraint firstItem="9h8-yf-Vru" firstAttribute="leading" secondItem="XqI-iK-0CC" secondAttribute="leading" id="Sfr-N9-okr"/>
                                     <constraint firstItem="KxA-uY-kMZ" firstAttribute="top" secondItem="9h8-yf-Vru" secondAttribute="bottom" constant="8" id="Vc4-xw-LLu"/>
                                     <constraint firstItem="JpZ-UU-AZc" firstAttribute="leading" secondItem="XqI-iK-0CC" secondAttribute="leading" constant="8" id="Wvx-8E-GQT"/>
-                                    <constraint firstItem="iHy-qL-dTb" firstAttribute="top" secondItem="9h8-yf-Vru" secondAttribute="bottom" constant="14" id="e7I-uj-sFx"/>
+                                    <constraint firstItem="iHy-qL-dTb" firstAttribute="top" secondItem="9h8-yf-Vru" secondAttribute="bottom" constant="10" id="e7I-uj-sFx"/>
                                     <constraint firstItem="P6E-sK-0am" firstAttribute="leading" secondItem="ZL2-t7-efw" secondAttribute="trailing" constant="10" id="gnd-15-eE6"/>
                                     <constraint firstItem="P6E-sK-0am" firstAttribute="top" secondItem="XqI-iK-0CC" secondAttribute="top" constant="27" id="ny2-VT-s2V"/>
                                     <constraint firstItem="ZL2-t7-efw" firstAttribute="top" secondItem="XqI-iK-0CC" secondAttribute="top" constant="8" id="pXl-IQ-RxA"/>

@@ -56,6 +56,7 @@ class UserEntriesViewController: EntriesViewController {
             ]
             user1.entries(queryParams: queryParams, error: { [weak self] (errorMessage) in
                 DispatchQueue.main.async {
+                    UtilityManager.RemoveHUD()
                     self?.showErrorAlert(errorMessage: errorMessage)
                 }
                 }, completion: { [weak self] (entries) in
@@ -187,7 +188,7 @@ class CompetitionEntriesViewController: EntriesViewController {
         }) { (flag) in
             // DispatchQueue.main.async {
             UtilityManager.RemoveHUD()
-            self.navigationItem.rightBarButtonItem = nil
+//            self.navigationItem.rightBarButtonItem = nil
             
             let competeButton = UIBarButtonItem(image: UIImage(named: "competeButton"), style: UIBarButtonItemStyle.plain, target: self, action: #selector(CompetitionEntriesViewController.toNewEntry))
 //        self.navigationItem.rightBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font :font], for: .normal)
@@ -236,9 +237,7 @@ class CompetitionEntriesViewController: EntriesViewController {
                     }
                        // self.showErrorAlert(errorMessage: "You can no longer enter because you are  already submitted entry for this competition.")
                   //  }
-                    
                 }
-                
             //}
             }
             else
@@ -254,6 +253,11 @@ class CompetitionEntriesViewController: EntriesViewController {
                 self.navigationItem.rightBarButtonItem = nil
             }
          
+            if(self.tabBarController?.selectedIndex == 3 && self.competition != nil && self.competition?.status == 1){
+//                self.isPopUpShow = false
+                self.navigationItem.rightBarButtonItem = nil
+            }
+            
         }
     }
     
@@ -287,11 +291,22 @@ class CompetitionEntriesViewController: EntriesViewController {
         if let competition = competition {
             print("toNewEntry2")
             
-            if (!competition.hasEnded()) {
-                performSegue(withIdentifier: "toNewEntry", sender: nil)
-            } else {
-                self.showErrorAlert(errorMessage: "The competition has ended")
+            if (competition.status == 1) {
+                self.showAlert(errorMessage: "The competition has ended")
             }
+            else if (competition.status == -1) {
+                self.showAlert(errorMessage: "The competition not started yet.")
+            }
+            else if (competition.status == 0)
+            {
+                performSegue(withIdentifier: "toNewEntry", sender: nil)
+
+            }
+//            if (!competition.hasEnded()) {
+//                performSegue(withIdentifier: "toNewEntry", sender: nil)
+//            } else {
+//                self.showErrorAlert(errorMessage: "The competition has ended")
+//            }
         }
         else
         {
@@ -304,17 +319,18 @@ class CompetitionEntriesViewController: EntriesViewController {
     override func entriesQuery(type: Int) {
         //        let query = PFEntry.queryWithIncludes()
         //        query?.whereKey("competition", equalTo: competition)
-        isAPIRunning = true
+  
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
+
+        self.isAPIRunning = true
         
-        guard let competition = competition, let competitionId = competition._id else {
+        guard let competition = self.competition, let competitionId = competition._id else {
             return
         }
-        
-        
         var queryParams = ["":""]
         if(self.tabBarController?.selectedIndex == 3){
             //P2P
-           queryParams = [
+            queryParams = [
                 "privateCompetition": competitionId
             ]
         }
@@ -336,13 +352,13 @@ class CompetitionEntriesViewController: EntriesViewController {
         if(self.tabBarController?.selectedIndex == 2){
             //Hall Of Fame
             queryParams["sort"] = "1"
-
+            
         }
         if(type == 1) {
             queryParams["sort"] = "1"
         }
         UtilityManager.ShowHUD(text: "Please wait...")
-
+        
         Entry.find(queryParams: queryParams, error: { [weak self] (errorMessage) in
             DispatchQueue.main.async {
                 UtilityManager.RemoveHUD()
@@ -352,20 +368,22 @@ class CompetitionEntriesViewController: EntriesViewController {
             DispatchQueue.main.async {
                 
                 self?.entries = entries
-//                if(self?.tabBarController?.selectedIndex == 2 && entries.count > 1){
-//                    // Hall Of Fame
-//                    // Remove first winner entry in the list
-//                self?.entries.remove(at: 0)
-//                }
+                //                if(self?.tabBarController?.selectedIndex == 2 && entries.count > 1){
+                //                    // Hall Of Fame
+                //                    // Remove first winner entry in the list
+                //                self?.entries.remove(at: 0)
+                //                }
                 UtilityManager.RemoveHUD()
                 self?.tableView.delegate = self
                 self?.isAPIRunning = false
-
+                
                 self?.tableView.reloadData()
                 self?.refreshControl.endRefreshing()
                 
             }
         }
+        }
+   
     }
     
     override func singleEntry(entryId1:String!) {
@@ -1613,7 +1631,7 @@ extension EntriesViewController: NewEntryViewControllerDelegate {
         searchType = .new
         
         
-        self.navigationItem.rightBarButtonItem = nil
+       // self.navigationItem.rightBarButtonItem = nil
         let alertController = TVAlertController(title: "Entry submitted!", message: "Good Luck! Would you like to share your entry?", preferredStyle: .alert)
         let shareAction = UIAlertAction(title: "Share", style: .default) { (action) -> Void in
             // Share my entry

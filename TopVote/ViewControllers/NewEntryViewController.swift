@@ -433,9 +433,13 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
         guard let competition = competition else {
             return
         }
-        if (competition.hasEnded()) {
+        if (competition.status == 1) {
             self.showAlert(errorMessage: "The competition has ended")
-        } else {
+        }
+        else if (competition.status == -1) {
+            self.showAlert(errorMessage: "The competition not started.")
+        }
+        else {
             if(entryUpdate?._id == nil){
             guard let entryMediaInfo = self.entryMediaInfo else {
                 self.showErrorAlert(errorMessage: "Entry can't be blank.")
@@ -820,7 +824,8 @@ extension NewEntryViewController: UIImagePickerControllerDelegate {
              //  }
 
            }
-         }
+      
+        }
         
         
     }
