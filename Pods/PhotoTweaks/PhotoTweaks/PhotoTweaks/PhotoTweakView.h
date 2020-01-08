@@ -38,6 +38,7 @@ extern const CGFloat kMaxRotationAngle;
 @property (nonatomic, strong, readonly) PhotoContentView *photoContentView;
 @property (nonatomic, strong, readonly) UISlider *slider;
 @property (nonatomic, strong, readonly) UIButton *resetBtn;
+@property (nonatomic, strong, readonly) UILabel *infoLabel;
 
 
 - (instancetype)initWithFrame:(CGRect)frame

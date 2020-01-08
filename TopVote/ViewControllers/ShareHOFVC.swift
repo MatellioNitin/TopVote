@@ -27,7 +27,7 @@ class ShareHOFVC: UIViewController {
     @IBAction func shareTapped(_ sender: Any) {
 //        if(competition.deepUrl != nil){
            // let text = competition.deepUrl!
-        let textShare = [ imageShareShow!, "abc" ] as [Any]
+        let textShare = [ imageShareShow!, "" ] as [Any]
             let activityViewController = UIActivityViewController(activityItems: textShare , applicationActivities: nil)
             activityViewController.popoverPresentationController?.sourceView = self.view
             self.present(activityViewController, animated: true, completion: nil)

@@ -34,6 +34,18 @@ extension Category {
             })
         }
     }
+    static func deepLinkPublicUrl(deepLink: String, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ competitions: Competition) -> Void) {
+        Category.provider.request(Category.API.deepLinkPublicComp(deepLinkId: deepLink)) { result in
+            result.handleResponseData(completion: { (errorMessage, data, token) in
+                if let value = data {
+                    let compitionCreate:Competitions = Competition.models(data: value)
+                    completion(compitionCreate[0])
+                } else if let errorMessage = errorMessage {
+                    error(errorMessage)
+                }
+            })
+        }
+    }
 
     static func deepLinkPrivatePoll(deepLink: String, error: @escaping (_ errorMessage: String) -> Void, completion: @escaping (_ competitions: PCompitionCreates) -> Void) {
         Category.provider.request(Category.API.deepLinkPrivatePoll(deepLinkId: deepLink)) { result in

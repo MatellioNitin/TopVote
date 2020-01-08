@@ -435,6 +435,8 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic, strong) UISlider *slider;
 @property (nonatomic, strong) UIButton *resetBtn;
+@property (nonatomic, strong) UILabel *infoLabel;
+
 @property (nonatomic, assign) CGSize originalSize;
 @property (nonatomic, assign) CGFloat angle;
 
@@ -537,14 +539,26 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         
         _resetBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _resetBtn.frame = CGRectMake(0, 0, 60, 20);
+        
         _resetBtn.center = CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 95);
+        
         _resetBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [_resetBtn setTitleColor:[UIColor resetButtonColor] forState:UIControlStateNormal];
         [_resetBtn setTitleColor:[UIColor resetButtonHighlightedColor] forState:UIControlStateHighlighted];
         [_resetBtn setTitle:NSLocalizedStringFromTable(@"RESET", @"PhotoTweaks", nil) forState:UIControlStateNormal];
         [_resetBtn addTarget:self action:@selector(resetBtnTapped:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:_resetBtn];
         
+        
+//        _infoLabel.frame = CGRectMake(0, 30, 100, 30);
+//        _infoLabel.text = NSLocalizedStringFromTable(@"Adjust and Crop", @"PhotoTweaks");
+//        [_infoLabel setFont:[UIFont boldSystemFontOfSize:15]];
+//        [_infoLabel setTextColor:[UIColor whiteColor]];
+//        _infoLabel.center =  CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 65);
+//
+//
+        [self addSubview:_resetBtn];
+        //[self addSubview:_infoLabel];
+
         _originalPoint = [self convertPoint:self.scrollView.center toView:self];
     }
     return self;
@@ -561,7 +575,10 @@ typedef NS_ENUM(NSInteger, CropCornerType) {
         return self.slider;
     } else if (CGRectContainsPoint(self.resetBtn.frame, point)) {
         return self.resetBtn;
-    } else if (CGRectContainsPoint(CGRectInset(self.cropView.frame, -kCropViewHotArea, -kCropViewHotArea), point) && !CGRectContainsPoint(CGRectInset(self.cropView.frame, kCropViewHotArea, kCropViewHotArea), point)) {
+    }
+    else if (CGRectContainsPoint(self.infoLabel.frame, point)) {
+        return self.infoLabel;
+    }else if (CGRectContainsPoint(CGRectInset(self.cropView.frame, -kCropViewHotArea, -kCropViewHotArea), point) && !CGRectContainsPoint(CGRectInset(self.cropView.frame, kCropViewHotArea, kCropViewHotArea), point)) {
         return self.cropView;
     }
     return self.scrollView;

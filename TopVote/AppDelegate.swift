@@ -545,8 +545,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
             //  vc.competition = sender as? Competition
             
             if let vc = mainStoryboard.instantiateViewController(withIdentifier: "entriesVC") as? CompetitionEntriesViewController {
-                
-                
                 // check same link click again
                 if(nav.viewControllers.last? .isKind(of: CompetitionEntriesViewController.self))!{
                     let vc1 = nav.viewControllers.last as! CompetitionEntriesViewController
@@ -564,6 +562,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
             }
             
         }
+        else if(params["type"] != nil && params["type"] as! String == "publicCompetition"){
+            //  if (segue.identifier == "toEntries"), let vc = segue.destination as? CompetitionEntriesViewController {
+            //  vc.competition = sender as? Competition
+            deppLinkPublicPollAPI(key: strUrlRef, nav:nav)
+            
+            
+      
+        }
+            
         else if(params["type"] != nil && params["type"] as! String == "privatePoll"){
             deppLinkPrivatePollAPI(key:strUrlRef)
         }
@@ -919,6 +926,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
  
 //                    self?.categoryArray = competitions
 //                    self?.tblCategory.reloadData()
+                }
+            }
+        }
+    }
+    func deppLinkPublicPollAPI(key:String, nav:UINavigationController){
+        if((AccountManager.session) != nil){
+            
+            let controller = (window?.rootViewController?.visibleViewController as? UINavigationController)?.topViewController
+            
+            Category.deepLinkPublicUrl(deepLink: key, error: { [weak self] (errorMessage) in
+                DispatchQueue.main.async {
+                    controller?.showErrorAlert(errorMessage: errorMessage)
+                }
+            }) { [weak self] (deeplinkObj) in
+                DispatchQueue.main.async {
+                    print("deep link success \(deeplinkObj)")
+                    let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    if let vc = mainStoryboard.instantiateViewController(withIdentifier: "entriesVC") as? CompetitionEntriesViewController {
+                        // check same link click again
+                        if(nav.viewControllers.last? .isKind(of: CompetitionEntriesViewController.self))!{
+                            let vc1 = nav.viewControllers.last as! CompetitionEntriesViewController
+                            if(vc1.idEntry != deeplinkObj._id){
+                                vc.competition = deeplinkObj
+                                vc.textHeader = deeplinkObj.text
+                                vc.textLink = deeplinkObj .termsLink
+                                nav.pushViewController(vc, animated: true)
+                            }
+                        }
+                        else{
+//                            vc.isComeFromDeepUrl = true
+//                            vc.idEntry = deeplinkObj._id as! String
+                            vc.competition = deeplinkObj
+                            vc.textHeader = deeplinkObj.text
+                            vc.textLink = deeplinkObj .termsLink
+                            
+                            nav.pushViewController(vc, animated: true)
+                        }
+                    }
+                    
+                   // controller?.showErrorAlert(title:"", errorMessage: deeplinkObj.message!)
+                    
+                    //                    self?.categoryArray = competitions
+                    //                    self?.tblCategory.reloadData()
                 }
             }
         }

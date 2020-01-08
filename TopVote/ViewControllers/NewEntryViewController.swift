@@ -23,7 +23,13 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
     func photoTweaksController(_ controller: PhotoTweaksViewController!, didFinishWithCroppedImage croppedImage: UIImage!) {
       //  controller.navigationController?.popViewController(animated: true)
         controller.dismiss(animated: true, completion: nil)
-
+        if((appDelegate.window?.viewWithTag(1002)) != nil){
+            (appDelegate.window?.viewWithTag(1002))!.removeFromSuperview()
+        }
+        
+        
+        
+        
         if let pickedImage = croppedImage {
                     if let fixedImage = pickedImage.fixedOrientation() {
                         if let data = UIImageJPEGRepresentation(fixedImage, 0.8) {
@@ -68,6 +74,9 @@ class NewEntryViewController: VideoPlayerViewController, UINavigationControllerD
     
     func photoTweaksControllerDidCancel(_ controller: PhotoTweaksViewController!) {
        // controller.navigationController?.popViewController(animated: true)
+        if((appDelegate.window?.viewWithTag(1002)) != nil){
+            (appDelegate.window?.viewWithTag(1002))!.removeFromSuperview()
+        }
         controller.dismiss(animated: true, completion: nil)
 
 
@@ -782,6 +791,26 @@ extension NewEntryViewController: UIImagePickerControllerDelegate {
                // photoTweaksViewController?.autoSaveToLibray = true
                // photoTweaksViewController?.maxRotationAngle = CGFloat(M_PI_4)
                 picker.pushViewController(photoTweaksViewController!, animated: true)
+                
+                let label = UILabel()
+                label.text = "Adjust and Crop"
+                label.textAlignment = .center
+                label.font = UIFont.boldSystemFont(ofSize: 17.0)
+                label.textColor = UIColor.white
+                label.tag = 1002
+                label.frame = CGRect(x:0,y:25,width:label.intrinsicContentSize.width,height:label.intrinsicContentSize.height)
+                label.center.x = (appDelegate.window?.center.x)!
+                appDelegate.window?.addSubview(label)
+                appDelegate.window?.bringSubview(toFront: label)
+//
+//                _infoLabel.frame = CGRectMake(0, 30, 100, 30);
+//                _infoLabel.center =  CGPointMake(CGRectGetWidth(self.bounds) / 2, CGRectGetHeight(self.bounds) - 65);
+//
+//                _infoLabel.font = [UIFont boldSystemFontOfSize:14];
+//                _infoLabel.textColor = [UIColor whiteColor];
+//                [_infoLabel setText:NSLocalizedStringFromTable(@"RESET", @"PhotoTweaks", nil)];
+                
+                
               
             } else if mediaType == kUTTypeMovie as String {
                 if let url = info[UIImagePickerControllerMediaURL] as? URL {
@@ -831,6 +860,9 @@ extension NewEntryViewController: UIImagePickerControllerDelegate {
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController){
+        if((appDelegate.window?.viewWithTag(1002)) != nil){
+            (appDelegate.window?.viewWithTag(1002))!.removeFromSuperview()
+        }
         picker.dismiss(animated: true, completion: nil)
     }
 }
