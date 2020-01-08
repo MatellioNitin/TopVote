@@ -12,6 +12,7 @@
 		45FDDC1E1E2D80E800FDE98D /* DateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45FDDC1C1E2D80E800FDE98D /* DateTimeAgo.bundle */; };
 		551A3F4723349EE300881189 /* EntryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 551A3F4623349EE300881189 /* EntryTableViewCell.xib */; };
 		5534D60822F2B7740089DA38 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5534D60722F2B7540089DA38 /* Montserrat-Bold.ttf */; };
+		55607A1323B6263700272873 /* ShareHOFVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55607A1223B6263700272873 /* ShareHOFVC.swift */; };
 		556969512342296B0036271B /* SignUpBioVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556969502342296B0036271B /* SignUpBioVC.swift */; };
 		556A53FF238424F200C8941A /* CreatePollVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 556A53FE238424F200C8941A /* CreatePollVC.swift */; };
 		66B1B91A8F080293E27087A6 /* Pods_Topvote.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76DCB7C83C3892AAF6C24A45 /* Pods_Topvote.framework */; };
@@ -235,6 +236,7 @@
 		45FDDC1C1E2D80E800FDE98D /* DateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DateTimeAgo.bundle; sourceTree = "<group>"; };
 		551A3F4623349EE300881189 /* EntryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EntryTableViewCell.xib; sourceTree = "<group>"; };
 		5534D60722F2B7540089DA38 /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		55607A1223B6263700272873 /* ShareHOFVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareHOFVC.swift; sourceTree = "<group>"; };
 		556969502342296B0036271B /* SignUpBioVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpBioVC.swift; sourceTree = "<group>"; };
 		556A53FE238424F200C8941A /* CreatePollVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreatePollVC.swift; sourceTree = "<group>"; };
 		76DCB7C83C3892AAF6C24A45 /* Pods_Topvote.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Topvote.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -713,6 +715,7 @@
 		9008967F1C866555008CD964 /* Competitions */ = {
 			isa = PBXGroup;
 			children = (
+				55607A1223B6263700272873 /* ShareHOFVC.swift */,
 				ADAF5BB0213ED7DF005EDB09 /* PrivateCompetitionsViewController.swift */,
 				9008963B1C85EC96008CD964 /* CompetitionsViewController.swift */,
 				9008963C1C85EC96008CD964 /* EntriesViewController.swift */,
@@ -1515,6 +1518,7 @@
 				B679B4FD1F82C9C800250A5C /* Config.swift in Sources */,
 				900789D91D42942200EA8668 /* AwardedEntryTableViewCell.swift in Sources */,
 				B679B4DE1F82C79A00250A5C /* Date+Server.swift in Sources */,
+				55607A1323B6263700272873 /* ShareHOFVC.swift in Sources */,
 				B6E840D9209E234000253327 /* ModelGenerator+JSON.swift in Sources */,
 				AD757BEF214637A700D77EBC /* Poll+Requests.swift in Sources */,
 				B679B5021F82C9CD00250A5C /* StyleGuide+Fonts.swift in Sources */,

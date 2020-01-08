@@ -47,6 +47,13 @@ class CompetitionTableViewCell: UITableViewCell {
 
     @IBOutlet weak var lblTitleTrailing: NSLayoutConstraint!
     
+    @IBOutlet weak var btnShareBottomHeight: NSLayoutConstraint!
+    @IBOutlet weak var btnShareBottom: UIButton!
+    
+    @IBOutlet weak var lblSaprator: UILabel!
+    
+    @IBOutlet weak var lblTitleBottom: NSLayoutConstraint!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -54,6 +61,7 @@ class CompetitionTableViewCell: UITableViewCell {
 //        for view in contentView.subviews {
 //            //view.addShadow()
 //        }
+        
         let rect = CGRect(x: 0.0, y: 0.0, width: screenBounds.size.width - 20.0, height: 62.0)
         badgeView.dropShadow(rect, CGSize(width: 0, height: 1), 2, 0.1, #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1))
     }
@@ -75,6 +83,8 @@ class CompetitionTableViewCell: UITableViewCell {
         
         // Configure the view for the selected state
     }
+    
+  
     
     func configureWithCompetition(_ competition: Competition, tabbarIndex:Int) {
         titleLabel.text = competition.title?.uppercased()
@@ -101,7 +111,6 @@ class CompetitionTableViewCell: UITableViewCell {
             btnShare.isHidden = false
                 if(competition.status == 1){
                     lblEnded.isHidden = false
-
                 }
             }
         }
@@ -201,7 +210,22 @@ class CompetitionTableViewCell: UITableViewCell {
         if(tabbarIndex != 2){
             hasEnded = false
         }
-    
+        
+//        if(tabbarIndex == 2 && competition.deepUrl != nil && competition.deepUrl != ""){
+        if(tabbarIndex == 2){
+            btnShareBottomHeight.constant = 40
+            btnShareBottom.isHidden = false
+            lblSaprator.isHidden = false
+            lblTitleBottom.constant = 75
+        }
+        else{
+            btnShareBottomHeight.constant = 0
+            btnShareBottom.isHidden = true
+            lblSaprator.isHidden = true
+            lblTitleBottom.constant = 60
+
+        }
+        
         hofBadgeImage.isHidden = !hasEnded
         winnerProfileImage.isHidden = !hasEnded
         winnerView.isHidden = !hasEnded

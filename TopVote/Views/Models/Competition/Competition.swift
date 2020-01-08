@@ -47,7 +47,7 @@ final class Competition: Model {
     
     var localized: Bool?
     
-    var winner: Entry?
+    var winner: Entry? = Entry()
 
     var giftCardURL: String?
     
@@ -67,7 +67,6 @@ final class Competition: Model {
     var isPrivate: Int?
     
     var category:[String]? = [String]()
-    
 
     /// The provider closure used by `moya` for default authorization headers used in requests against the api.
     
@@ -96,7 +95,7 @@ final class Competition: Model {
     // MARK: * Instant methods
     
     func hasEnded() -> Bool {
-        return status == 1
+        return status != 0
     }
     
     func timeRemainingString() -> String {

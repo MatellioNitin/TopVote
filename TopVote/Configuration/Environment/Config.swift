@@ -1,4 +1,3 @@
-//
 //  ConfigDEV.swift
 //  iOS Foundation
 //  Created by Luke McDonald on 7/31/17.
@@ -7,10 +6,10 @@
 import Foundation
 
 //DEV
-private let _enviromentKey = "DEV"
+//private let _enviromentKey = "DEV"
 
 //LIVE
-//private let _enviromentKey = "LOCAL"
+private let _enviromentKey = "LOCAL"
 
 // The Configuration used throughout application for API specific tasks.
 

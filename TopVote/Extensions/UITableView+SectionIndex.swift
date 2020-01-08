@@ -23,4 +23,32 @@ extension UITableView {
             subview.setValue(font, forKey: "font")
         }
     }
+    
+    func snapshotRows(at indexPaths: Set<IndexPath>) -> UIImage?
+    {
+        guard !indexPaths.isEmpty else { return nil }
+        
+        var rect = self.rectForRow(at: indexPaths.first!)
+        for indexPath in indexPaths
+        {
+            let cellRect = self.rectForRow(at: indexPath)
+            rect = rect.union(cellRect)
+        }
+        
+        rect.size.height  =  rect.size.height - 50
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        for indexPath in indexPaths
+        {
+            let cell = self.cellForRow(at: indexPath)
+            cell?.layer.bounds.origin.y = self.rectForRow(at: indexPath).origin.y - rect.minY
+            cell?.layer.render(in: context)
+            cell?.layer.bounds.origin.y = 0
+        }
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
 }
+

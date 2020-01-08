@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="hld-J0-kAc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="hld-J0-kAc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -177,7 +177,7 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PollTextTBCell" rowHeight="132" id="tPq-qa-5tQ" customClass="PollTBCell" customModule="Topvote" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="132"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="132"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tPq-qa-5tQ" id="gBH-2W-7rI">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="132"/>
@@ -283,7 +283,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="PollImageVideoTBCell" rowHeight="166" id="mS4-qn-JV3" customClass="PollTBCell" customModule="Topvote" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="188" width="375" height="166"/>
+                                        <rect key="frame" x="0.0" y="187.5" width="375" height="166"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mS4-qn-JV3" id="Kel-8z-PdQ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="166"/>
@@ -427,7 +427,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="LeaderShipTopTBCell" rowHeight="84" id="ASC-Of-h3p" customClass="PollTBCell" customModule="Topvote" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="398" width="375" height="84"/>
+                                        <rect key="frame" x="0.0" y="397.5" width="375" height="84"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ASC-Of-h3p" id="wXr-sI-3Ak">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="84"/>
@@ -509,7 +509,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="LeaderShipProgressTBCell" rowHeight="94" id="zN9-LC-fIl" customClass="PollTBCell" customModule="Topvote" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="482" width="375" height="94"/>
+                                        <rect key="frame" x="0.0" y="481.5" width="375" height="94"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zN9-LC-fIl" id="CAy-fl-ofr">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="94"/>
@@ -660,7 +660,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="LeaderShipBottomProgressTBCell" rowHeight="117" id="gYz-cP-pvX" customClass="PollTBCell" customModule="Topvote" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="576" width="375" height="117"/>
+                                        <rect key="frame" x="0.0" y="575.5" width="375" height="117"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gYz-cP-pvX" id="31n-vg-jV6">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="116.5"/>
@@ -715,13 +715,13 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="deC-UG-fey">
-                                                            <rect key="frame" x="95" y="12.5" width="46" height="20"/>
+                                                            <rect key="frame" x="95" y="13" width="39.5" height="19"/>
                                                             <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
                                                             <color key="textColor" red="0.26274509800000001" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C1t-7C-wAT" customClass="GradientView" customModule="Topvote" customModuleProvider="target">
-                                                            <rect key="frame" x="95" y="40.5" width="230" height="25"/>
+                                                            <rect key="frame" x="95" y="40" width="230" height="25"/>
                                                             <color key="backgroundColor" red="0.71372549019999998" green="0.62745098040000002" blue="0.73333333329999995" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="uSH-Mt-dhT"/>
@@ -749,7 +749,7 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o3L-Hh-QJz" customClass="GradientView" customModule="Topvote" customModuleProvider="target">
-                                                            <rect key="frame" x="97" y="42.5" width="30" height="21"/>
+                                                            <rect key="frame" x="97" y="42" width="30" height="21"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="30" id="euG-fW-9mn"/>
@@ -1415,7 +1415,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Activity" id="jQ0-6Z-BtO">
                         <textField key="titleView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search" textAlignment="natural" minimumFontSize="17" id="MnX-cp-Jap" customClass="TVTextField" customModule="Topvote" customModuleProvider="target">
-                            <rect key="frame" x="67" y="7" width="215" height="30"/>
+                            <rect key="frame" x="80" y="7" width="215" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1458,6 +1458,7 @@
                     </navigationBar>
                     <connections>
                         <segue destination="MzQ-OL-vQW" kind="relationship" relationship="rootViewController" id="A2M-Xz-AYg"/>
+                        <segue destination="A3r-fw-Tbb" kind="push" id="EVn-oa-Zqw"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sV4-C5-jUc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2460,7 +2461,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6ys-C3-cMY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="415" y="3046"/>
+            <point key="canvasLocation" x="681" y="3210"/>
         </scene>
         <!--IDEAS-->
         <scene sceneID="vbY-ro-ojP">
@@ -4923,7 +4924,7 @@
                                         <rect key="frame" x="0.0" y="678" width="375" height="660"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VAc-Pf-z3j" id="jkq-Hd-TFP">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="660"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="659.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Myl-Pl-da6">
@@ -5256,9 +5257,84 @@
             </objects>
             <point key="canvasLocation" x="-253.59999999999999" y="3846.0269865067471"/>
         </scene>
+        <!--ShareHOFVC-->
+        <scene sceneID="F2p-Gl-Snf">
+            <objects>
+                <viewController storyboardIdentifier="ShareHOFVC" id="A3r-fw-Tbb" userLabel="ShareHOFVC" customClass="ShareHOFVC" customModule="Topvote" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Kwl-JC-jtx"/>
+                        <viewControllerLayoutGuide type="bottom" id="gdY-w5-Lnx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="dWq-aB-ZsY">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is how we will share" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pqz-UW-uuE">
+                                <rect key="frame" x="20" y="50" width="335" height="21.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" red="0.26274509800000001" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HOF Winner!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dAZ-2o-Alb">
+                                <rect key="frame" x="113" y="81.5" width="149.5" height="30"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                <color key="textColor" red="0.26274509800000001" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OwB-d2-25a">
+                                <rect key="frame" x="30" y="141.5" width="315" height="180"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="180" id="tAs-yg-cg1"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GbY-n9-jv5">
+                                <rect key="frame" x="25" y="361.5" width="325" height="50"/>
+                                <color key="backgroundColor" red="0.26274509800000001" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="46S-v9-AAe"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="17"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Share Now"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="6"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="shareTapped:" destination="A3r-fw-Tbb" eventType="touchUpInside" id="YGd-Je-28u"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Pqz-UW-uuE" firstAttribute="centerX" secondItem="dWq-aB-ZsY" secondAttribute="centerX" id="7s7-Hn-XBT"/>
+                            <constraint firstAttribute="trailing" secondItem="OwB-d2-25a" secondAttribute="trailing" constant="30" id="I1r-Li-LGx"/>
+                            <constraint firstAttribute="trailing" secondItem="GbY-n9-jv5" secondAttribute="trailing" constant="25" id="K1R-FQ-AtR"/>
+                            <constraint firstItem="dAZ-2o-Alb" firstAttribute="top" secondItem="Pqz-UW-uuE" secondAttribute="bottom" constant="10" id="TYI-9N-sTl"/>
+                            <constraint firstItem="GbY-n9-jv5" firstAttribute="centerX" secondItem="dWq-aB-ZsY" secondAttribute="centerX" id="UTm-uj-AGt"/>
+                            <constraint firstItem="Pqz-UW-uuE" firstAttribute="leading" secondItem="dWq-aB-ZsY" secondAttribute="leadingMargin" constant="4" id="gxa-p2-QcE"/>
+                            <constraint firstItem="GbY-n9-jv5" firstAttribute="leading" secondItem="dWq-aB-ZsY" secondAttribute="leading" constant="25" id="qo7-W3-Imd"/>
+                            <constraint firstItem="GbY-n9-jv5" firstAttribute="top" secondItem="OwB-d2-25a" secondAttribute="bottom" constant="40" id="sCQ-h0-dSN"/>
+                            <constraint firstItem="OwB-d2-25a" firstAttribute="leading" secondItem="dWq-aB-ZsY" secondAttribute="leading" constant="30" id="tQ2-mo-1H8"/>
+                            <constraint firstItem="OwB-d2-25a" firstAttribute="top" secondItem="dAZ-2o-Alb" secondAttribute="bottom" constant="30" id="uam-ut-E1d"/>
+                            <constraint firstItem="dAZ-2o-Alb" firstAttribute="centerX" secondItem="dWq-aB-ZsY" secondAttribute="centerX" id="wBh-27-cvA"/>
+                            <constraint firstItem="Pqz-UW-uuE" firstAttribute="top" secondItem="Kwl-JC-jtx" secondAttribute="bottom" constant="30" id="wYZ-ai-yEK"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Share" leftItemsSupplementBackButton="YES" id="NRy-8B-U0Z"/>
+                    <connections>
+                        <outlet property="imgShare" destination="OwB-d2-25a" id="7dn-ot-shc"/>
+                        <outlet property="lblTitle" destination="Pqz-UW-uuE" id="3Te-9A-Hz8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EZ9-Mh-HFc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="682" y="4346"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="Edit File-100" width="100" height="100"/>
+        <image name="Edit File-100" width="33.333332061767578" height="33.333332061767578"/>
         <image name="Logo" width="242" height="63"/>
         <image name="Upload-100" width="100" height="100"/>
         <image name="background-ideabox-innershadow" width="375" height="10"/>
@@ -5267,27 +5343,27 @@
         <image name="button-icon-star" width="23" height="22"/>
         <image name="button-icon-star-select" width="21" height="20"/>
         <image name="clock" width="20" height="20"/>
-        <image name="down-arrow_Brown" width="48" height="48"/>
-        <image name="emptyImage" width="26" height="35"/>
+        <image name="down-arrow_Brown" width="64" height="64"/>
+        <image name="emptyImage" width="13" height="17.5"/>
         <image name="horizontal-entrytitle" width="258" height="1"/>
         <image name="icon-camera" width="41" height="33"/>
         <image name="icon-trophyribbon" width="162.5" height="198.5"/>
         <image name="icon_back" width="9" height="17"/>
         <image name="imageseEdit" width="225" height="225"/>
         <image name="location" width="14" height="18"/>
-        <image name="message" width="48" height="48"/>
+        <image name="message" width="64" height="64"/>
         <image name="p2pSelect" width="27.5" height="25.5"/>
         <image name="p2p_Unselect" width="27.5" height="25.5"/>
-        <image name="playarrow" width="37.5" height="37.5"/>
+        <image name="playarrow" width="50" height="50"/>
         <image name="pollLogo" width="1009" height="180"/>
         <image name="profile-background-placeholder" width="375" height="184"/>
         <image name="profile-default-avatar" width="40" height="40"/>
-        <image name="profile_icon" width="12.809816360473633" height="12.809816360473633"/>
+        <image name="profile_icon" width="29" height="29"/>
         <image name="purple" width="49" height="49"/>
         <image name="radio_Off" width="15" height="15"/>
         <image name="radio_On" width="15" height="15"/>
-        <image name="search" width="60" height="60"/>
-        <image name="soundOff" width="40" height="40"/>
+        <image name="search" width="20" height="20"/>
+        <image name="soundOff" width="20" height="20"/>
         <image name="tabbar-icon-activity" width="23" height="24"/>
         <image name="tabbar-icon-activity-selected" width="23" height="24"/>
         <image name="tabbar-icon-halloffame" width="18" height="23"/>
@@ -5299,7 +5375,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="V5v-PZ-rRZ"/>
-        <segue reference="avA-w2-Lgl"/>
+        <segue reference="rvR-DK-XDw"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.81568627449999997" green="0.67450980390000004" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

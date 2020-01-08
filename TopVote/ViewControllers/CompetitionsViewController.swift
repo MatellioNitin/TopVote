@@ -171,8 +171,8 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
 //        tableView.estimatedRowHeight = 100;
 //        tableView.rowHeight = UITableViewAutomaticDimension
         
-        self.tableView.estimatedRowHeight = 100;
-        self.tableView.estimatedSectionHeaderHeight = 100;
+        self.tableView.estimatedRowHeight = 200;
+        self.tableView.estimatedSectionHeaderHeight = 200;
         
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.topItem?.title = ""
@@ -207,10 +207,18 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
                 }
             }
         }
-       
-        
-
     }
+    
+    @IBAction func shareHOFAction(_ sender: UIButton) {
+        if(competitions.count > 0){
+            let indexpath = IndexPath(row: sender.tag, section: 1)
+                if let vc = self.storyboard?.instantiateViewController(withIdentifier: "ShareHOFVC") as? ShareHOFVC {
+                    vc.imageShareShow = tableView.snapshotRows(at: [indexpath])!
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+        }
+    }
+    
     
     @IBAction func editPollAction(_ sender: UIButton) {
         if(competitions[sender.tag].sType == "poll"){
@@ -327,8 +335,7 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     
-
-
+ 
     
     // MARK: - Table view data source
     
@@ -442,6 +449,25 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
                 cell.titleLabel.layoutIfNeeded()
 
                 cell.btnEdit.isHidden = true
+                cell.btnShare.isHidden = true
+            }
+            
+            if((self.tabBarController?.selectedIndex)!  == 2){
+                cell.btnShareBottom.addTarget(self, action:#selector(self.shareHOFAction(_:)), for: .touchUpInside)
+                cell.btnShareBottom.tag = indexPath.row
+            }
+            
+            if((self.tabBarController?.selectedIndex)! == 0 && competition.deepUrl != nil && competition.deepUrl != ""){
+                cell.btnShare.isHidden = false
+                cell.btnShare.tag = indexPath.row
+                cell.btnShare.addTarget(self, action:#selector(self.shareAction(_:)), for: .touchUpInside)
+                cell.lblTitleBottom.constant = 65
+
+
+                
+            }
+            else{
+                cell.lblTitleBottom.constant = 60
                 cell.btnShare.isHidden = true
             }
         }
