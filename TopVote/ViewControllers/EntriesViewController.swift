@@ -93,6 +93,9 @@ class CompetitionEntriesViewController: EntriesViewController {
         if let competition = competition {
             navigationItem.title = competition.title?.uppercased()
             textLabel?.text = competition.text
+            
+            
+            
             if let username = AccountManager.session?.account?.username {
                 
                 
@@ -328,15 +331,15 @@ class CompetitionEntriesViewController: EntriesViewController {
             return
         }
         var queryParams = ["":""]
-        if(self.tabBarController?.selectedIndex == 3){
-            //P2P
-            queryParams = [
-                "privateCompetition": competitionId
-            ]
-        }
-        else
-        {
-            if(competition.deepUrl != nil){
+//        if(self.tabBarController?.selectedIndex == 3){
+//            //P2P
+//            queryParams = [
+//                "privateCompetition": competitionId
+//            ]
+//        }
+//        else
+//        {
+            if(competition.isPrivate != 0){
                 queryParams = [
                     "privateCompetition": competitionId
                 ]
@@ -348,7 +351,7 @@ class CompetitionEntriesViewController: EntriesViewController {
                     "status": "1"
                 ]
             }
-        }
+       // }
         if(self.tabBarController?.selectedIndex == 2){
             //Hall Of Fame
             queryParams["sort"] = "1"
@@ -899,7 +902,7 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
             }
           //  return UITableViewAutomaticDimension
 
-            return 450
+           // return 450
         }
         return UITableViewAutomaticDimension
     }
@@ -930,6 +933,8 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
             let  headerCell = tableView.dequeueReusableCell(withIdentifier: "TextHeaderCell")
             let textView = headerCell?.viewWithTag(5) as? UITextView
             let tapButton = headerCell?.viewWithTag(10) as? UIButton
+            let lblCompleted = headerCell?.viewWithTag(6) as? UILabel
+            lblCompleted?.isHidden = true
             let lblUnderLine = headerCell?.viewWithTag(11) as? UILabel
 
                 if(self.textHeader! != ""){
@@ -979,7 +984,12 @@ class EntriesViewController: KeyboardScrollViewController, UITableViewDataSource
                 textView?.text = self.textHeader!
 
             }
-        
+            if(self.tabBarController?.selectedIndex == 2){
+                lblCompleted?.isHidden = false
+
+            }
+
+            
             return headerCell
     }
         return  UIView(frame: .zero)

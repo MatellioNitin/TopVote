@@ -45,6 +45,9 @@ class CreateCompititionVC: UIViewController {
     var categoryArray = Categorys()
     var savedCategory = Categorys()
     var savedIdCategory = NSMutableArray()
+    var isPrivateCheck:Bool! = false
+    var isVideo:Bool! = false
+    var isPhoto:Bool! = false
 
     // MARK: - ViewController Method
     override func viewDidLoad() {
@@ -139,22 +142,18 @@ class CreateCompititionVC: UIViewController {
     //let logoImageURL = "https://res.cloudinary.com/top-inc/image/upload/v1536164851/xubrdgbpxnxaensfjjfm.jpg"
 //        let date = localToUTC(date:createCompArray[1].value!)
         
-        let isPrivate:Bool!
-        if(self.btnCompType[0].currentImage == UIImage(named:"radio_On")){
-            isPrivate = false
+        if(!isPrivateCheck){
             var type = ""
-            if(self.btnContentType[0].currentImage == UIImage(named:"check") && self.btnContentType[1].currentImage
-                != UIImage(named:"check")){
-                type = "0"
+            if(isPhoto && isVideo){
+                type = "3"
             }
-            else if(self.btnContentType[1].currentImage == UIImage(named:"check") && self.btnContentType[0].currentImage
-                != UIImage(named:"check"))
+            else if(isPhoto && !isVideo)
             {
-                type = "1"
+                type = "0"
             }
             else
             {
-                type = "3"
+                type = "1"
             }
             
             params["type"] = type
@@ -164,7 +163,6 @@ class CreateCompititionVC: UIViewController {
         }
         else
         {
-            isPrivate = true
             params["type"] = "3"
         }
         
@@ -180,7 +178,7 @@ class CreateCompititionVC: UIViewController {
         }
         params["owner"] = (AccountManager.session?.account?._id)!
    
-        if(isPrivate){
+        if(isPrivateCheck){
             
             PCompitionCreate.find(queryParams: params, error: { (errorMessage) in
                 DispatchQueue.main.async {
@@ -225,24 +223,22 @@ class CreateCompititionVC: UIViewController {
         //        let date = localToUTC(date:createCompArray[1].value!)
         
         
-        let isPrivate:Bool!
        // 1 = Video, 2 = Image, 0 = Text
-        if(self.btnCompType[0].currentImage == UIImage(named:"radio_On")){
-            isPrivate = false
+        if(!isPrivateCheck){
             var type = ""
-            if(self.btnContentType[0].currentImage == UIImage(named:"check") && self.btnContentType[1].currentImage
-                != UIImage(named:"check")){
-                type = "0"
+            if(isPhoto && isVideo){
+                type = "3"
             }
-            else if(self.btnContentType[1].currentImage == UIImage(named:"check") && self.btnContentType[0].currentImage
-                != UIImage(named:"check"))
+            else if(isPhoto && !isVideo)
             {
-                type = "1"
+                type = "0"
             }
             else
             {
-                type = "3"
+                type = "1"
             }
+            
+            
             
             params["type"] = type
             params["category"] = savedIdCategory
@@ -252,7 +248,6 @@ class CreateCompititionVC: UIViewController {
         }
         else
         {
-            isPrivate = true
             params["type"] = "3"
 
         }
@@ -268,7 +263,7 @@ class CreateCompititionVC: UIViewController {
         }
         params["owner"] = (AccountManager.session?.account?._id)!
         
-        if(isPrivate){
+        if(isPrivateCheck){
             PCompitionCreate.updatePrivateComp(compId: compititionObj._id!, params: params, error: { (errorMessage) in
                 DispatchQueue.main.async {
                     UtilityManager.RemoveHUD()
@@ -322,13 +317,37 @@ class CreateCompititionVC: UIViewController {
 
     
     @IBAction func btnContentTypeAction(_ sender: UIButton) {
-        if(sender.currentImage == UIImage(named:"check")){
-            sender.setImage(UIImage(named:"uncheck"), for: .normal)
+        if(sender == btnContentType[0]){
+            if(sender.currentImage == UIImage(named:"check")){
+                sender.setImage(UIImage(named:"uncheck"), for: .normal)
+                isPhoto = false
+                
+            }
+            else
+            {
+                sender.setImage(UIImage(named:"check"), for: .normal)
+                isPhoto = true
+
+            }
+       
         }
-        else
-        {
-            sender.setImage(UIImage(named:"check"), for: .normal)
+        else{
+            if(sender.currentImage == UIImage(named:"check")){
+                sender.setImage(UIImage(named:"uncheck"), for: .normal)
+                isVideo = false
+                
+            }
+            else
+            {
+                sender.setImage(UIImage(named:"check"), for: .normal)
+                isVideo = true
+
+            }
         }
+        
+       
+        
+        
     }
     
     @IBAction func btnPickerAction(_ sender: UIButton) {
@@ -611,14 +630,9 @@ class CreateCompititionVC: UIViewController {
         }
         
         if(compititionObj.isPrivate == 0){
-            
             btnCompType[0].setImage(UIImage(named:"radio_On"), for: .normal)
             btnCompType[1].setImage(UIImage(named:"radio_Off"), for: .normal)
-            
             setPublicData()
-            
-            
-            
         }
         else
         {
@@ -630,10 +644,14 @@ class CreateCompititionVC: UIViewController {
         if(compititionObj.type == 0){
             self.btnContentType[0].setImage(UIImage(named:"check"), for: .normal)
             self.btnContentType[1].setImage(UIImage(named:"uncheck"), for: .normal)
+            isPhoto = true
+            isVideo = false
         }
         else if(compititionObj.type == 1){
             self.btnContentType[1].setImage(UIImage(named:"check"), for: .normal)
             self.btnContentType[0].setImage(UIImage(named:"uncheck"), for: .normal)
+            isPhoto = false
+            isVideo = true
             
         }
 //        else if(compititionObj.type == 2){
@@ -645,6 +663,8 @@ class CreateCompititionVC: UIViewController {
             //if(compititionObj.type == 3){
             self.btnContentType[0].setImage(UIImage(named:"check"), for: .normal)
             self.btnContentType[1].setImage(UIImage(named:"check"), for: .normal)
+            isPhoto = true
+            isVideo = true
         }
         
        // savedIdCategory =
@@ -732,10 +752,9 @@ class CreateCompititionVC: UIViewController {
             //  else if dateFormatter.date(from: createCompArray[2].value!)!.compare(Date()) == .orderedAscending{
             self.showErrorAlert(title:"", errorMessage: "End date can't be less than to current date")
             return false
-            
         }
-       else if(self.btnCompType[0].currentImage == UIImage(named:"radio_On") && self.btnContentType[0].currentImage == UIImage(named:"uncheck") && self.btnContentType[1].currentImage
-            == UIImage(named:"uncheck")){
+            
+       else if(!isPrivateCheck && !isPhoto && !isVideo){
             self.showErrorAlert(title:"", errorMessage: "Please select content type.")
             return false
         }
@@ -802,6 +821,7 @@ class CreateCompititionVC: UIViewController {
     }
     
     func setPrivateData(){
+        isPrivateCheck = true
         btnCompType[0].setImage(UIImage(named:"radio_Off"), for: .normal)
         btnCompType[1].setImage(UIImage(named:"radio_On"), for: .normal)
         txtCategory.isEnabled = false
@@ -816,6 +836,8 @@ class CreateCompititionVC: UIViewController {
     }
     
     func setPublicData(){
+        isPrivateCheck = false
+
         btnCompType[0].setImage(UIImage(named:"radio_On"), for: .normal)
         btnCompType[1].setImage(UIImage(named:"radio_Off"), for: .normal)
         btnCategory.isEnabled = true

@@ -14,7 +14,7 @@ class InstagramLoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&response_type=token&scope=%@&DEBUG=True", arguments: [API.INSTAGRAM_AUTHURL,API.INSTAGRAM_CLIENT_ID,API.INSTAGRAM_REDIRECT_URI, API.INSTAGRAM_SCOPE])
+        let authURL = String(format: "%@?client_id=%@&redirect_uri=%@&response_type=token&DEBUG=True", arguments: [API.INSTAGRAM_AUTHURL,API.INSTAGRAM_CLIENT_ID,API.INSTAGRAM_REDIRECT_URI])
         let urlRequest = URLRequest.init(url: URL.init(string: authURL)!)
        // instaWebView.navigationDelegate=self
         //instaWebView.load(urlRequest)

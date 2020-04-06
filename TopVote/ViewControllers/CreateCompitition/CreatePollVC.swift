@@ -50,6 +50,7 @@ class CreatePollVC: UIViewController {
     var savedIdCategory = NSMutableArray()
     var objPoll = Poll()
     var objComp = Competition()
+    var isPrivateCheck:Bool! = false
 
     let typeArray = ["Text", "Image", "Video"]
 
@@ -114,18 +115,19 @@ class CreatePollVC: UIViewController {
             //                DispatchQueue.main.async {
             
             self?.categoryArray = competitions
+            var isCategoryArrayFill = false
             if(self!.objComp._id != nil){
                 if(self!.objComp.category != nil && self!.objComp.category!.count > 0){
                     self!.savedIdCategory = NSMutableArray(array: self!.objComp.category!)
                     if(self!.categoryArray.count != 0){
                         self!.fillCategoryObjectInArrayt()
                         self!.setCategory()
+                        isCategoryArrayFill = true
                     }
-                }            }
+                }
+            }
             if(competitions.count > 0){
-                var isAllSelecct = true
-                
-                if(self!.objPoll._id != nil && self!.objPoll.isPrivate == 0 ){
+                if(self!.objPoll._id != nil && self!.objPoll.isPrivate == 0 && !isCategoryArrayFill){
                     self!.fillCategoryObjectInArrayt()
                     self!.setCategory()
                 }
@@ -187,7 +189,7 @@ class CreatePollVC: UIViewController {
 //        }]
 //    }
         
-        if(self.btnCompType[0].currentImage == UIImage(named:"radio_On")){
+        if(!isPrivateCheck){
             params["isPrivate"] = "0"
         }
         else
@@ -268,7 +270,7 @@ class CreatePollVC: UIViewController {
         
         var params = [String: Any]()
         
-        if(self.btnCompType[0].currentImage == UIImage(named:"radio_On")){
+        if(!isPrivateCheck){
             params["isPrivate"] = "0"
         }
         else
@@ -510,11 +512,13 @@ class CreatePollVC: UIViewController {
         }
         
         if(sender == btnCompType[0]){
+            isPrivateCheck = false
             btnCompType[0].setImage(UIImage(named:"radio_On"), for: .normal)
             btnCompType[1].setImage(UIImage(named:"radio_Off"), for: .normal)
         }
         else
         {
+            isPrivateCheck = true
             btnCompType[0].setImage(UIImage(named:"radio_Off"), for: .normal)
             btnCompType[1].setImage(UIImage(named:"radio_On"), for: .normal)
         }
@@ -657,11 +661,13 @@ class CreatePollVC: UIViewController {
         if(objComp.isPrivate == 0){
             btnCompType[0].setImage(UIImage(named:"radio_On"), for: .normal)
             btnCompType[1].setImage(UIImage(named:"radio_Off"), for: .normal)
+            isPrivateCheck = false
         }
         else
         {
             btnCompType[0].setImage(UIImage(named:"radio_Off"), for: .normal)
             btnCompType[1].setImage(UIImage(named:"radio_On"), for: .normal)
+            isPrivateCheck = true
         }
         
         if(objComp.category != nil && objComp.category!.count > 0){

@@ -198,6 +198,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
             UIApplication.shared.registerUserNotificationSettings(setting)
             UIApplication.shared.registerForRemoteNotifications()
         }
+        
         application.registerForRemoteNotifications()
 
         
@@ -727,6 +728,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, OSPermissionObserver, OSS
         }
         //        }
     }
+    
     func applicationDidBecomeActive(_ application: UIApplication) {
        // FBSDKAppEvents.activateApp()
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the applicationhttp was previously in the background, optionally refresh the user interface.

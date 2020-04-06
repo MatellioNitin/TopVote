@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="hld-J0-kAc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="hld-J0-kAc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -93,6 +93,13 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="6" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COMPLETED" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ppT-tQ-S3l">
+                                                    <rect key="frame" x="281" y="44" width="86" height="17"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                    <color key="textColor" red="0.26274509800000001" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
@@ -103,6 +110,8 @@
                                                 <constraint firstItem="GXT-gv-Luj" firstAttribute="top" secondItem="Ket-56-eWl" secondAttribute="bottom" constant="-5" id="KDb-t9-UUZ"/>
                                                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Sc5-DV-vnK" secondAttribute="bottom" constant="20" id="Tu9-t1-wf3"/>
                                                 <constraint firstItem="GXT-gv-Luj" firstAttribute="trailing" secondItem="Ket-56-eWl" secondAttribute="trailing" id="XwS-5K-gsX"/>
+                                                <constraint firstItem="ppT-tQ-S3l" firstAttribute="trailing" secondItem="Sc5-DV-vnK" secondAttribute="trailing" id="hP2-nT-GZp"/>
+                                                <constraint firstAttribute="bottom" secondItem="ppT-tQ-S3l" secondAttribute="bottom" constant="10" id="hSF-DT-Gjq"/>
                                                 <constraint firstItem="Sc5-DV-vnK" firstAttribute="top" secondItem="Cn1-ch-3xD" secondAttribute="top" constant="8" id="lhd-7m-U5A"/>
                                                 <constraint firstAttribute="trailing" secondItem="Sc5-DV-vnK" secondAttribute="trailing" constant="8" id="rnE-1T-H9V"/>
                                                 <constraint firstItem="GXT-gv-Luj" firstAttribute="leading" secondItem="Ket-56-eWl" secondAttribute="leading" id="vgy-HG-toU"/>
@@ -554,13 +563,13 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ccc-aH-e6D">
-                                                            <rect key="frame" x="95" y="27.5" width="39.5" height="19"/>
+                                                            <rect key="frame" x="95" y="27" width="46" height="20"/>
                                                             <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
                                                             <color key="textColor" red="0.26274509800000001" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EMr-S1-79J" customClass="GradientView" customModule="Topvote" customModuleProvider="target">
-                                                            <rect key="frame" x="95" y="54.5" width="230" height="25"/>
+                                                            <rect key="frame" x="95" y="55" width="230" height="25"/>
                                                             <color key="backgroundColor" red="0.71372549019607845" green="0.62745098039215685" blue="0.73333333333333328" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="25" id="d31-D8-jN3"/>
@@ -588,7 +597,7 @@
                                                             </userDefinedRuntimeAttributes>
                                                         </view>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zmu-jx-Ubx" customClass="GradientView" customModule="Topvote" customModuleProvider="target">
-                                                            <rect key="frame" x="97" y="56.5" width="30" height="21"/>
+                                                            <rect key="frame" x="97" y="57" width="30" height="21"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="30" id="sbg-rG-Z6g"/>
@@ -4608,8 +4617,8 @@
                                                 <constraint firstAttribute="bottom" secondItem="Kjc-a7-jGf" secondAttribute="bottom" constant="5" id="zPp-Hu-6Bn"/>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name poll" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dxm-jn-myE">
-                                            <rect key="frame" x="15" y="151" width="73" height="19.5"/>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name your poll" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dxm-jn-myE">
+                                            <rect key="frame" x="15" y="151" width="109" height="19.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -5146,7 +5155,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dSn-Es-4ZT">
                                         <rect key="frame" x="0.0" y="0.0" width="256" height="40"/>
-                                        <state key="normal" title="+ Add More Option">
+                                        <state key="normal" title="+ Add More Options">
                                             <color key="titleColor" red="0.26274509800000001" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
@@ -5277,18 +5286,21 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HOF Winner!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dAZ-2o-Alb">
                                 <rect key="frame" x="113" y="81.5" width="149.5" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="2VZ-zI-Idp"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
                                 <color key="textColor" red="0.26274509800000001" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OwB-d2-25a">
-                                <rect key="frame" x="30" y="141.5" width="315" height="180"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OwB-d2-25a">
+                                <rect key="frame" x="20" y="131.5" width="335" height="180"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="180" id="tAs-yg-cg1"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GbY-n9-jv5">
-                                <rect key="frame" x="25" y="361.5" width="325" height="50"/>
+                                <rect key="frame" x="25" y="341.5" width="325" height="50"/>
                                 <color key="backgroundColor" red="0.26274509800000001" green="0.13725490200000001" blue="0.3294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="46S-v9-AAe"/>
@@ -5309,15 +5321,15 @@
                         <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="Pqz-UW-uuE" firstAttribute="centerX" secondItem="dWq-aB-ZsY" secondAttribute="centerX" id="7s7-Hn-XBT"/>
-                            <constraint firstAttribute="trailing" secondItem="OwB-d2-25a" secondAttribute="trailing" constant="30" id="I1r-Li-LGx"/>
+                            <constraint firstAttribute="trailing" secondItem="OwB-d2-25a" secondAttribute="trailing" constant="20" id="I1r-Li-LGx"/>
                             <constraint firstAttribute="trailing" secondItem="GbY-n9-jv5" secondAttribute="trailing" constant="25" id="K1R-FQ-AtR"/>
                             <constraint firstItem="dAZ-2o-Alb" firstAttribute="top" secondItem="Pqz-UW-uuE" secondAttribute="bottom" constant="10" id="TYI-9N-sTl"/>
                             <constraint firstItem="GbY-n9-jv5" firstAttribute="centerX" secondItem="dWq-aB-ZsY" secondAttribute="centerX" id="UTm-uj-AGt"/>
                             <constraint firstItem="Pqz-UW-uuE" firstAttribute="leading" secondItem="dWq-aB-ZsY" secondAttribute="leadingMargin" constant="4" id="gxa-p2-QcE"/>
                             <constraint firstItem="GbY-n9-jv5" firstAttribute="leading" secondItem="dWq-aB-ZsY" secondAttribute="leading" constant="25" id="qo7-W3-Imd"/>
-                            <constraint firstItem="GbY-n9-jv5" firstAttribute="top" secondItem="OwB-d2-25a" secondAttribute="bottom" constant="40" id="sCQ-h0-dSN"/>
-                            <constraint firstItem="OwB-d2-25a" firstAttribute="leading" secondItem="dWq-aB-ZsY" secondAttribute="leading" constant="30" id="tQ2-mo-1H8"/>
-                            <constraint firstItem="OwB-d2-25a" firstAttribute="top" secondItem="dAZ-2o-Alb" secondAttribute="bottom" constant="30" id="uam-ut-E1d"/>
+                            <constraint firstItem="GbY-n9-jv5" firstAttribute="top" secondItem="OwB-d2-25a" secondAttribute="bottom" constant="30" id="sCQ-h0-dSN"/>
+                            <constraint firstItem="OwB-d2-25a" firstAttribute="leading" secondItem="dWq-aB-ZsY" secondAttribute="leading" constant="20" id="tQ2-mo-1H8"/>
+                            <constraint firstItem="OwB-d2-25a" firstAttribute="top" secondItem="dAZ-2o-Alb" secondAttribute="bottom" constant="20" id="uam-ut-E1d"/>
                             <constraint firstItem="dAZ-2o-Alb" firstAttribute="centerX" secondItem="dWq-aB-ZsY" secondAttribute="centerX" id="wBh-27-cvA"/>
                             <constraint firstItem="Pqz-UW-uuE" firstAttribute="top" secondItem="Kwl-JC-jtx" secondAttribute="bottom" constant="30" id="wYZ-ai-yEK"/>
                         </constraints>
@@ -5334,7 +5346,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Edit File-100" width="100" height="100"/>
+        <image name="Edit File-100" width="33.333332061767578" height="33.333332061767578"/>
         <image name="Logo" width="242" height="63"/>
         <image name="Upload-100" width="100" height="100"/>
         <image name="background-ideabox-innershadow" width="375" height="10"/>
@@ -5343,27 +5355,27 @@
         <image name="button-icon-star" width="23" height="22"/>
         <image name="button-icon-star-select" width="21" height="20"/>
         <image name="clock" width="20" height="20"/>
-        <image name="down-arrow_Brown" width="48" height="48"/>
-        <image name="emptyImage" width="26" height="35"/>
+        <image name="down-arrow_Brown" width="64" height="64"/>
+        <image name="emptyImage" width="13" height="17.5"/>
         <image name="horizontal-entrytitle" width="258" height="1"/>
         <image name="icon-camera" width="41" height="33"/>
         <image name="icon-trophyribbon" width="162.5" height="198.5"/>
         <image name="icon_back" width="9" height="17"/>
         <image name="imageseEdit" width="225" height="225"/>
         <image name="location" width="14" height="18"/>
-        <image name="message" width="48" height="48"/>
+        <image name="message" width="64" height="64"/>
         <image name="p2pSelect" width="27.5" height="25.5"/>
         <image name="p2p_Unselect" width="27.5" height="25.5"/>
-        <image name="playarrow" width="37.5" height="37.5"/>
+        <image name="playarrow" width="50" height="50"/>
         <image name="pollLogo" width="1009" height="180"/>
         <image name="profile-background-placeholder" width="375" height="184"/>
         <image name="profile-default-avatar" width="40" height="40"/>
-        <image name="profile_icon" width="12.809816360473633" height="12.809816360473633"/>
+        <image name="profile_icon" width="29" height="29"/>
         <image name="purple" width="49" height="49"/>
         <image name="radio_Off" width="15" height="15"/>
         <image name="radio_On" width="15" height="15"/>
-        <image name="search" width="60" height="60"/>
-        <image name="soundOff" width="40" height="40"/>
+        <image name="search" width="20" height="20"/>
+        <image name="soundOff" width="20" height="20"/>
         <image name="tabbar-icon-activity" width="23" height="24"/>
         <image name="tabbar-icon-activity-selected" width="23" height="24"/>
         <image name="tabbar-icon-halloffame" width="18" height="23"/>
@@ -5375,7 +5387,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="V5v-PZ-rRZ"/>
-        <segue reference="rvR-DK-XDw"/>
+        <segue reference="Ql0-3x-CiT"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.81568627449999997" green="0.67450980390000004" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

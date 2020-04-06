@@ -109,9 +109,14 @@ class CompetitionTableViewCell: UITableViewCell {
             if(competition.isPrivate == 1){
             lblPrivate.isHidden = false
             btnShare.isHidden = false
-                if(competition.status == 1){
-                    lblEnded.isHidden = false
-                }
+                
+            }
+            if(competition.status == 1 && competition.sType != "poll"){
+                lblEnded.isHidden = false
+            }
+            else if(competition.isExpired == 1 && competition.sType == "poll")
+            {
+                lblEnded.isHidden = false
             }
         }
         else{
@@ -217,6 +222,7 @@ class CompetitionTableViewCell: UITableViewCell {
             btnShareBottom.isHidden = false
             lblSaprator.isHidden = false
             lblTitleBottom.constant = 75
+            byTextLabel.text = ""
         }
         else{
             btnShareBottomHeight.constant = 0

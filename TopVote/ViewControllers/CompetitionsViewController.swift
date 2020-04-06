@@ -166,7 +166,7 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
             tableView.addSubview(refreshControl)
         }
 
-        loadCompetitions()
+       // loadCompetitions()
         
 //        tableView.estimatedRowHeight = 100;
 //        tableView.rowHeight = UITableViewAutomaticDimension
@@ -415,6 +415,7 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
             cell.configureWithCompetition(competition, tabbarIndex:(self.tabBarController?.selectedIndex)!)
             if(self.tabBarController?.selectedIndex == 3 && AccountManager.session!.account!._id! == competition.ownerId){
             cell.btnShare.isHidden = false
+                
             cell.btnEdit.isHidden = false
             cell.btnShare.tag = indexPath.row
             cell.btnEdit.tag = indexPath.row
@@ -428,10 +429,7 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
                             cell.timeRemainingLabel.isHidden = true
 
             }
-                
             cell.btnShare.addTarget(self, action:#selector(self.shareAction(_:)), for: .touchUpInside)
-                
-                
             if(competition.sType == "poll"){
                 cell.btnEdit.addTarget(self, action:#selector(self.editPollAction(_:)), for: .touchUpInside)
             }
@@ -440,7 +438,7 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
                 cell.btnEdit.addTarget(self, action:#selector(self.editAction(_:)), for: .touchUpInside)
             }
             cell.lblTitleTrailing.constant = 90
-                cell.titleLabel.layoutIfNeeded()
+            cell.titleLabel.layoutIfNeeded()
                 
             }
             else
@@ -462,13 +460,27 @@ class CompetitionsViewController: UIViewController, UITableViewDataSource, UITab
                 cell.btnShare.tag = indexPath.row
                 cell.btnShare.addTarget(self, action:#selector(self.shareAction(_:)), for: .touchUpInside)
                 cell.lblTitleBottom.constant = 65
+                cell.lblTitleTrailing.constant = 40
+                cell.titleLabel.layoutIfNeeded()
 
 
                 
             }
             else{
+                
+            if(!cell.btnEdit.isHidden){
+                cell.lblTitleTrailing.constant = 90
+                cell.titleLabel.layoutIfNeeded()
+                }
+            else
+            {
+                cell.lblTitleTrailing.constant = 10
+                cell.titleLabel.layoutIfNeeded()
+            }
                 cell.lblTitleBottom.constant = 60
                 cell.btnShare.isHidden = true
+                
+               
             }
         }
         

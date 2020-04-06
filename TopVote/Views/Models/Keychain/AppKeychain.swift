@@ -54,8 +54,8 @@ final class AppKeychain {
                 let storeInfo = try PropertyListDecoder().decode(Store.self, from: data)
                // let versionControl = VersionControl()
                 //Nitin
-                let shouldClearData = false
-                    //versionControl.shouldClearData(storeInfo)
+                let shouldClearData = true
+                //versionControl.shouldClearData(storeInfo)
                 print("AppKeychain:shouldClearData \(shouldClearData)")
                 if shouldClearData {
                     removeAllItemsFromKeychain()

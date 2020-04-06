@@ -65,7 +65,8 @@ final class Competition: Model {
     
     var autoApprove: Int? = 0
     var isPrivate: Int?
-    
+    var isExpired: Int?
+
     var category:[String]? = [String]()
 
     /// The provider closure used by `moya` for default authorization headers used in requests against the api.
